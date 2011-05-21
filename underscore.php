@@ -25,4 +25,9 @@ class _ {
     $collection = (array) $collection;
     return is_int(array_search($val, $collection, true));
   }
+  
+  public function any($collection, $iterator=null) {
+    if(!is_null($iterator)) $collection = self::map($collection, $iterator);
+    return is_int(array_search(true, $collection, false));
+  }
 }
