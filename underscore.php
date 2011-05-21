@@ -79,4 +79,10 @@ class _ {
   public static function last($collection) {
     return array_pop($collection);
   }
+  
+  public static function compact($collection) {
+    return self::select($collection, function($val) {
+      return (bool) $val;
+    });
+  }
 }

@@ -207,4 +207,17 @@ class UnderscoreTest extends PHPUnit_Framework_TestCase {
       $this->assertEquals($test[1], _::last($test[0]));
     }
   }
+  
+  public function testCompact() {
+    $tests = array(
+      // val, expected
+      array(array(0, 1, 2), array(1, 2)),
+      array(array(0, 1, false, 2), array(1, 2)),
+      array(array(null), array()),
+      array(array('0', array(), 1), array(1))
+    );
+    foreach($tests as $test) {
+      $this->assertEquals($test[1], _::compact($test[0]));
+    }
+  }
 }
