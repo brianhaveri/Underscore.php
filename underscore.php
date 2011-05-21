@@ -66,4 +66,9 @@ class _ {
   public static function size($collection) {
     return count($collection);
   }
+  
+  public static function first($collection, $n=1) {
+    $vals = array_slice($collection, 0, $n, true);
+    return ($n === 1) ? current($vals) : $vals;
+  }
 }
