@@ -43,9 +43,15 @@ class _ {
   public function select($collection, $iterator) {
     $return = array();
     foreach($collection as $val) {
-      if(call_user_func($iterator, $val)) {
-        $return[] = $val;
-      }
+      if(call_user_func($iterator, $val)) $return[] = $val;
+    }
+    return $return;
+  }
+  
+  public function reject($collection, $iterator) {
+    $return = array();
+    foreach($collection as $val) {
+      if(!call_user_func($iterator, $val)) $return[] = $val;
     }
     return $return;
   }
