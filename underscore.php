@@ -39,4 +39,14 @@ class _ {
     
     return is_bool(array_search(false, $collection, false));
   }
+  
+  public function select($collection, $iterator) {
+    $return = array();
+    foreach($collection as $val) {
+      if(call_user_func($iterator, $val)) {
+        $return[] = $val;
+      }
+    }
+    return $return;
+  }
 }
