@@ -71,4 +71,8 @@ class _ {
     $vals = array_slice($collection, 0, $n, true);
     return ($n === 1) ? current($vals) : $vals;
   }
+  
+  public static function rest($collection, $index=1) {
+    return array_splice($collection, $index);
+  }
 }
