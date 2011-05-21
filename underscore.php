@@ -21,26 +21,26 @@ class _ {
     return $return;
   }
   
-  public function includes($collection, $val) {
+  public static function includes($collection, $val) {
     $collection = (array) $collection;
     return is_int(array_search($val, $collection, true));
   }
   
-  public function any($collection, $iterator=null) {
+  public static function any($collection, $iterator=null) {
     if(!is_null($iterator)) $collection = self::map($collection, $iterator);
     if(count($collection) === 0) return false;
     
     return is_int(array_search(true, $collection, false));
   }
   
-  public function all($collection, $iterator=null) {
+  public static function all($collection, $iterator=null) {
     if(!is_null($iterator)) $collection = self::map($collection, $iterator);
     if(count($collection) === 0) return true;
     
     return is_bool(array_search(false, $collection, false));
   }
   
-  public function select($collection, $iterator) {
+  public static function select($collection, $iterator) {
     $return = array();
     foreach($collection as $val) {
       if(call_user_func($iterator, $val)) $return[] = $val;
@@ -48,7 +48,7 @@ class _ {
     return $return;
   }
   
-  public function reject($collection, $iterator) {
+  public static function reject($collection, $iterator) {
     $return = array();
     foreach($collection as $val) {
       if(!call_user_func($iterator, $val)) $return[] = $val;
@@ -56,14 +56,14 @@ class _ {
     return $return;
   }
   
-  public function detect($collection, $iterator) {
+  public static function detect($collection, $iterator) {
     foreach($collection as $val) {
       if(call_user_func($iterator, $val)) return $val;
     }
     return false;
   }
   
-  public function size($collection) {
+  public static function size($collection) {
     return count($collection);
   }
 }
