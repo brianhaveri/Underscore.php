@@ -62,4 +62,8 @@ class _ {
     }
     return false;
   }
+  
+  public function size($collection) {
+    return count($collection);
+  }
 }
