@@ -28,6 +28,15 @@ class _ {
   
   public function any($collection, $iterator=null) {
     if(!is_null($iterator)) $collection = self::map($collection, $iterator);
+    if(count($collection) === 0) return false;
+    
     return is_int(array_search(true, $collection, false));
+  }
+  
+  public function all($collection, $iterator=null) {
+    if(!is_null($iterator)) $collection = self::map($collection, $iterator);
+    if(count($collection) === 0) return true;
+    
+    return is_bool(array_search(false, $collection, false));
   }
 }
