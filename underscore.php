@@ -55,4 +55,11 @@ class _ {
     }
     return $return;
   }
+  
+  public function detect($collection, $iterator) {
+    foreach($collection as $val) {
+      if(call_user_func($iterator, $val)) return $val;
+    }
+    return false;
+  }
 }
