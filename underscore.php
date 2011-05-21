@@ -75,4 +75,8 @@ class _ {
   public static function rest($collection, $index=1) {
     return array_splice($collection, $index);
   }
+  
+  public static function last($collection) {
+    return array_pop($collection);
+  }
 }
