@@ -113,4 +113,14 @@ class _ {
     }
     return $collection;
   }
+  
+  public static function uniq($collection) {
+    $return = array();
+    if(count($collection) === 0) return $return;
+    
+    foreach($collection as $item) {
+      if(is_bool(array_search($item, $return, true))) $return[] = $item;
+    }
+    return $return;
+  }
 }
