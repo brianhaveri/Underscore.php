@@ -144,4 +144,17 @@ class _ {
     krsort($collection);
     return self::indexOf($collection, $item);
   }
+  
+  public static function range($stop) {
+    $num_args = func_num_args();
+    $args = func_get_args();
+    switch($num_args) {
+      case 1:  list($start, $stop, $step) = array(0, $args[0], 1); break;
+      case 2:  list($start, $stop, $step) = array($args[0], $args[1], 1); break;
+      default: list($start, $stop, $step) = array($args[0], $args[1], $args[2]); 
+    }
+    $results = range($start, $stop, $step);
+    array_pop($results);
+    return $results;
+  }
 }
