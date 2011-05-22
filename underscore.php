@@ -139,4 +139,9 @@ class _ {
     $key = array_search($item, $collection, true);
     return (is_bool($key)) ? -1 : $key;
   }
+  
+  public static function lastIndexOf($collection, $item) {
+    krsort($collection);
+    return self::indexOf($collection, $item);
+  }
 }
