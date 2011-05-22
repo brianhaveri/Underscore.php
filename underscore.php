@@ -168,6 +168,7 @@ class _ {
     }
     $results = range($start, $stop, $step);
     
+    // switch inclusive to exclusive
     if($step > 0 && self::last($results) >= $stop) array_pop($results);
     elseif($step < 0 && self::last($results) <= $stop) array_pop($results);
     
