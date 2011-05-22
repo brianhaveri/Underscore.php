@@ -170,4 +170,21 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     equals(result, 5, 'works on an arguments object');
     */
   }
+  
+  public function testRange() {
+    // from js
+    $this->assertEquals(array(), _::range(0), 'range with 0 as a first argument generates an empty array');
+    $this->assertEquals(array(0,1,2,3), _::range(4), 'range with a single positive argument generates an array of elements 0,1,2,...,n-1');
+    $this->assertEquals(array(5,6,7), _::range(5, 8), 'range with two arguments a & b, a<b generates an array of elements a,a+1,a+2,...,b-2,b-1');
+    $this->assertEquals(array(), _::range(8, 5), 'range with two arguments a & b, b<a generates an empty array');
+    $this->assertEquals(array(3,6,9), _::range(3, 10, 3), 'range with three arguments a & b & c, c < b-a, a < b generates an array of elements a,a+c,a+2c,...,b - (multiplier of a) < c');
+    $this->assertEquals(array(3), _::range(3, 10, 15), 'range with three arguments a & b & c, c > b-a, a < b generates an array with a single element, equal to a');
+    $this->assertEquals(array(12,10,8), _::range(12, 7, -2), 'range with three arguments a & b & c, a > b, c < 0 generates an array of elements a,a-c,a-2c and ends with the number not less than b');
+    $this->assertEquals(array(0, -1, -2, -3, -4, -5, -6, -7, -8, -9), _::range(0, -10, -1), 'final example in the Python docs');
+  
+    // extra
+    $this->assertEquals(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9), _::range(10));
+    $this->assertEquals(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), _::range(1, 11));
+    $this->assertEquals(array(0, 5, 10, 15, 20, 25), _::range(0, 30, 5));
+  }
 }
