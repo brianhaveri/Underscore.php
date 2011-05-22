@@ -85,4 +85,15 @@ class _ {
       return (bool) $val;
     });
   }
+  
+  public static function flatten($collection) {
+    $return = array();
+    if(count($collection) > 0) {
+      foreach($collection as $item) {
+        if(is_array($item)) $return = array_merge($return, self::flatten($item));
+        else $return[] = $item;
+      }
+    }
+    return $return;
+  }
 }
