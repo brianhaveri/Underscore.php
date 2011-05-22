@@ -22,4 +22,21 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     equals(result.join(','), '1,1', 'works well with _.map');
     */
   }
+  
+  public function testRest() {
+    $numbers = array(1,2,3,4);
+    
+    // from js
+    $this->assertEquals(array(2,3,4), _::rest($numbers), 'working rest()');
+    $this->assertEquals(array(1,2,3,4), _::rest($numbers, 0), 'working rest(0)');
+    $this->assertEquals(array(3,4), _::rest($numbers, 2), 'rest can take an index');
+    
+    // @todo
+    /*
+    var result = (function(){ return _(arguments).tail(); })(1, 2, 3, 4);
+    equals(result.join(', '), '2, 3, 4', 'aliased as tail and works on arguments object');
+    result = _.map([[1,2,3],[1,2,3]], _.rest);
+    equals(_.flatten(result).join(','), '2,3,2,3', 'works well with _.map');
+    */
+  }
 }
