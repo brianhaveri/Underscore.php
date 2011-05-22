@@ -113,4 +113,18 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     equals(result.join(', '), '1, 2, 3, 4', 'works on an arguments object');
     */
   }
+  
+  public function testIntersect() {
+    // from js
+    $stooges = array('moe', 'curly', 'larry');
+    $leaders = array('moe', 'groucho');
+    $this->assertEquals(array('moe'), _::intersect($stooges, $leaders), 'can take the set intersection of two arrays');
+    
+    // @todo
+    /*
+    equals(_(stooges).intersect(leaders).join(''), 'moe', 'can perform an OO-style intersection');
+    var result = (function(){ return _.intersect(arguments, leaders); })('moe', 'curly', 'larry');
+    equals(result.join(''), 'moe', 'works on an arguments object');
+    */
+  }
 }
