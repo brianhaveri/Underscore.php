@@ -156,13 +156,6 @@ class UnderscoreTest extends PHPUnit_Framework_TestCase {
     }
   }
   
-  public function testIntersect() {
-    $this->assertEquals(
-      array(1, 2),
-      _::intersect(array(1, 2), array(2, 1, 3), array(1, false, 2))
-    );
-  }
-  
   public function testLastIndexOf() {
     $needle = 1;
     $tests = array(
