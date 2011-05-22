@@ -214,4 +214,8 @@ class _ {
   public static function keys($collection) {
     return array_keys((array) $collection);
   }
+  
+  public static function values($collection) {
+     return array_values((array) $collection);
+   }
 }
