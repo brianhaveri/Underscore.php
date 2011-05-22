@@ -186,4 +186,16 @@ class _ {
     $first_key = self::first(array_keys($results));
     return $collection[$first_key];
   }
+  
+  public static function min($collection, $iterator=null) {
+    if(is_null($iterator)) return max($collection);
+    
+    $results = array();
+    foreach($collection as $k=>$item) {
+      $results[$k] = $iterator($item);
+    }
+    asort($results);
+    $first_key = self::first(array_keys($results));
+    return $collection[$first_key];
+  }
 }

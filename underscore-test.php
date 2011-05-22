@@ -317,4 +317,14 @@ class UnderscoreTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($stooges[2], _::max($stooges, function($stooge) { return $stooge['age']; }));
     $this->assertEquals($stooges[0], _::max($stooges, function($stooge) { return $stooge['name']; }));
   }
+  
+  public function testMin() {
+    $stooges = array(
+      array('name'=>'moe',   'age'=>40),
+      array('name'=>'larry', 'age'=>50),
+      array('name'=>'curly', 'age'=>60)
+    );
+    $this->assertEquals($stooges[0], _::min($stooges, function($stooge) { return $stooge['age']; }));
+    $this->assertEquals($stooges[2], _::min($stooges, function($stooge) { return $stooge['name']; }));
+  }
 }
