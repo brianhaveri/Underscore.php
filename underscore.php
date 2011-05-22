@@ -157,4 +157,20 @@ class _ {
     array_pop($results);
     return $results;
   }
+  
+  public static function zip($array) {
+    $args = func_get_args();
+    $num_args = func_num_args();
+    if($num_args === 1) return $array;
+    
+    $return = self::range($num_args);
+    foreach($return as $k=>$v) {
+      if(!is_array($return[$k])) $return[$k] = array();
+      
+      foreach($args as $a=>$arg) {
+        $return[$k][$a] = $args[$a][$k];
+      }
+    }
+    return $return;
+  }
 }
