@@ -66,4 +66,17 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     equals(result, 3, 'works on an arguments object');
     */
   }
+  
+  public function testFlatten() {
+    $list = array(1, array(2), array(3, array(array(array(4)))));
+    
+    // from js
+    $this->assertEquals(array(1,2,3,4), _::flatten($list), 'can flatten nested arrays');
+    
+    // @todo
+    /*
+    var result = (function(){ return _.flatten(arguments); })(1, [2], [3, [[[4]]]]);
+    equals(result.join(', '), '1, 2, 3, 4', 'works on an arguments object');
+    */
+  }
 }
