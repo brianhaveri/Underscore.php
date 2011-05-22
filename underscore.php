@@ -222,4 +222,8 @@ class _ {
   public static function functions($object) {
     return get_class_methods(get_class($object));
   }
+  
+  public static function isEqual($a, $b) {
+    return (is_object($a)) ? $a == $b : $a === $b;
+  }
 }
