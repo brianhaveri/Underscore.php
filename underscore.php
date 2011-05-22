@@ -96,4 +96,21 @@ class _ {
     }
     return $return;
   }
+  
+  public static function without($collection, $val) {
+    $args = func_get_args();
+    if(count($args) === 1) return $collection;
+    if(count($collection) === 0) return $collection;
+    
+    $removes = self::rest($args);
+    foreach($removes as $remove) {
+      $remove_keys = array_keys($collection, $remove, true);
+      if(count($remove_keys) > 0) {
+        foreach($remove_keys as $key) {
+          unset($collection[$key]);
+        }
+      }
+    }
+    return $collection;
+  }
 }
