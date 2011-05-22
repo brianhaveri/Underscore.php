@@ -2,6 +2,11 @@
 
 include('underscore.php');
 
+class FunctionsTestClass {
+  public static function methodA() {}
+  public static function methodB() {}
+}
+
 class UnderscoreTest extends PHPUnit_Framework_TestCase {
   
   public function testMap() {
@@ -361,5 +366,9 @@ class UnderscoreTest extends PHPUnit_Framework_TestCase {
     foreach($tests as $test) {
       $this->assertEquals($test[1], _::values($test[0]));
     }
+  }
+  
+  public function testFunctions() {
+    $this->assertEquals(array('methodA', 'methodB'), _::functions(new FunctionsTestClass));
   }
 }

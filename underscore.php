@@ -216,6 +216,10 @@ class _ {
   }
   
   public static function values($collection) {
-     return array_values((array) $collection);
-   }
+    return array_values((array) $collection);
+  }
+  
+  public static function functions($object) {
+    return get_class_methods(get_class($object));
+  }
 }
