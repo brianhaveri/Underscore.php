@@ -156,4 +156,18 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     equals(result, 1, 'works on an arguments object');
     */
   }
+  
+  public function testLastIndexOf() {
+    // from js
+    $numbers = array(1, 0, 1, 0, 0, 1, 0, 0, 0);
+    $this->assertEquals(5, _::lastIndexOf($numbers, 1), 'can computer lastIndexOf');
+    $this->assertEquals(8, _::lastIndexOf($numbers, 0), 'lastIndexOf the other element');
+    $this->assertEquals(-1, _::lastIndexOf(null, 2), 'handles nulls properly');
+    
+    // @todo
+    /*
+    var result = (function(){ return _.lastIndexOf(arguments, 1); })(1, 0, 1, 0, 0, 1, 0, 0, 0);
+    equals(result, 5, 'works on an arguments object');
+    */
+  }
 }

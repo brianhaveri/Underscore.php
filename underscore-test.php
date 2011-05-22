@@ -156,19 +156,6 @@ class UnderscoreTest extends PHPUnit_Framework_TestCase {
     }
   }
   
-  public function testLastIndexOf() {
-    $needle = 1;
-    $tests = array(
-      // val, expected
-      array(array(1, 2, 3, 4, 1), 4),
-      array(array(0, 1, 2, 3), 1),
-      array(array(0, 2, 3), -1)
-    );
-    foreach($tests as $test) {
-      $this->assertEquals($test[1], _::lastIndexOf($test[0], $needle));
-    }
-  }
-  
   public function testRange() {
     $this->assertEquals(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9), _::range(10));
     $this->assertEquals(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), _::range(1, 11));
