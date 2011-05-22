@@ -123,4 +123,15 @@ class _ {
     }
     return $return;
   }
+  
+  public static function intersect($array) {
+    $arrays = func_get_args();
+    if(count($arrays) === 1) return $array;
+    
+    $return = self::first($arrays);
+    foreach(self::rest($arrays) as $next) {
+      $return = array_intersect($return, $next);
+    }
+    return $return;
+  }
 }

@@ -254,4 +254,11 @@ class UnderscoreTest extends PHPUnit_Framework_TestCase {
       $this->assertEquals($test[1], _::uniq($test[0]));
     }
   }
+  
+  public function testIntersect() {
+    $this->assertEquals(
+      array(1, 2),
+      _::intersect(array(1, 2), array(2, 1, 3), array(1, false, 2))
+    );
+  }
 }
