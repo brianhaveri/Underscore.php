@@ -98,4 +98,19 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     equals(result.join(', '), '2, 3, 4', 'works on an arguments object');
     */
   }
+  
+  public function testUniq() {
+    // from js
+    $list = array(1, 2, 1, 3, 1, 4);
+    $this->assertEquals(array(1, 2, 3, 4), _::uniq($list), 'can find the unique values of an unsorted array');
+    
+    $list = array(1, 1, 1, 2, 2, 3);
+    $this->assertEquals(array(1, 2, 3), _::uniq($list), 'can find the unique values of a sorted array faster');
+    
+    // @todo
+    /*
+    var result = (function(){ return _.uniq(arguments); })(1, 2, 1, 3, 1, 4);
+    equals(result.join(', '), '1, 2, 3, 4', 'works on an arguments object');
+    */
+  }
 }
