@@ -136,4 +136,24 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $stooges= array(array('moe', 30, true), array('larry', 40, null), array('curly', 50, null));
     $this->assertEquals($stooges, _::zip($names, $ages, $leaders), 'zipped together arrays of different lengths');
   }
+  
+  public function testIndexOf() {
+    // from js
+    $numbers = array(1,2,3);
+    $this->assertEquals(1, _::indexOf($numbers, 2), 'can compute indexOf');
+    $this->assertEquals(-1, _::indexOf(null, 2), 'handles nulls properly');
+    
+    $numbers = array(10, 20, 30, 40, 50);
+    $this->assertEquals(-1, _::indexOf($numbers, 35), '35 is not in the list');
+    $this->assertEquals(3, _::indexOf($numbers, 40), '40 is in the list');
+    
+    $numbers = array(1, 40, 40, 40, 40, 40, 40, 40, 50, 60, 70);
+    $this->assertEquals(1, _::indexOf($numbers, 40), '40 is in the list');
+    
+    // @todo
+    /*
+    var result = (function(){ return _.indexOf(arguments, 2); })(1, 2, 3);
+    equals(result, 1, 'works on an arguments object');
+    */
+  }
 }
