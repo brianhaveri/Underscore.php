@@ -99,7 +99,8 @@ class _ {
   
   public static function without($collection, $val) {
     $args = func_get_args();
-    if(count($args) === 1) return $collection;
+    $num_args = func_num_args();
+    if($num_args === 1) return $collection;
     if(count($collection) === 0) return $collection;
     
     $removes = self::rest($args);
