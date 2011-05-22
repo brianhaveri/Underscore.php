@@ -138,6 +138,8 @@ class _ {
   }
   
   public static function indexOf($collection, $item) {
+    if(!is_array($collection)) return -1;
+    
     $key = array_search($item, $collection, true);
     return (is_bool($key)) ? -1 : $key;
   }
