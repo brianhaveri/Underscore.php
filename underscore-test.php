@@ -338,4 +338,16 @@ class UnderscoreTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array($stooges[2], $stooges[1], $stooges[0]), _::sortBy($stooges, function($stooge) { return $stooge['name']; }));
     $this->assertEquals(array(5, 4, 6, 3, 1, 2), _::sortBy(array(1, 2, 3, 4, 5, 6), function($num) { return sin($num); }));
   }
+  
+  public function testKeys() {
+    $tests = array(
+      // val, expected
+      array(array(1, 2), array(0, 1)),
+      array(array('a'=>1, 'b'=>2), array('a', 'b')),
+      array((object) array('c'=>3, 'd'=>4), array('c', 'd'))
+    );
+    foreach($tests as $test) {
+      $this->assertEquals($test[1], _::keys($test[0]));
+    }
+  }
 }

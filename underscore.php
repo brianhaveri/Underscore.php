@@ -210,4 +210,8 @@ class _ {
     }
     return array_values($results);
   }
+  
+  public static function keys($collection) {
+    return array_keys((array) $collection);
+  }
 }
