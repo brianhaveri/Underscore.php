@@ -174,4 +174,16 @@ class _ {
     }
     return $return;
   }
+  
+  public static function max($collection, $iterator=null) {
+    if(is_null($iterator)) return max($collection);
+    
+    $results = array();
+    foreach($collection as $k=>$item) {
+      $results[$k] = $iterator($item);
+    }
+    arsort($results);
+    $first_key = self::first(array_keys($results));
+    return $collection[$first_key];
+  }
 }
