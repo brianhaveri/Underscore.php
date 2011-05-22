@@ -155,12 +155,22 @@ class _ {
     $num_args = func_num_args();
     $args = func_get_args();
     switch($num_args) {
-      case 1:  list($start, $stop, $step) = array(0, $args[0], 1); break;
-      case 2:  list($start, $stop, $step) = array($args[0], $args[1], 1); break;
-      default: list($start, $stop, $step) = array($args[0], $args[1], $args[2]); 
+      case 1: 
+        list($start, $stop, $step) = array(0, $args[0], 1);
+        break;
+      case 2:
+        list($start, $stop, $step) = array($args[0], $args[1], 1);
+        if($stop < $start) return array();
+        break;
+      default:
+        list($start, $stop, $step) = array($args[0], $args[1], $args[2]);
+        if($step > 0 && $step > $stop) return array($start);
     }
     $results = range($start, $stop, $step);
-    array_pop($results);
+    
+    if($step > 0 && self::last($results) >= $stop) array_pop($results);
+    elseif($step < 0 && self::last($results) <= $stop) array_pop($results);
+    
     return $results;
   }
   
