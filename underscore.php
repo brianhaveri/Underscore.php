@@ -145,6 +145,8 @@ class _ {
   }
   
   public static function lastIndexOf($collection, $item) {
+    if(!is_array($collection)) return -1;
+    
     krsort($collection);
     return self::indexOf($collection, $item);
   }
