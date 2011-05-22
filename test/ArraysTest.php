@@ -41,12 +41,29 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
   }
   
   public function testLast() {
+    // from js
     $this->assertEquals(3, _::last(array(1,2,3), 'can pull out the last element of an array'));
     
     // @todo
     /*
     var result = (function(){ return _(arguments).last(); })(1, 2, 3, 4);
     equals(result, 4, 'works on an arguments object');
+    */
+  }
+  
+  public function testCompact() {
+    $vals = array(0, 1, false, 2, false, 3);
+    
+    // from js
+    $this->assertEquals(3, count(_::compact($vals)), 'can trim out all falsy values');
+    
+    // extra
+    $this->assertEquals(array(1, 2, 3), _::compact($vals), 'can remove all falsy values');
+    
+    // @todo
+    /*
+    var result = (function(){ return _(arguments).compact().length; })(0, 1, false, 2, false, 3);
+    equals(result, 3, 'works on an arguments object');
     */
   }
 }
