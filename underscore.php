@@ -198,4 +198,16 @@ class _ {
     $first_key = self::first(array_keys($results));
     return $collection[$first_key];
   }
+  
+  public static function sortBy($collection, $iterator) {
+    $results = array();
+    foreach($collection as $k=>$item) {
+      $results[$k] = $iterator($item);
+    }
+    asort($results);
+    foreach($results as $k=>$v) {
+      $results[$k] = $collection[$k];
+    }
+    return array_values($results);
+  }
 }
