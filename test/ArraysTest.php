@@ -79,4 +79,23 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     equals(result.join(', '), '1, 2, 3, 4', 'works on an arguments object');
     */
   }
+  
+  public function testWithout() {
+    $list = array(1, 2, 1, 0, 3, 1, 4);
+    
+    // from js
+    $this->assertEquals(array(1=>2,4=>3,6=>4), _::without($list, 0, 1), 'can remove all instances of an object');
+    $list = array(
+      (object) array('one'=>1),
+      (object) array('two'=>2)
+    );
+    $this->assertEquals(2, count(_::without($list, (object) array('one'=>1))), 'uses real object identity for comparisons.');
+    $this->assertEquals(1, count(_::without($list, $list[0])), 'ditto.');
+    
+    // @todo
+    /*
+    var result = (function(){ return _.without(arguments, 0, 1); })(1, 2, 1, 0, 3, 1, 4);
+    equals(result.join(', '), '2, 3, 4', 'works on an arguments object');
+    */
+  }
 }

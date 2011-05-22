@@ -156,17 +156,6 @@ class UnderscoreTest extends PHPUnit_Framework_TestCase {
     }
   }
   
-  public function testWithout() {
-    $tests = array(
-      // val, expected
-      array(array(0, 1, 2), array(0, 2=>2)),
-      array(array(true, false, 0, 1, 2, '1'), array(1=>false, 2=>0, 4=>2))
-    );
-    foreach($tests as $test) {
-      $this->assertEquals($test[1], _::without($test[0], 1, '1', true));
-    }
-  }
-  
   public function testUniq() {
     $tests = array(
       // val, expected
