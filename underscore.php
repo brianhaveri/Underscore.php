@@ -134,4 +134,9 @@ class _ {
     }
     return $return;
   }
+  
+  public static function indexOf($collection, $item) {
+    $key = array_search($item, $collection, true);
+    return (is_bool($key)) ? -1 : $key;
+  }
 }
