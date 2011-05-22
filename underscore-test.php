@@ -197,18 +197,6 @@ class UnderscoreTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array(), _::range(0));
   }
   
-  public function testZip() {
-    $names= array('moe', 'larry', 'curly');
-    $ages = array(30, 40, 50);
-    $foo  = array(true, false, false);
-    $expected = array(
-      array('moe', 30, true),
-      array('larry', 40, false),
-      array('curly', 50, false)
-    );
-    $this->assertEquals($expected, _::zip($names, $ages, $foo));
-  }
-  
   public function testMax() {
     $stooges = array(
       array('name'=>'moe',   'age'=>40),

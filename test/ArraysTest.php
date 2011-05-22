@@ -127,4 +127,13 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     equals(result.join(''), 'moe', 'works on an arguments object');
     */
   }
+  
+  public function testZip() {
+    // from js
+    $names  = array('moe', 'larry', 'curly');
+    $ages   = array(30, 40, 50);
+    $leaders= array(true);
+    $stooges= array(array('moe', 30, true), array('larry', 40, null), array('curly', 50, null));
+    $this->assertEquals($stooges, _::zip($names, $ages, $leaders), 'zipped together arrays of different lengths');
+  }
 }
