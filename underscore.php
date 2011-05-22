@@ -67,9 +67,10 @@ class _ {
     return count($collection);
   }
   
-  public static function first($collection, $n=1) {
-    $vals = array_slice($collection, 0, $n, true);
-    return ($n === 1) ? current($vals) : $vals;
+  public static function first($collection, $n=null) {
+    if($n === 0) return array();
+    if(is_null($n)) return current(array_splice($collection, 0, 1, true));
+    return array_splice($collection, 0, $n, true);
   }
   
   public static function rest($collection, $index=1) {
