@@ -65,7 +65,7 @@ class _ {
   }
   
   public static function size($collection) {
-    return count($collection);
+    return count((array) $collection);
   }
   
   public static function first($collection, $n=null) {
