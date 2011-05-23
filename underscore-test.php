@@ -59,23 +59,6 @@ class UnderscoreTest extends PHPUnit_Framework_TestCase {
     }
   }
   
-  public function testAny() {
-    $tests = array(
-      // val, expected
-      array(array(), false),
-      array(array(null), false),
-      array(array(0), false),
-      array(array('0'), false),
-      array(array(0, 1), true),
-      array(array(1), true),
-      array(array('1'), true),
-      array(array(1,2,3,4), true)
-    );
-    foreach($tests as $test) {
-      $this->assertEquals($test[1], _::any($test[0]));
-    }
-  }
-  
   public function testSize() {
     $tests = array(
       // val, expected

@@ -59,9 +59,9 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     // from js
     $this->assertTrue(_::all(array(), _::identity()), 'the empty set');
     $this->assertTrue(_::all(array(true, true, true), _::identity()), 'all true values');
-    $this->assertTrue(!_::all(array(true, false, true), _::identity()), 'one false value');
+    $this->assertFalse(_::all(array(true, false, true), _::identity()), 'one false value');
     $this->assertTrue(_::all(array(0, 10, 28), function($num) { return $num % 2 === 0;  }), 'even numbers');
-    $this->assertTrue(!_::all(array(0, 11, 28), function($num) { return $num % 2 === 0;  }), 'odd numbers');
+    $this->assertFalse(_::all(array(0, 11, 28), function($num) { return $num % 2 === 0;  }), 'odd numbers');
     
     // extra
     $this->assertEquals(true, _::all(array()));
@@ -76,6 +76,30 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     // @todo
     /*
     ok(_.every([true, true, true], _.identity), 'aliased as "every"');
+    */
+  }
+  
+  public function testAny() {
+    // from js
+    $this->assertFalse(_::any(array()), 'the empty set');
+    $this->assertFalse(_::any(array(false, false, false)), 'all false values');
+    $this->assertTrue(_::any(array(false, false, true)), 'one true value');
+    $this->assertFalse(_::any(array(1, 11, 29), function($num) { return $num % 2 === 0; }), 'all odd numbers');
+    $this->assertTrue(_::any(array(1, 10, 29), function($num) { return $num % 2 === 0; }), 'an even number');
+    
+    // extra
+    $this->assertFalse(_::any(array()));
+    $this->assertFalse(_::any(array(null)));
+    $this->assertFalse( _::any(array(0)));
+    $this->assertFalse(_::any(array('0')));
+    $this->assertTrue(_::any(array(0, 1)));
+    $this->assertTrue(_::any(array(1)));
+    $this->assertTrue(_::any(array('1')));
+    $this->assertTrue(_::any(array(1,2,3,4)));
+    
+    // @todo
+    /*
+    ok(_.some([false, false, true]), 'aliased as "some"');
     */
   }
 }
