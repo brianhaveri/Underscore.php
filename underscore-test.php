@@ -9,23 +9,6 @@ class FunctionsTestClass {
 
 class UnderscoreTest extends PHPUnit_Framework_TestCase {
   
-  public function testMap() {
-    $iterator = function($val, $key=null) { return $val * 3; };
-    $collection = array('one'=>1, 'two'=>2, 'three'=>3);
-    $expected = array(3, 6, 9);
-    
-    // Array: keyed
-    $this->assertEquals($expected, _::map($collection, $iterator));
-    
-    // Array: zero indexed
-    $zero_indexed = array_values($collection);
-    $this->assertEquals($expected, _::map($zero_indexed, $iterator));
-    
-    // Object
-    $collection_obj = (object) $collection;
-    $this->assertEquals($expected, _::map($collection_obj, $iterator));
-  }
-  
   public function testPluck() {
     // Array
     $stooges = array(
