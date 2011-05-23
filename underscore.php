@@ -205,7 +205,7 @@ class _ {
   }
   
   public static function min($collection, $iterator=null) {
-    if(is_null($iterator)) return max($collection);
+    if(is_null($iterator)) return min($collection);
     
     $results = array();
     foreach($collection as $k=>$item) {
