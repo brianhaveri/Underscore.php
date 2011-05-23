@@ -28,4 +28,14 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     ok(ids[0] == 'chart_image', 'can use collection methods on HTMLCollections');
     */
   }
+  
+  public function testDetect() {
+    // from js
+    $this->assertEquals(2, _::detect(array(1,2,3), function($num) { return $num * 2 === 4; }), 'found the first "2" and broke the loop');
+    
+    // extra
+    $iterator = function($n) { return $n % 2 === 0; };
+    $this->assertEquals(2, _::detect(array(1, 2, 3, 4, 5, 6), $iterator));
+    $this->assertEquals(false, _::detect(array(1, 3, 5), $iterator));
+  }
 }
