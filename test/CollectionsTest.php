@@ -38,4 +38,15 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(2, _::detect(array(1, 2, 3, 4, 5, 6), $iterator));
     $this->assertEquals(false, _::detect(array(1, 3, 5), $iterator));
   }
+  
+  public function testSelect() {
+    $evens = _::select(array(1,2,3,4,5,6), function($num) { return $num % 2 === 0; });
+    $this->assertEquals(array(2, 4, 6), $evens, 'selected each even number');
+    
+    // @todo
+    /*
+    evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
+    equals(evens.join(', '), '2, 4, 6', 'aliased as "filter"');
+    */
+  }
 }
