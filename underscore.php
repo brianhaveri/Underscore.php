@@ -35,6 +35,7 @@ class _ {
   
   public static function all($collection, $iterator=null) {
     if(!is_null($iterator)) $collection = self::map($collection, $iterator);
+    $collection = (array) $collection;
     if(count($collection) === 0) return true;
     
     return is_bool(array_search(false, $collection, false));
@@ -241,5 +242,14 @@ class _ {
   
   public static function isEqual($a, $b) {
     return (is_object($a)) ? $a == $b : $a === $b;
+  }
+  
+  public static function identity() {
+    $args = func_get_args();
+    if(is_array($args)) return $args[0];
+    
+    return function($x) {
+      return $x;
+    };
   }
 }
