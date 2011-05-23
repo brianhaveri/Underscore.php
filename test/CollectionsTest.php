@@ -49,4 +49,9 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     equals(evens.join(', '), '2, 4, 6', 'aliased as "filter"');
     */
   }
+  
+  public function testReject() {
+    $odds = _::reject(array(1,2,3,4,5,6), function($num) { return $num % 2 === 0; });
+    $this->assertEquals(array(1, 3, 5), $odds, 'rejected each even number');
+  }
 }
