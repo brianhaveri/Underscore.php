@@ -102,4 +102,33 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     ok(_.some([false, false, true]), 'aliased as "some"');
     */
   }
+  
+  public function testIncludes() {
+    // from js
+    $this->assertTrue(_::includes(array(1,2,3), 2), 'two is in the array');
+    $this->assertFalse(_::includes(array(1,3,9), 2), 'two is not in the array');
+    
+    // extra
+    $collection = array(true, false, 0, 1, -1, 'foo', array(), array('meh'));
+    $this->assertTrue(_::includes($collection, true));
+    $this->assertTrue(_::includes($collection, false));
+    $this->assertTrue(_::includes($collection, 0));
+    $this->assertTrue(_::includes($collection, 1));
+    $this->assertTrue(_::includes($collection, -1));
+    $this->assertTrue(_::includes($collection, 'foo'));
+    $this->assertTrue(_::includes($collection, array()));
+    $this->assertTrue(_::includes($collection, array('meh')));
+    $this->assertFalse(_::includes($collection, 'true'));
+    $this->assertFalse(_::includes($collection, '0'));
+    $this->assertFalse(_::includes($collection, '1'));
+    $this->assertFalse(_::includes($collection, '-1'));
+    $this->assertFalse(_::includes($collection, 'bar'));
+    $this->assertFalse(_::includes($collection, 'Foo'));
+    
+    // @todo
+    /*
+    ok(_.contains({moe:1, larry:3, curly:9}, 3) === true, '_.include on objects checks their values');
+    ok(_([1,2,3]).include(2), 'OO-style include');
+    */
+  }
 }

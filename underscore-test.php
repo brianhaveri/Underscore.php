@@ -35,30 +35,6 @@ class UnderscoreTest extends PHPUnit_Framework_TestCase {
     }
   }
   
-  public function testIncludes() {
-    $collection = array(true, false, 0, 1, -1, 'foo', array(), array('meh'));
-    $tests = array(
-      // val, expected
-      array(true, true),
-      array(false, true),
-      array(0, true),
-      array(1, true),
-      array(-1, true),
-      array('foo', true),
-      array(array(), true),
-      array(array('meh'), true),
-      array('true', false),
-      array('0', false),
-      array('1', false),
-      array('-1', false),
-      array('bar', false),
-      array('Foo', false)
-    );
-    foreach($tests as $test) {
-      $this->assertEquals($test[1], _::includes($collection, $test[0]));
-    }
-  }
-  
   public function testSize() {
     $tests = array(
       // val, expected
