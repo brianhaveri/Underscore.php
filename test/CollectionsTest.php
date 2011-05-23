@@ -210,4 +210,20 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array($stooges[2], $stooges[1], $stooges[0]), _::sortBy($stooges, function($stooge) { return $stooge['name']; }));
     $this->assertEquals(array(5, 4, 6, 3, 1, 2), _::sortBy(array(1, 2, 3, 4, 5, 6), function($num) { return sin($num); }));
   }
+  
+  public function testSize() {
+    // from js
+    $items = (object) array(
+      'one'   =>1,
+      'two'   =>2,
+      'three' =>3
+    );
+    $this->assertEquals(3, _::size($items), 'can compute the size of an object');
+    
+    // extra
+    $this->assertEquals(0, _::size(array()));
+    $this->assertEquals(1, _::size(array(1)));
+    $this->assertEquals(3, _::size(array(1, 2, 3)));
+    $this->assertEquals(6, _::size(array(null, false, array(), array(1,2,array('a','b')), 1, 2)));
+  }
 }

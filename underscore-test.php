@@ -9,18 +9,6 @@ class FunctionsTestClass {
 
 class UnderscoreTest extends PHPUnit_Framework_TestCase {
   
-  public function testSize() {
-    $tests = array(
-      // val, expected
-      array(array(), 0),
-      array(array(1), 1),
-      array(array(1, 2, 3), 3)
-    );
-    foreach($tests as $test) {
-      $this->assertEquals($test[1], _::size($test[0]));
-    }
-  }
-  
   public function testKeys() {
     $tests = array(
       // val, expected
