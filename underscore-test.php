@@ -9,32 +9,6 @@ class FunctionsTestClass {
 
 class UnderscoreTest extends PHPUnit_Framework_TestCase {
   
-  public function testPluck() {
-    // Array
-    $stooges = array(
-      array('name'=>'moe',   'age'=> 40),
-      array('name'=>'larry', 'age'=> 50),
-      array('name'=>'curly', 'age'=> 60)
-    );
-    $tests = array(
-      'name'=> array('moe', 'larry', 'curly'),
-      'age' => array(40, 50, 60)
-    );
-    foreach($tests as $key=>$expected) {
-      $this->assertEquals($expected, _::pluck($stooges, $key));
-    }
-    
-    // Object
-    $stooges_obj = new StdClass;
-    foreach($stooges as $stooge) {
-      $name = $stooge['name'];
-      $stooges_obj->$name = (object) $stooge;
-    }
-    foreach($tests as $key=>$expected) {
-      $this->assertEquals($expected, _::pluck($stooges_obj, $key));
-    }
-  }
-  
   public function testSize() {
     $tests = array(
       // val, expected

@@ -131,4 +131,33 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     ok(_([1,2,3]).include(2), 'OO-style include');
     */
   }
+  
+  public function testPluck() {
+    // from js
+    $people = array(
+      array('name'=>'moe', 'age'=>30),
+      array('name'=>'curly', 'age'=>50)
+    );
+    $this->assertEquals(array('moe', 'curly'), _::pluck($people, 'name'), 'pulls names out of objects');
+    
+    // extra: array
+    $stooges = array(
+      array('name'=>'moe',   'age'=> 40),
+      array('name'=>'larry', 'age'=> 50, 'foo'=>'bar'),
+      array('name'=>'curly', 'age'=> 60)
+    );
+    $this->assertEquals(array('moe', 'larry', 'curly'), _::pluck($stooges, 'name'));
+    $this->assertEquals(array(40, 50, 60), _::pluck($stooges, 'age'));
+    $this->assertEquals(array('bar'), _::pluck($stooges, 'foo'));
+    
+    // extra: object
+    $stooges_obj = new StdClass;
+    foreach($stooges as $stooge) {
+      $name = $stooge['name'];
+      $stooges_obj->$name = (object) $stooge;
+    }
+    $this->assertEquals(array('moe', 'larry', 'curly'), _::pluck($stooges, 'name'));
+    $this->assertEquals(array(40, 50, 60), _::pluck($stooges, 'age'));
+    $this->assertEquals(array('bar'), _::pluck($stooges, 'foo'));
+  }
 }
