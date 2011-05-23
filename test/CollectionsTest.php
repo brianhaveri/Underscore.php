@@ -190,4 +190,24 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($stooges[0], _::min($stooges, function($stooge) { return $stooge['age']; }));
     $this->assertEquals($stooges[2], _::min($stooges, function($stooge) { return $stooge['name']; }));
   }
+  
+  public function testSortBy() {
+    // from js
+    $people = array(
+      (object) array('name'=>'curly', 'age'=>50),
+      (object) array('name'=>'moe', 'age'=>30)
+    );
+    $people_sorted = _::sortBy($people, function($person) { return $person->age; });
+    $this->assertEquals(array('moe', 'curly'), _::pluck($people_sorted, 'name'), 'stooges sorted by age');
+    
+    // extra
+    $stooges = array(
+      array('name'=>'moe',   'age'=>40),
+      array('name'=>'larry', 'age'=>50),
+      array('name'=>'curly', 'age'=>60)
+    );
+    $this->assertEquals($stooges, _::sortBy($stooges, function($stooge) { return $stooge['age']; }));
+    $this->assertEquals(array($stooges[2], $stooges[1], $stooges[0]), _::sortBy($stooges, function($stooge) { return $stooge['name']; }));
+    $this->assertEquals(array(5, 4, 6, 3, 1, 2), _::sortBy(array(1, 2, 3, 4, 5, 6), function($num) { return sin($num); }));
+  }
 }
