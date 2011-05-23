@@ -54,4 +54,28 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $odds = _::reject(array(1,2,3,4,5,6), function($num) { return $num % 2 === 0; });
     $this->assertEquals(array(1, 3, 5), $odds, 'rejected each even number');
   }
+  
+  public function testAll() {
+    // from js
+    $this->assertTrue(_::all(array(), _::identity()), 'the empty set');
+    $this->assertTrue(_::all(array(true, true, true), _::identity()), 'all true values');
+    $this->assertTrue(!_::all(array(true, false, true), _::identity()), 'one false value');
+    $this->assertTrue(_::all(array(0, 10, 28), function($num) { return $num % 2 === 0;  }), 'even numbers');
+    $this->assertTrue(!_::all(array(0, 11, 28), function($num) { return $num % 2 === 0;  }), 'odd numbers');
+    
+    // extra
+    $this->assertEquals(true, _::all(array()));
+    $this->assertEquals(false, _::all(array(null)));
+    $this->assertEquals(false, _::all(0));
+    $this->assertEquals(false, _::all('0'));
+    $this->assertEquals(false, _::all(array(0,1)));
+    $this->assertEquals(true, _::all(array(1)));
+    $this->assertEquals(true, _::all(array('1')));
+    $this->assertEquals(true, _::all(array(1,2,3,4)));
+    
+    // @todo
+    /*
+    ok(_.every([true, true, true], _.identity), 'aliased as "every"');
+    */
+  }
 }
