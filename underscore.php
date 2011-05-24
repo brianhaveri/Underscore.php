@@ -229,6 +229,8 @@ class _ {
   }
   
   public static function keys($collection) {
+    if(!is_object($collection) && !is_array($collection)) throw new Exception('Invalid object');
+    
     return array_keys((array) $collection);
   }
   
