@@ -273,6 +273,10 @@ class _ {
     return ((is_int($number) || is_float($number)) && !is_nan($number) && !is_infinite($number));
   }
   
+  public static function isBoolean($bool) {
+    return is_bool($bool);
+  }
+  
   public static function identity() {
     $args = func_get_args();
     if(is_array($args)) return $args[0];

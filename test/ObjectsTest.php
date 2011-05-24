@@ -140,4 +140,22 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue(_::isNumber(pi()));
     $this->assertTrue(_::isNumber(M_PI));
   }
+  
+  public function testIsBoolean() {
+    // from js
+    $this->assertFalse(_::isBoolean(2), 'a number is not a boolean');
+    $this->assertFalse(_::isBoolean('string'), 'a string is not a boolean');
+    $this->assertFalse(_::isBoolean('false'), 'the string "false" is not a boolean');
+    $this->assertFalse(_::isBoolean('true'), 'the string "true" is not a boolean');
+    $this->assertFalse(_::isBoolean(null), 'null is not a boolean');
+    $this->assertFalse(_::isBoolean(acos(8)), 'nan values are not booleans');
+    $this->assertTrue(_::isBoolean(true), 'but true is');
+    $this->assertTrue(_::isBoolean(false), 'and so is false');
+    
+    // extra
+    $this->assertFalse(_::isBoolean(array()));
+    $this->assertFalse(_::isBoolean(1));
+    $this->assertFalse(_::isBoolean(0));
+    $this->assertFalse(_::isBoolean(-1));
+  }
 }
