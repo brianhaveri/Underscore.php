@@ -114,4 +114,16 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue(_::isArray(array()));
     $this->assertTrue(_::isArray(array(array(1,2))));
   }
+  
+  public function testIsString() {
+    // from js
+    $this->assertTrue(_::isString(join(', ', array(1,2,3))), 'strings are');
+    
+    // extra
+    $this->assertFalse(_::isString(1));
+    $this->assertTrue(_::isString(''));
+    $this->assertTrue(_::isString('1'));
+    $this->assertFalse(_::isString(array()));
+    $this->assertFalse(_::isString(null));
+  }
 }

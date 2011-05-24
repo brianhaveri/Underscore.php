@@ -257,12 +257,16 @@ class _ {
     return false;
   }
   
-  public function isEmpty($item) {
+  public static function isEmpty($item) {
     return (is_array($item) || is_object($item)) ? !((bool) count((array) $item)) : (!(bool) $item);
   }
   
-  public function isArray($item) {
+  public static function isArray($item) {
     return is_array($item);
+  }
+  
+  public static function isString($string) {
+    return is_string($string);
   }
   
   public static function identity() {
