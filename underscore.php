@@ -277,6 +277,10 @@ class _ {
     return is_bool($bool);
   }
   
+  public static function isFunction($function) {
+    return (is_object($function) && is_callable($function));
+  }
+  
   public static function identity() {
     $args = func_get_args();
     if(is_array($args)) return $args[0];
