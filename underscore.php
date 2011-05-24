@@ -243,7 +243,18 @@ class _ {
   }
   
   public static function isEqual($a, $b) {
-    return (is_object($a)) ? $a == $b : $a === $b;
+    if($a === $b) return true;
+    if(gettype($a) !== gettype($b)) return false;
+    
+    if($a == $b) return true;
+    
+    if(is_object($a) || is_array($a)) {
+      $keys_equal = self::isEqual(self::keys($a), self::keys($b));
+      $values_equal = self::isEqual(self::values($a), self::values($b));
+      return ($keys_equal && $values_equal);
+    }
+    
+    return false;
   }
   
   public static function identity() {
