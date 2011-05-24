@@ -261,6 +261,10 @@ class _ {
     return (is_array($item) || is_object($item)) ? !((bool) count((array) $item)) : (!(bool) $item);
   }
   
+  public function isArray($item) {
+    return is_array($item);
+  }
+  
   public static function identity() {
     $args = func_get_args();
     if(is_array($args)) return $args[0];

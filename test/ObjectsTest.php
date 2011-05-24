@@ -91,6 +91,7 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
   }
   
   public function testIsEmpty() {
+    // from js
     $this->assertFalse(_::isEmpty(array(1)), 'array(1) is not empty');
     $this->assertTrue(_::isEmpty(array()), 'array() is empty');
     $this->assertFalse(_::isEmpty((object) array('one'=>1), '(object) array("one"=>1) is not empty'));
@@ -102,5 +103,15 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $obj = (object) array('one'=>1);
     unset($obj->one);
     $this->assertTrue(_::isEmpty($obj), 'deleting all the keys from an object empties it');
+  }
+  
+  public function testIsArray() {
+    // from js
+    $this->assertTrue(_::isArray(array(1,2,3)), 'arrays are');
+    
+    // extra
+    $this->assertFalse(_::isArray(null));
+    $this->assertTrue(_::isArray(array()));
+    $this->assertTrue(_::isArray(array(array(1,2))));
   }
 }
