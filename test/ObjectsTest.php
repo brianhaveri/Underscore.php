@@ -60,4 +60,33 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     // extra
     $this->assertEquals(array('methodA', 'methodB'), _::functions(new FunctionsTestClass));
   }
+  
+  public function testIsEqual() {
+    // from js
+    $moe = (object) array(
+      'name' => 'moe',
+      'lucky'=> array(13, 27, 34)
+    );
+    $clone = (object) array(
+      'name' => 'moe',
+      'lucky'=> array(13, 27, 34)
+    );
+    $this->assertFalse($moe === $clone, 'basic equality between objects is false');
+    $this->assertTrue(_::isEqual($moe, $clone), 'deep equality is true');
+    
+    // @todo
+    /*
+    ok(_(moe).isEqual(clone), 'OO-style deep equality works');
+    ok(!_.isEqual(5, NaN), '5 is not equal to NaN');
+    ok(NaN != NaN, 'NaN is not equal to NaN (native equality)');
+    ok(NaN !== NaN, 'NaN is not equal to NaN (native identity)');
+    ok(!_.isEqual(NaN, NaN), 'NaN is not equal to NaN');
+    ok(_.isEqual(new Date(100), new Date(100)), 'identical dates are equal');
+    ok(_.isEqual((/hello/ig), (/hello/ig)), 'identical regexes are equal');
+    ok(!_.isEqual(null, [1]), 'a falsy is never equal to a truthy');
+    ok(!_.isEqual({x: 1, y: undefined}, {x: 1, z: 2}), 'objects with the same number of undefined keys are not equal');
+    ok(!_.isEqual(_({x: 1, y: undefined}).chain(), _({x: 1, z: 2}).chain()), 'wrapped objects are not equal');
+    equals(_({x: 1, y: 2}).chain().isEqual(_({x: 1, y: 2}).chain()).value(), true, 'wrapped objects are equal');
+    */
+  }
 }
