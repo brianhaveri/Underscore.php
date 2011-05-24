@@ -257,6 +257,10 @@ class _ {
     return false;
   }
   
+  public function isEmpty($item) {
+    return (is_array($item) || is_object($item)) ? !((bool) count((array) $item)) : (!(bool) $item);
+  }
+  
   public static function identity() {
     $args = func_get_args();
     if(is_array($args)) return $args[0];

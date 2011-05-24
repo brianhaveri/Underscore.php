@@ -89,4 +89,18 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     equals(_({x: 1, y: 2}).chain().isEqual(_({x: 1, y: 2}).chain()).value(), true, 'wrapped objects are equal');
     */
   }
+  
+  public function testIsEmpty() {
+    $this->assertFalse(_::isEmpty(array(1)), 'array(1) is not empty');
+    $this->assertTrue(_::isEmpty(array()), 'array() is empty');
+    $this->assertFalse(_::isEmpty((object) array('one'=>1), '(object) array("one"=>1) is not empty'));
+    $this->assertTrue(_::isEmpty(new StdClass), 'new StdClass is empty');
+    $this->assertTrue(_::isEmpty(null), 'null is empty');
+    $this->assertTrue(_::isEmpty(''), 'the empty string is empty');
+    $this->assertFalse(_::isEmpty('moe'), 'but other strings are not');
+    
+    $obj = (object) array('one'=>1);
+    unset($obj->one);
+    $this->assertTrue(_::isEmpty($obj), 'deleting all the keys from an object empties it');
+  }
 }
