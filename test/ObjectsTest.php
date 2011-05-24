@@ -2,6 +2,15 @@
 
 include_once(__DIR__ . '/../underscore.php');
 
+// @see testFunctions()
+class FunctionsTestClass {
+  const FOO = 'BAR';
+  public static $_foo = 'bar';
+  public static function methodA() {}
+  public static function methodB() {}
+  private function _methodC() {}
+}
+
 class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
   
   public function testKeys() {
@@ -43,5 +52,12 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     // extra
     $this->assertEquals(array(1,2), _::values($items));
     $this->assertEquals(array(1), _::values(array(1)));
+  }
+  
+  public function testFunctions() {
+    // from js doesn't really apply here because in php function aren't truly first class citizens
+    
+    // extra
+    $this->assertEquals(array('methodA', 'methodB'), _::functions(new FunctionsTestClass));
   }
 }
