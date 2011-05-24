@@ -126,4 +126,18 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse(_::isString(array()));
     $this->assertFalse(_::isString(null));
   }
+  
+  public function testIsNumber() {
+    // from js
+    $this->assertFalse(_::isNumber('string'), 'a string is not a number');
+    $this->assertFalse(_::isNumber(null), 'null is not a number');
+    $this->assertTrue(_::isNumber(3 * 4 - 7 / 10), 'but numbers are');
+    
+    // extra
+    $this->assertFalse(_::isNumber(acos(8)), 'invalid calculations (nan) are not numbers');
+    $this->assertFalse(_::isNumber('1'), 'strings of numbers are not numbers');
+    $this->assertFalse(_::isNumber(log(0)), 'infinite values are not numbers');
+    $this->assertTrue(_::isNumber(pi()));
+    $this->assertTrue(_::isNumber(M_PI));
+  }
 }
