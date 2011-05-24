@@ -289,6 +289,17 @@ class _ {
     return is_nan($nan);
   }
   
+  public static function isUndefined($val=null) {
+    if(is_null($val))   return false;
+    if(is_bool($val))   return false;
+    if(is_int($val))    return false;
+    if(is_object($val)) return false;
+    if(is_array($val))  return false;
+    if(is_string($val)) return false;
+    if(is_nan($val))    return false;
+    return !isset($val);
+  }
+  
   public static function identity() {
     $args = func_get_args();
     if(is_array($args)) return $args[0];

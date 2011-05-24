@@ -189,4 +189,13 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse(_::isNaN(0), '0 is not NaN');
     $this->assertTrue(_::isNaN(acos(8)), 'but invalid calculations are');
   }
+  
+  public function testIsUndefined() {
+    $this->assertFalse(_::isUndefined(1), 'numbers are defined');
+    $this->assertFalse(_::isUndefined(null), 'null is defined');
+    $this->assertFalse(_::isUndefined(false), 'false is defined');
+    $this->assertFalse(_::isUndefined(acos(8)), 'NaN calculations are defined');
+    $this->assertFalse(_::isUndefined(), 'empty params are defined');
+    //$this->assertTrue(_::isUndefined($obj->larry), 'undefined is undefined');
+  }
 }
