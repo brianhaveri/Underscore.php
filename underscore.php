@@ -285,6 +285,10 @@ class _ {
     return (is_object($date) && get_class($date) === 'DateTime');
   }
   
+  public static function isNaN($nan) {
+    return is_nan($nan);
+  }
+  
   public static function identity() {
     $args = func_get_args();
     if(is_array($args)) return $args[0];

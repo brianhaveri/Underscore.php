@@ -182,4 +182,11 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse(_::isDate(time()), 'timestamps are not dates');
     $this->assertFalse(_::isDate('Y-m-d H:i:s'), 'date strings are not dates');
   }
+  
+  public function testIsNaN() {
+    // from js
+    $this->assertFalse(_::isNaN(null), 'null not not NaN');
+    $this->assertFalse(_::isNaN(0), '0 is not NaN');
+    $this->assertTrue(_::isNaN(acos(8)), 'but invalid calculations are');
+  }
 }
