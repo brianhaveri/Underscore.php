@@ -281,6 +281,10 @@ class _ {
     return (is_object($function) && is_callable($function));
   }
   
+  public static function isDate($date) {
+    return (is_object($date) && get_class($date) === 'DateTime');
+  }
+  
   public static function identity() {
     $args = func_get_args();
     if(is_array($args)) return $args[0];

@@ -169,4 +169,17 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     // extra
     $this->assertFalse(_::isFunction('array_search'), 'strings with names of functions are not functions');
   }
+  
+  public function testIsDate() {
+    // from js
+    $this->assertFalse(_::isDate(1), 'numbers are not dates');
+    $this->assertFalse(_::isDate(new StdClass), 'objects are not dates');
+    
+    date_default_timezone_set('America/Denver'); // don't throw error if timezone not set
+    $this->assertTrue(_::isDate(new DateTime()), 'but dates are');
+    
+    // extra
+    $this->assertFalse(_::isDate(time()), 'timestamps are not dates');
+    $this->assertFalse(_::isDate('Y-m-d H:i:s'), 'date strings are not dates');
+  }
 }
