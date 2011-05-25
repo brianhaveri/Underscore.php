@@ -81,6 +81,31 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     */
   }
   
+  public function testDefaults() {
+    // from js
+    $options = array('zero'=>0, 'one'=>1, 'empty'=>'', 'nan'=>acos(8), 'string'=>'string');
+    $options = _::defaults($options, array('zero'=>1, 'one'=>10, 'twenty'=>20));
+    $this->assertEquals(0, $options['zero'], 'value exists');
+    $this->assertEquals(1, $options['one'], 'value exists');
+    $this->assertEquals(20, $options['twenty'], 'default applied');
+    
+    $options_obj = (object) array('zero'=>0, 'one'=>1, 'empty'=>'', 'nan'=>acos(8), 'string'=>'string');
+    $options_obj = _::defaults($options_obj, (object) array('zero'=>1, 'one'=>10, 'twenty'=>20));
+    $this->assertEquals(0, $options_obj->zero, 'value exists');
+    $this->assertEquals(1, $options_obj->one, 'value exists');
+    $this->assertEquals(20, $options_obj->twenty, 'default applied');
+    
+    $options = _::defaults($options, array('empty'=>'full'), array('nan'=>'nan'), array('word'=>'word'), array('word'=>'dog'));
+    $this->assertEquals('', $options['empty'], 'value exists');
+    $this->assertTrue(_::isNaN($options['nan']), 'NaN is not overridden');
+    $this->assertEquals('word', $options['word'], 'new value is added, first one wins');
+    
+    $options_obj = _::defaults($options_obj, (object) array('empty'=>'full'), (object) array('nan'=>'nan'), (object) array('word'=>'word'), (object) array('word'=>'dog'));
+    $this->assertEquals('', $options_obj->empty, 'value exists');
+    $this->assertTrue(_::isNaN($options_obj->nan), 'NaN is not overridden');
+    $this->assertEquals('word', $options_obj->word, 'new value is added, first one wins');
+  }
+  
   public function testFunctions() {
     // from js doesn't really apply here because in php function aren't truly first class citizens
     

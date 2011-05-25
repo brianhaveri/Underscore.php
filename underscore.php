@@ -287,6 +287,20 @@ class _ {
     return ($is_object) ? (object) $array : $array;
   }
   
+  public static function defaults($object) {
+    $num_args = func_num_args();
+    if($num_args === 1) return $object;
+    
+    $is_object = is_object($object);
+    $array = (array) $object;
+    $extensions = _::rest(func_get_args());
+    foreach($extensions as $extension) {
+      $extension = (array) $extension;
+      $array = array_merge($extension, $array);
+    }
+    return ($is_object) ? (object) $array : $array;
+  }
+  
   public static function functions($object) {
     return get_class_methods(get_class($object));
   }
