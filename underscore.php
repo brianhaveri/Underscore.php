@@ -305,6 +305,27 @@ class _ {
     return get_class_methods(get_class($object));
   }
   
+  public static function clon(&$object) {
+    $clone = null;
+    if(is_array($object)) $clone = (array) clone (object) $object;
+    if(!$clone) $clone = clone $object;
+    
+    // shallow copy object
+    if(is_object($clone) && count($clone) > 0) {
+      foreach($clone as $k=>$v) {
+        if(is_array($v) || is_object($v)) $clone->$k =& $object->$k;
+      }
+    }
+    
+    // shallow copy array
+    if(is_array($clone) && count($clone) > 0) {
+      foreach($clone as $k=>$v) {
+        if(is_array($v) || is_object($v)) $clone[$k] =& $object[$k];
+      }
+    }
+    return $clone;
+  }
+  
   public static function isEqual($a, $b) {
     if($a === $b) return true;
     if(gettype($a) !== gettype($b)) return false;

@@ -113,6 +113,29 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array('methodA', 'methodB'), _::functions(new FunctionsTestClass));
   }
   
+  public function testClone() {
+    // from js
+    $moe = array('name'=>'moe', 'lucky'=>array(13, 27, 34));
+    $clone = _::clon($moe);
+    $this->assertEquals('moe', $clone['name'], 'the clone as the attributes of the original');
+    
+    $moe_obj = (object) $moe;
+    $clone_obj = _::clon($moe_obj);
+    $this->assertEquals('moe', $clone_obj->name, 'the clone as the attributes of the original');
+
+    $clone['name'] = 'curly';
+    $this->assertTrue($clone['name'] === 'curly' && $moe['name'] === 'moe', 'clones can change shallow attributes without affecting the original');
+    
+    $clone_obj->name = 'curly';
+    $this->assertTrue($clone_obj->name === 'curly' && $moe_obj->name === 'moe', 'clones can change shallow attributes without affecting the original');
+    
+    $clone['lucky'][] = 101;
+    $this->assertEquals(101, _::last($moe['lucky']), 'changes to deep attributes are shared with the original');
+    
+    $clone_obj->lucky[] = 101;
+    $this->assertEquals(101, _::last($moe_obj->lucky), 'changes to deep attributes are shared with the original');
+  }
+  
   public function testIsEqual() {
     // from js
     $moe = (object) array(
