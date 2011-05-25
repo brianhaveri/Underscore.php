@@ -348,4 +348,8 @@ class _ {
     $prefix = (strlen($prefix) > 0) ? $prefix . '_' : $prefix;
     return uniqid($prefix);
   }
+  
+  public static function times($n, $iterator) {
+    for($i=0; $i<$n; $i++) $iterator($i);
+  }
 }

@@ -21,4 +21,17 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
     // extra
     $this->assertEquals('stooges_', join('', (_::first(_::uniqueId('stooges'), 8))), 'prefix assignment works');
   }
+  
+  public function testTimes() {
+    $vals = array();
+    _::times(3, function($i) use (&$vals) { $vals[] = $i; });
+    $this->assertEquals(array(0,1,2), $vals, 'is 0 indexed');
+    
+    // @todo
+    /*
+    vals = [];
+    _(3).times(function (i) { vals.push(i); });
+    ok(_.isEqual(vals, [0,1,2]), "works as a wrapper");
+    */
+  }
 }
