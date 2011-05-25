@@ -1,5 +1,5 @@
 <?php
-$mixins = array();
+
 class _ {
   
   public static function map($collection, $iterator) {
@@ -377,7 +377,6 @@ class _ {
   }
   
   public static function template($subject, $context=null) {
-    
     $return = function($context) use (&$subject) {
       $result = $subject;
       foreach($context as $term=>$replacement) {
