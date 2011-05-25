@@ -356,7 +356,7 @@ class _ {
   private static $_instance;
   private $_mixins = array();
   
-  static function getInstance() {
+  public static function getInstance() {
   	if(!isset(self::$_instance)) {
   		$c = __CLASS__;
   		self::$_instance = new $c;
@@ -374,5 +374,24 @@ class _ {
   public static function __callStatic($name, $arguments) {
     $mixins =& self::getInstance()->_mixins;
     return call_user_func_array($mixins[$name], $arguments);
+  }
+  
+  public static function template($subject, $context=null) {
+    
+    $return = function($context) use (&$subject) {
+      $result = $subject;
+      foreach($context as $term=>$replacement) {
+        $term_patterns = array(
+          '<%= ' . $term . ' %>'
+        );
+        foreach($term_patterns as $term_pattern) {
+          $result = str_replace($term_pattern, addslashes($replacement), $result);
+        }
+      }
+      return $result;
+    };
+    
+    if($context) echo $return();
+    return $return;
   }
 }
