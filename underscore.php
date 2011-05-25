@@ -1,5 +1,5 @@
 <?php
-
+$mixins = array();
 class _ {
   
   public static function map($collection, $iterator) {
@@ -351,5 +351,28 @@ class _ {
   
   public static function times($n, $iterator) {
     for($i=0; $i<$n; $i++) $iterator($i);
+  }
+  
+  private static $_instance;
+  private $_mixins = array();
+  
+  static function getInstance() {
+  	if(!isset(self::$_instance)) {
+  		$c = __CLASS__;
+  		self::$_instance = new $c;
+  	}
+  	return self::$_instance;
+  }
+  	
+  public static function mixin($functions) {
+    $mixins =& self::getInstance()->_mixins;
+    foreach($functions as $name=>$function) {
+      $mixins[$name] = $function;
+    }
+  }
+  
+  public static function __callStatic($name, $arguments) {
+    $mixins =& self::getInstance()->_mixins;
+    return call_user_func_array($mixins[$name], $arguments);
   }
 }

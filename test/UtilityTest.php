@@ -34,4 +34,20 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
     ok(_.isEqual(vals, [0,1,2]), "works as a wrapper");
     */
   }
+  
+  public function testMixin() {
+    _::mixin(array(
+      'myReverse' => function($string) {
+        $chars = str_split($string);
+        krsort($chars);
+        return join('', $chars);
+      }
+    ));
+    $this->assertEquals('aecanap', _::myReverse('panacea'), 'mixed in a function to _');
+    
+    // @todo
+    /*
+    equals(_('champ').myReverse(), 'pmahc', 'mixed in a function to the OOP wrapper');
+    */
+  }
 }
