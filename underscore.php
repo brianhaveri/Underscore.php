@@ -357,13 +357,13 @@ class _ {
   private $_mixins = array();
   
   public static function getInstance() {
-  	if(!isset(self::$_instance)) {
-  		$c = __CLASS__;
-  		self::$_instance = new $c;
-  	}
-  	return self::$_instance;
+    if(!isset(self::$_instance)) {
+      $c = __CLASS__;
+      self::$_instance = new $c;
+    }
+    return self::$_instance;
   }
-  	
+    
   public static function mixin($functions) {
     $mixins =& self::getInstance()->_mixins;
     foreach($functions as $name=>$function) {
