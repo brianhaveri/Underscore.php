@@ -3,6 +3,9 @@
 class _ {
   
   public static function map($collection, $iterator) {
+    if(is_null($collection)) return array();
+    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    
     $collection = (array) $collection;
     $return = array();
     foreach($collection as $k=>$v) {
@@ -12,6 +15,8 @@ class _ {
   }
   
   public static function pluck($collection, $key) {
+    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    
     $return = array();
     foreach($collection as $item) {
       foreach($item as $k=>$v) {
@@ -22,11 +27,15 @@ class _ {
   }
   
   public static function includes($collection, $val) {
+    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    
     $collection = (array) $collection;
     return is_int(array_search($val, $collection, true));
   }
   
   public static function any($collection, $iterator=null) {
+    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    
     if(!is_null($iterator)) $collection = self::map($collection, $iterator);
     if(count($collection) === 0) return false;
     
@@ -34,6 +43,8 @@ class _ {
   }
   
   public static function all($collection, $iterator=null) {
+    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    
     if(!is_null($iterator)) $collection = self::map($collection, $iterator);
     $collection = (array) $collection;
     if(count($collection) === 0) return true;
@@ -42,6 +53,8 @@ class _ {
   }
   
   public static function select($collection, $iterator) {
+    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    
     $return = array();
     foreach($collection as $val) {
       if(call_user_func($iterator, $val)) $return[] = $val;
@@ -50,6 +63,8 @@ class _ {
   }
   
   public static function reject($collection, $iterator) {
+    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    
     $return = array();
     foreach($collection as $val) {
       if(!call_user_func($iterator, $val)) $return[] = $val;
@@ -58,6 +73,8 @@ class _ {
   }
   
   public static function detect($collection, $iterator) {
+    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    
     foreach($collection as $val) {
       if(call_user_func($iterator, $val)) return $val;
     }
@@ -65,30 +82,42 @@ class _ {
   }
   
   public static function size($collection) {
+    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    
     return count((array) $collection);
   }
   
   public static function first($collection, $n=null) {
+    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    
     if($n === 0) return array();
     if(is_null($n)) return current(array_splice($collection, 0, 1, true));
     return array_splice($collection, 0, $n, true);
   }
   
   public static function rest($collection, $index=1) {
+    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    
     return array_splice($collection, $index);
   }
   
   public static function last($collection) {
+    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    
     return array_pop($collection);
   }
   
   public static function compact($collection) {
+    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    
     return self::select($collection, function($val) {
       return (bool) $val;
     });
   }
   
   public static function flatten($collection) {
+    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    
     $return = array();
     if(count($collection) > 0) {
       foreach($collection as $item) {
@@ -100,6 +129,8 @@ class _ {
   }
   
   public static function without($collection, $val) {
+    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    
     $args = func_get_args();
     $num_args = func_num_args();
     if($num_args === 1) return $collection;
@@ -118,6 +149,8 @@ class _ {
   }
   
   public static function uniq($collection) {
+    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    
     $return = array();
     if(count($collection) === 0) return $return;
     
@@ -133,20 +166,22 @@ class _ {
     
     $return = self::first($arrays);
     foreach(self::rest($arrays) as $next) {
+      if(!self::isArray($next)) $next = str_split((string) $next);
+      
       $return = array_intersect($return, $next);
     }
     return $return;
   }
   
   public static function indexOf($collection, $item) {
-    if(!is_array($collection)) return -1;
+    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
     $key = array_search($item, $collection, true);
     return (is_bool($key)) ? -1 : $key;
   }
   
   public static function lastIndexOf($collection, $item) {
-    if(!is_array($collection)) return -1;
+    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
     krsort($collection);
     return self::indexOf($collection, $item);
@@ -307,5 +342,10 @@ class _ {
     return function($x) {
       return $x;
     };
+  }
+  
+  public static function uniqueId($prefix='') {
+    $prefix = (strlen($prefix) > 0) ? $prefix . '_' : $prefix;
+    return uniqid($prefix);
   }
 }
