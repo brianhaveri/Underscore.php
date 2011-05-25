@@ -11,4 +11,14 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($moe, _::identity($moe));
     $this->assertEquals($moe_obj, _::identity($moe_obj));
   }
+  
+  public function testUniqueId() {
+    // from js
+    $ids = array();
+    while($i++ < 100) array_push($ids, _::uniqueId());
+    $this->assertEquals(count($ids), count(_::uniq($ids)));
+    
+    // extra
+    $this->assertEquals('stooges_', join('', (_::first(_::uniqueId('stooges'), 8))), 'prefix assignment works');
+  }
 }
