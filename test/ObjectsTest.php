@@ -54,6 +54,33 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array(1), _::values(array(1)));
   }
   
+  public function testExtend() {
+    // from js
+    $result = _::extend(array(), array('a'=>'b'));
+    $this->assertEquals(array('a'=>'b'), $result, 'can extend an array with the attributes of another');
+    
+    $result = _::extend((object) array(), (object) array('a'=>'b'));
+    $this->assertEquals((object) array('a'=>'b'), $result, 'can extend an object with the attributes of another');
+    
+    $result = _::extend(array('a'=>'x'), array('a'=>'b'));
+    $this->assertEquals(array('a'=>'b'), $result, 'properties in source override destination');
+    
+    $result = _::extend(array('x'=>'x'), array('a'=>'b'));
+    $this->assertEquals(array('x'=>'x', 'a'=>'b'), $result, "properties not in source don't get overriden");
+    
+    $result = _::extend(array('x'=>'x'), array('a'=>'b'), array('b'=>'b'));
+    $this->assertEquals(array('x'=>'x', 'a'=>'b', 'b'=>'b'), $result, 'can extend from multiple sources');
+    
+    $result = _::extend(array('x'=>'x'), array('a'=>'a', 'x'=>2), array('a'=>'b'));
+    $this->assertEquals(array('x'=>2, 'a'=>'b'), $result, 'extending from multiple source objects last property trumps');
+    
+    // @todo
+    /*
+    result = _.extend({}, {a: void 0, b: null});
+    equals(_.keys(result).join(''), 'b', 'extend does not copy undefined values');
+    */
+  }
+  
   public function testFunctions() {
     // from js doesn't really apply here because in php function aren't truly first class citizens
     
