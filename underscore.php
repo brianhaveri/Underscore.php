@@ -26,7 +26,7 @@ class _ {
     return $return;
   }
   
-  public static function includes($collection, $val) {
+  public static function includ($collection, $val) {
     if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
     $collection = (array) $collection;
