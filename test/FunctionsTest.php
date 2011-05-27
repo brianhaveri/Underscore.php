@@ -46,10 +46,23 @@ class UnderscoreFunctionsTest extends PHPUnit_Framework_TestCase {
   }
   
   public function testOnce() {
+    // from js
     $num = 0;
     $increment = _::once(function() use (&$num) { return $num++; });
     $increment();
     $increment();
     $this->assertEquals(1, $num);
+  }
+  
+  public function testWrap() {
+    // from js
+    $greet = function($name) { return 'hi: ' . $name; };
+    $backwards = _::wrap($greet, function($func, $name) { return $func($name) . ' ' . strrev($name); });
+    $this->assertEquals('hi: moe eom', $backwards('moe'), 'wrapped the salutation function');
+    
+    $inner = function() { return 'Hello '; };
+    $arr = array('name'=>'Moe');
+    $arr['hi'] = _::wrap($inner, function($fn) use ($arr) { return $fn() . $arr['name']; });
+    $this->assertEquals('Hello Moe', $arr['hi']());
   }
 }

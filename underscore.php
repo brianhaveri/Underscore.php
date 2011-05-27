@@ -279,7 +279,7 @@ class _ {
     
     $is_object = is_object($object);
     $array = (array) $object;
-    $extensions = _::rest(func_get_args());
+    $extensions = self::rest(func_get_args());
     foreach($extensions as $extension) {
       $extension = (array) $extension;
       $array = array_merge($array, $extension);
@@ -293,7 +293,7 @@ class _ {
     
     $is_object = is_object($object);
     $array = (array) $object;
-    $extensions = _::rest(func_get_args());
+    $extensions = self::rest(func_get_args());
     foreach($extensions as $extension) {
       $extension = (array) $extension;
       $array = array_merge($extension, $array);
@@ -484,6 +484,13 @@ class _ {
         $_instance->_onced[$key] = call_user_func_array($function, func_get_args());
       }
       return $_instance->_onced[$key];
+    };
+  }
+  
+  public static function wrap($function, $wrapper) {
+    return function() use ($wrapper, $function) {
+      $args = array_merge(array($function), func_get_args());
+      return call_user_func_array($wrapper, $args);
     };
   }
 }
