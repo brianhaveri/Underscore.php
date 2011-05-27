@@ -444,6 +444,7 @@ class _ {
   }
   
   public $_memoized = array();
+  // @todo add $hashFunction support
   public static function memoize($function, $hashFunction=null) {
     $_instance = self::getInstance();
     return function() use ($function, &$_instance){
@@ -456,6 +457,21 @@ class _ {
         $_instance->_memoized[$key] = call_user_func_array($function, $args);
       }
       return $_instance->_memoized[$key];
+    };
+  }
+  
+  public $_throttled = array();
+  public static function throttle($function, $wait) {
+    $_instance = self::getInstance();
+    return function() use ($function, $wait, &$_instance) {
+      $key = md5(var_export($function, true));
+      $microtime = microtime(true);
+      $ready_to_call = (!array_key_exists($key, $_instance->_throttled) || $microtime >= $_instance->_throttled[$key]);
+      if($ready_to_call) {
+        $next_callable_time = $microtime + ($wait / 1000);
+        $_instance->_throttled[$key] = $next_callable_time;
+        return call_user_func_array($function, func_get_args());
+      }
     };
   }
 }

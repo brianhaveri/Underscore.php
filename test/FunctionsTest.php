@@ -31,4 +31,17 @@ class UnderscoreFunctionsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals('moe, larry, curly', $names('moe', 'larry', 'curly'), 'works with multiple parameters');
     $this->assertEquals('moe, larry, curly', $fastNames('moe', 'larry', 'curly'), 'works with multiple parameters');
   }
+  
+  public function testThrottle() {
+    // from js
+    $counter = 0;
+    $incr = function() use (&$counter) { $counter++; };
+    $throttledIncr = _::throttle($incr, 100);
+    $throttledIncr(); $throttledIncr(); $throttledIncr();
+    usleep(120 * 1000); $throttledIncr();
+    usleep(140 * 1000); $throttledIncr();
+    usleep(220 * 1000); $throttledIncr();
+    usleep(240 * 1000); $throttledIncr();
+    $this->assertEquals(5, $counter, 'incr was throttled');
+  }
 }
