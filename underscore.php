@@ -447,6 +447,7 @@ class _ {
   // @todo add $hashFunction support
   public static function memoize($function, $hashFunction=null) {
     $_instance = self::getInstance();
+    
     return function() use ($function, &$_instance){
       $args = func_get_args();
       $key = md5(join('_', array(
@@ -463,6 +464,7 @@ class _ {
   public $_throttled = array();
   public static function throttle($function, $wait) {
     $_instance = self::getInstance();
+    
     return function() use ($function, $wait, &$_instance) {
       $key = md5(var_export($function, true));
       $microtime = microtime(true);
@@ -478,6 +480,7 @@ class _ {
   public $_onced = array();
   public static function once($function) {
     $_instance = self::getInstance();
+    
     return function() use ($function, &$_instance){
       $key = md5(var_export($function, true));
       if(!array_key_exists($key, $_instance->_onced)) {
@@ -496,12 +499,26 @@ class _ {
   
   public static function compose() {
     $functions = func_get_args();
+    
     return function() use ($functions) {
       $args = func_get_args();
       foreach($functions as $function) {
         $args[0] = call_user_func_array($function, $args);
       }
       return $args[0];
+    };
+  }
+  
+  public $_aftered = array();
+  public static function after($count, $function) {
+    $_instance = self::getInstance();
+    $key = md5(mt_rand());
+    
+    return function() use ($function, &$_instance, $count, $key) {
+      if(!array_key_exists($key, $_instance->_aftered)) $_instance->_aftered[$key] = 0;
+      $_instance->_aftered[$key] += 1;
+      
+      if($_instance->_aftered[$key] >= $count) return call_user_func_array($function, func_get_args());
     };
   }
 }

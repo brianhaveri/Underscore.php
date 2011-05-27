@@ -76,4 +76,19 @@ class UnderscoreFunctionsTest extends PHPUnit_Framework_TestCase {
     $composed = _::compose($greet, $exclaim);
     $this->assertEquals('hi: moe!', $composed('moe'), 'in this case, the functions are also commutative');
   }
+  
+  public function testAfter() {
+    // from js
+    $testAfter = function($afterAmount, $timesCalled) {
+      $afterCalled = 0;
+      $after = _::after($afterAmount, function() use (&$afterCalled) {
+        $afterCalled++;
+      });
+      while($timesCalled--) $after();
+      return $afterCalled;
+    };
+    
+    $this->assertEquals(1, $testAfter(5, 5), 'after(N) should fire after being called N times');
+    $this->assertEquals(0, $testAfter(5, 4), 'after(N) should not fire unless called N times');
+  }
 }
