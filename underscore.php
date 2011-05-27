@@ -493,4 +493,15 @@ class _ {
       return call_user_func_array($wrapper, $args);
     };
   }
+  
+  public static function compose() {
+    $functions = func_get_args();
+    return function() use ($functions) {
+      $args = func_get_args();
+      foreach($functions as $function) {
+        $args[0] = call_user_func_array($function, $args);
+      }
+      return $args[0];
+    };
+  }
 }

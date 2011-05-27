@@ -65,4 +65,15 @@ class UnderscoreFunctionsTest extends PHPUnit_Framework_TestCase {
     $arr['hi'] = _::wrap($inner, function($fn) use ($arr) { return $fn() . $arr['name']; });
     $this->assertEquals('Hello Moe', $arr['hi']());
   }
+  
+  public function testCompose() {
+    // from js
+    $greet = function($name) { return 'hi: ' . $name; };
+    $exclaim = function($sentence) { return $sentence . '!'; };
+    $composed = _::compose($exclaim, $greet);
+    $this->assertEquals('hi: moe!', $composed('moe'), 'can compose a function that takes another');
+    
+    $composed = _::compose($greet, $exclaim);
+    $this->assertEquals('hi: moe!', $composed('moe'), 'in this case, the functions are also commutative');
+  }
 }
