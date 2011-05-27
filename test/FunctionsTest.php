@@ -44,4 +44,12 @@ class UnderscoreFunctionsTest extends PHPUnit_Framework_TestCase {
     usleep(240 * 1000); $throttledIncr();
     $this->assertEquals(5, $counter, 'incr was throttled');
   }
+  
+  public function testOnce() {
+    $num = 0;
+    $increment = _::once(function() use (&$num) { return $num++; });
+    $increment();
+    $increment();
+    $this->assertEquals(1, $num);
+  }
 }

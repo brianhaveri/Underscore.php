@@ -474,4 +474,16 @@ class _ {
       }
     };
   }
+  
+  public $_onced = array();
+  public static function once($function) {
+    $_instance = self::getInstance();
+    return function() use ($function, &$_instance){
+      $key = md5(var_export($function, true));
+      if(!array_key_exists($key, $_instance->_onced)) {
+        $_instance->_onced[$key] = call_user_func_array($function, func_get_args());
+      }
+      return $_instance->_onced[$key];
+    };
+  }
 }
