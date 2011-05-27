@@ -442,4 +442,20 @@ class _ {
     if($context) echo $return();
     return $return;
   }
+  
+  public $_memoized = array();
+  public static function memoize($function, $hashFunction=null) {
+    $_instance = self::getInstance();
+    return function() use ($function, &$_instance){
+      $args = func_get_args();
+      $key = md5(join('_', array(
+        var_export($function, true),
+        var_export($args, true)
+      )));
+      if(!array_key_exists($key, $_instance->_memoized)) {
+        $_instance->_memoized[$key] = call_user_func_array($function, $args);
+      }
+      return $_instance->_memoized[$key];
+    };
+  }
 }
