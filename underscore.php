@@ -14,6 +14,15 @@ class _ {
     return $return;
   }
   
+  public static function reduce($collection, $iterator, $memo=null) {
+    if(!is_object($collection) && !is_array($collection)) {
+      if(is_null($memo)) throw new Exception('Invalid object');
+      else return $memo;
+    }
+    
+    return array_reduce($collection, $iterator, $memo);
+  }
+  
   public static function pluck($collection, $key) {
     if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     

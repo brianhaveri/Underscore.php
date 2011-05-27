@@ -132,6 +132,35 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     */
   }
   
+  public function testReduce() {
+    // from js
+    $sum = _::reduce(array(1,2,3), function($sum, $num) { return $sum + $num; }, 0);
+    $this->assertEquals(6, $sum, 'can sum up an array');
+    
+    $context = array('multiplier'=>3);
+    $sum = _::reduce(array(1,2,3), function($sum, $num) use ($context) { return $sum + $num * $context['multiplier']; }, 0);
+    $this->assertEquals(18, $sum, 'can reduce with a context object');
+    
+    $sum = _::reduce(array(1,2,3), function($sum, $num) { return $sum + $num; }, 0);
+    $this->assertEquals(6, $sum, 'default initial value');
+    
+    $ifnull = null;
+    try { _::reduce(null, function() {}); }
+    catch(Exception $e) { $ifnull = $e; }
+    $this->assertFalse($ifnull === null, 'handles a null (without initial value) properly');
+    
+    $this->assertEquals(138, _::reduce(null, function(){}, 138), 'handles a null (with initial value) properly');
+    
+    // @todo
+    /*
+    sum = _.inject([1, 2, 3], function(sum, num){ return sum + num; }, 0);
+    equals(sum, 6, 'aliased as "inject"');
+    
+    sum = _([1, 2, 3]).reduce(function(sum, num){ return sum + num; }, 0);
+    equals(sum, 6, 'OO-style reduce');
+    */
+  }
+  
   public function testPluck() {
     // from js
     $people = array(
