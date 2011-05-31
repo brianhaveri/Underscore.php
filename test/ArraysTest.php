@@ -9,18 +9,20 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(1, _::first(array(1,2,3)), 'can pull out the first element of an array');
     $this->assertEquals(array(), _::first(array(1,2,3), 0), 'can pass an index to first');
     $this->assertEquals(array(1, 2), _::first(array(1,2,3), 2), 'can pass an index to first');
+    $this->assertEquals(1, _(array(1,2,3))->first(), 'can perform OO-style "first()"');    
+    
+    $result = _::map(array(array(1,2,3), array(1,2,3)), function($vals) {
+      return _::first($vals);
+    });
+    $this->assertEquals(array(1,1), $result, 'works well with _.map');
+    
+    $func = function() { return _::first(func_get_args()); };
+    $result = $func(4,3,2,1);
+    $this->assertEquals(4, $result, 'works on an arguments object');
     
     // extra
     $this->assertEquals(array(1), _::first(array(1,2,3), 1), 'can pass an index of 1 to first');
-    
-    // @todo
-    /*
-    $this->assertEquals(1, _(array(1,2,3))->first(), 'can perform OO-style "first()"');
-    var result = (function(){ return _.first(arguments); })(4, 3, 2, 1);
-    equals(result, 4, 'works on an arguments object.');
-    result = _.map([[1,2,3],[1,2,3]], _.first);
-    equals(result.join(','), '1,1', 'works well with _.map');
-    */
+    $this->assertEquals(array(4,5), _(array(4,5,6,7))->first(2), 'can perform OO-style "first()" with index passed');
   }
   
   public function testRest() {
