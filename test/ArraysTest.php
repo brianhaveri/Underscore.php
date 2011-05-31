@@ -103,17 +103,18 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
   
   public function testUniq() {
     // from js
-    $list = array(1, 2, 1, 3, 1, 4);
-    $this->assertEquals(array(1, 2, 3, 4), _::uniq($list), 'can find the unique values of an unsorted array');
+    $list = array(1, 2, 1, 3, 1, 9);
+    $this->assertEquals(array(1, 2, 3, 9), _::uniq($list), 'can find the unique values of an unsorted array');
     
     $list = array(1, 1, 1, 2, 2, 3);
     $this->assertEquals(array(1, 2, 3), _::uniq($list), 'can find the unique values of a sorted array faster');
     
-    // @todo
-    /*
-    var result = (function(){ return _.uniq(arguments); })(1, 2, 1, 3, 1, 4);
-    equals(result.join(', '), '1, 2, 3, 4', 'works on an arguments object');
-    */
+    $func = function() { return _::uniq(func_get_args()); };
+    $result = $func(1,2,1,3,1,4);
+    $this->assertEquals(array(1,2,3,4), $result, 'works on an arguments object');
+    
+    // extra
+    $this->assertEquals(array(4,5,6), _(array(4,5,4,4,5,5,6))->uniq(), 'works with OO call');
   }
   
   public function testIntersect() {
