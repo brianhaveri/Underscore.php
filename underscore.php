@@ -12,16 +12,13 @@ class _ {
   public $_wrapped = null;
   
   private function _wrap($val) {
-    if(isset($this) && $this->_chained) {
-      $this->_wrapped = $val;
-      return $this;
-    }
-    return $val;
+    if(isset($this)) $this->_wrapped = $val;
+    return (isset($this) && $this->_chained) ? $this : $val;
   }
   
   private function _wrapArgs($caller_args) {
     $filled_args = array();
-    if(isset($this) && $this->_chained) $filled_args[] =& $this->_wrapped;
+    if(isset($this)) $filled_args[] =& $this->_wrapped;
     if(count($caller_args) > 0) {
       foreach($caller_args as $k=>$v) {
         $filled_args[] = $v;
