@@ -137,6 +137,15 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $leaders= array(true);
     $stooges= array(array('moe', 30, true), array('larry', 40, null), array('curly', 50, null));
     $this->assertEquals($stooges, _::zip($names, $ages, $leaders), 'zipped together arrays of different lengths');
+    
+    // extra
+    $this->assertEquals($stooges, _($names)->zip($ages, $leaders), 'can perform OO-style zips of different length arrays');
+    
+    $numbers = array(1,2,3);
+    $letters = array('a','b','c');
+    $expected = array(array(1,'a'), array(2,'b'), array(3,'c'));
+    $this->assertEquals($expected, _::zip($numbers, $letters), 'can perform normal zips');
+    $this->assertEquals($expected, _($numbers)->zip($letters), 'can perform OO-style zips');
   }
   
   public function testIndexOf() {

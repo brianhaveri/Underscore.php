@@ -338,18 +338,23 @@ class _ {
   }
   
   public function zip($array=null) {
-    $args = self::_wrapArgs(func_get_args());
-    $num_args = func_num_args();
-    if($num_args === 1) return self::_wrap($array);
+    $arrays = self::_wrapArgs(func_get_args());
+    $num_arrays = count($arrays);
+    if($num_arrays === 1) return self::_wrap($array);
     
-    $return = self::range($num_args);
-    foreach($return as $k=>$v) {
-      if(!is_array($return[$k])) $return[$k] = array();
+    $_ = new self;
+    $num_return_arrays = $_->max($_->map($arrays, function($array) {
+      return count($array);
+    }));
+    $return_arrays = $_->range($num_return_arrays);
+    foreach($return_arrays as $k=>$v) {
+      if(!is_array($return_arrays[$k])) $return_arrays[$k] = array();
       
-      foreach($args as $a=>$arg) {
-        $return[$k][$a] = $args[$a][$k];
+      foreach($arrays as $a=>$array) {
+        $return[$k][$a] = $arrays[$a][$k];
       }
     }
+    
     return self::_wrap($return);
   }
   
