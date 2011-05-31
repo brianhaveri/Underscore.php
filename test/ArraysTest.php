@@ -123,12 +123,11 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $leaders = array('moe', 'groucho');
     $this->assertEquals(array('moe'), _::intersect($stooges, $leaders), 'can take the set intersection of two arrays');
     
-    // @todo
-    /*
-    equals(_(stooges).intersect(leaders).join(''), 'moe', 'can perform an OO-style intersection');
-    var result = (function(){ return _.intersect(arguments, leaders); })('moe', 'curly', 'larry');
-    equals(result.join(''), 'moe', 'works on an arguments object');
-    */
+    $this->assertEquals(array('moe'), _($stooges)->intersect($leaders), 'can perform an OO-style intersection');
+    
+    $func = function() use ($leaders) { $args = func_get_args(); return _::intersect($args[0], $leaders); };
+    $result = $func($stooges);
+    $this->assertEquals(array('moe'), $result, 'works on an arguments object');
   }
   
   public function testZip() {
