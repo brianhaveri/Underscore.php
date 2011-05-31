@@ -277,12 +277,14 @@ class _ {
   }
   
   public function intersect($array=null) {
-    $arrays = func_get_args();
+    $arrays = self::_wrapArgs(func_get_args());
+    
     if(count($arrays) === 1) return self::_wrap($array);
     
-    $return = self::first($arrays);
-    foreach(self::rest($arrays) as $next) {
-      if(!self::isArray($next)) $next = str_split((string) $next);
+    $_ = new self;
+    $return = $_->first($arrays);
+    foreach($_->rest($arrays) as $next) {
+      if(!$_->isArray($next)) $next = str_split((string) $next);
       
       $return = array_intersect($return, $next);
     }
