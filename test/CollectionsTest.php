@@ -4,6 +4,47 @@ include_once(__DIR__ . '/../underscore.php');
 
 class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
   
+  public function testEach() {
+    // from js
+    $test =& $this;
+    _::each(array(1,2,3), function($num, $i) use ($test) {
+      $test->assertEquals($num, $i+1, 'each iterators provide value and iteration count');
+    });
+    
+    $answers = array();
+    $context = (object) array('multiplier'=>5);
+    _::each(array(1,2,3), function($num) use (&$answers, $context) {
+      $answers[] = $num * $context->multiplier;
+    });
+    $this->assertEquals(array(5,10,15), $answers, 'context object property accessed');
+    
+    $answers = array();
+    $obj = (object) array('one'=>1, 'two'=>2, 'three'=>3);
+    _::each($obj, function($value, $key) use (&$answers) {
+      $answers[] = $key;
+    });
+    $this->assertEquals(array('one','two','three'), $answers, 'iterating over objects works');
+    
+    $answer = null;
+    _::each(array(1,2,3), function($num, $index, $arr) use (&$answer) {
+      if(_::includ($arr, $num)) $answer = true;
+    });
+    $this->assertTrue($answer, 'can reference the original collection from inside the iterator');
+    
+    $answers = 0;
+    _::each(null, function() use (&$answers) {
+      $answers++;
+    });
+    $this->assertEquals(0, $answers, 'handles a null property');
+    
+    // @todo
+    /*
+    answers = [];
+    _.forEach([1, 2, 3], function(num){ answers.push(num); });
+    equals(answers.join(', '), '1, 2, 3', 'aliased as "forEach"');
+    */
+  }
+  
   public function testMap() {
     // from js
     $this->assertEquals(array(2,4,6), _::map(array(1,2,3), function($num) {

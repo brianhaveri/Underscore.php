@@ -2,11 +2,25 @@
 
 class _ {
   
+  public static function each($collection, $iterator) {
+    if(is_null($collection)) return;
+    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    
+    $collection = (array) $collection;
+    if(_::size($collection) === 0) return;
+    
+    foreach($collection as $k=>$v) {
+      call_user_func($iterator, $v, $k, $collection);
+    }
+  }
+  
   public static function map($collection, $iterator) {
     if(is_null($collection)) return array();
     if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
     $collection = (array) $collection;
+    if(_::size($collection) === 0) return array();
+    
     $return = array();
     foreach($collection as $k=>$v) {
       $return[] = call_user_func($iterator, $v, $k, $collection);
