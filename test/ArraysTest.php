@@ -42,7 +42,7 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
   
   public function testLast() {
     // from js
-    $this->assertEquals(3, _::last(array(1,2,3), 'can pull out the last element of an array'));
+    $this->assertEquals(3, _::last(array(1,2,3)), 'can pull out the last element of an array');
     
     // @todo
     /*
