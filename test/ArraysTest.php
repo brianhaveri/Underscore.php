@@ -161,11 +161,14 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $numbers = array(1, 40, 40, 40, 40, 40, 40, 40, 50, 60, 70);
     $this->assertEquals(1, _::indexOf($numbers, 40), '40 is in the list');
     
-    // @todo
-    /*
-    var result = (function(){ return _.indexOf(arguments, 2); })(1, 2, 3);
-    equals(result, 1, 'works on an arguments object');
-    */
+    $func = function() { return _::indexOf(func_get_args(), 2); };
+    $result = $func(1,2,3);
+    $this->assertEquals(1, $result, 'works on an arguments object');
+    
+    // extra
+    $this->assertEquals(2, _(array('a','b','c','d'))->indexOf('c'), 'works with OO-style calls');
+    $this->assertEquals('b', _(array('a'=>5,'b'=>10,'c'=>15))->indexOf(10), 'works with associative arrays');
+    $this->assertEquals(1, _::indexOf('foobar', 'o'), 'works with strings');
   }
   
   public function testLastIndexOf() {
@@ -175,11 +178,14 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(8, _::lastIndexOf($numbers, 0), 'lastIndexOf the other element');
     $this->assertEquals(-1, _::lastIndexOf(null, 2), 'handles nulls properly');
     
-    // @todo
-    /*
-    var result = (function(){ return _.lastIndexOf(arguments, 1); })(1, 0, 1, 0, 0, 1, 0, 0, 0);
-    equals(result, 5, 'works on an arguments object');
-    */
+    $func = function() { return _::lastIndexOf(func_get_args(), 1); };
+    $result = $func(1, 0, 1, 0, 0, 1, 0, 0, 0);
+    $this->assertEquals(5, $result, 'works on an arguments object');
+    
+    // extra
+    $this->assertEquals(4, _(array('a','b','c','c','c','d'))->lastIndexOf('c'), 'works with OO-style calls');
+    $this->assertEquals('c', _(array('a'=>5,'b'=>10,'c'=>10))->lastIndexOf(10), 'works with associative arrays');
+    $this->assertEquals(2, _::lastIndexOf('foobar', 'o'), 'works with strings');
   }
   
   public function testRange() {

@@ -300,13 +300,14 @@ class _ {
     return self::_wrap((is_bool($key)) ? -1 : $key);
   }
   
-  public function lastIndexOf($collection, $item) {
+  public function lastIndexOf($collection=null, $item=null) {
     list($collection, $item) = self::_wrapArgs(func_get_args());
     
     if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
     krsort($collection);
-    return self::_wrap(self::indexOf($collection, $item));
+    $_ = new self;
+    return self::_wrap($_->indexOf($collection, $item));
   }
   
   public function range($stop=null) {
