@@ -46,10 +46,11 @@ class _ {
     list($collection, $iterator) = self::_wrapArgs(func_get_args());
     
     if(is_null($collection)) return self::_wrap(null);
-    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    
+    if(!is_array($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
     $collection = (array) $collection;
-    if(self::size($collection) === 0) return self::_wrap(null);
+    if(count($collection) === 0) return self::_wrap(null);
     
     foreach($collection as $k=>$v) {
       call_user_func($iterator, $v, $k, $collection);
@@ -61,10 +62,11 @@ class _ {
     list($collection, $iterator) = self::_wrapArgs(func_get_args());
     
     if(is_null($collection)) return self::_wrap(array());
-    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    
+    if(!is_array($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
     $collection = (array) $collection;
-    if(self::size($collection) === 0) self::_wrap(array());
+    if(count($collection) === 0) self::_wrap(array());
     
     $return = array();
     foreach($collection as $k=>$v) {
@@ -93,13 +95,15 @@ class _ {
     }
     
     krsort($collection);
-    return self::_wrap(self::reduce($collection, $iterator, $memo));
+    
+    $_ = new self;
+    return self::_wrap($_->reduce($collection, $iterator, $memo));
   }
   
   public function pluck($collection, $key) {
     list($collection, $key) = self::_wrapArgs(func_get_args());
     
-    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    if(!is_array($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
     $return = array();
     foreach($collection as $item) {
@@ -113,7 +117,7 @@ class _ {
   public function includ($collection=null, $val=null) {
     list($collection, $val) = self::_wrapArgs(func_get_args());
     
-    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    if(!is_array($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
     $collection = (array) $collection;
     return self::_wrap(is_int(array_search($val, $collection, true)));
@@ -122,9 +126,10 @@ class _ {
   public function any($collection=null, $iterator=null) {
     list($collection, $iterator) = self::_wrapArgs(func_get_args());
     
-    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    if(!is_array($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
-    if(!is_null($iterator)) $collection = self::map($collection, $iterator);
+    $_ = new self;
+    if(!is_null($iterator)) $collection = $_->map($collection, $iterator);
     if(count($collection) === 0) return self::_wrap(false);
     
     return self::_wrap(is_int(array_search(true, $collection, false)));
@@ -133,9 +138,10 @@ class _ {
   public function all($collection=null, $iterator=null) {
     list($collection, $iterator) = self::_wrapArgs(func_get_args());
     
-    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    if(!is_array($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
-    if(!is_null($iterator)) $collection = self::map($collection, $iterator);
+    $_ = new self;
+    if(!is_null($iterator)) $collection = $_->map($collection, $iterator);
     $collection = (array) $collection;
     if(count($collection) === 0) return true;
     
@@ -145,7 +151,7 @@ class _ {
   public function select($collection=null, $iterator=null) {
     list($collection, $iterator) = self::_wrapArgs(func_get_args());
     
-    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    if(!is_array($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
     $return = array();
     foreach($collection as $val) {
@@ -157,7 +163,7 @@ class _ {
   public function reject($collection=null, $iterator=null) {
     list($collection, $iterator) = self::_wrapArgs(func_get_args());
     
-    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    if(!is_array($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
     $return = array();
     foreach($collection as $val) {
@@ -169,7 +175,7 @@ class _ {
   public function detect($collection=null, $iterator=null) {
     list($collection, $iterator) = self::_wrapArgs(func_get_args());
     
-    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    if(!is_array($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
     foreach($collection as $val) {
       if(call_user_func($iterator, $val)) return $val;
@@ -180,7 +186,7 @@ class _ {
   public function size($collection) {
     list($collection) = self::_wrapArgs(func_get_args());
     
-    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    if(!is_array($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
     return self::_wrap(count((array) $collection));
   }
@@ -188,7 +194,7 @@ class _ {
   public function first($collection=null, $n=null) {
     list($collection, $n) = self::_wrapArgs(func_get_args());
     
-    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    if(!is_array($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
     if($n === 0) return self::_wrap(array());
     if(is_null($n)) return self::_wrap(current(array_splice($collection, 0, 1, true)));
@@ -199,7 +205,7 @@ class _ {
     list($collection, $index) = self::_wrapArgs(func_get_args());
     if(is_null($index)) $index = 1;
     
-    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    if(!is_array($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
     return self::_wrap(array_splice($collection, $index));
   }
@@ -207,7 +213,7 @@ class _ {
   public function last($collection=null) {
     list($collection) = self::_wrapArgs(func_get_args());
     
-    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    if(!is_array($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
     return self::_wrap(array_pop($collection));
   }
@@ -215,9 +221,10 @@ class _ {
   public function compact($collection=null) {
     list($collection) = self::_wrapArgs(func_get_args());
     
-    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    if(!is_array($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
-    return self::_wrap(self::select($collection, function($val) {
+    $_ = new self;
+    return self::_wrap($_->select($collection, function($val) {
       return (bool) $val;
     }));
   }
@@ -225,7 +232,7 @@ class _ {
   public function flatten($collection=null) {
     list($collection) = self::_wrapArgs(func_get_args());
     
-    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    if(!is_array($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
     $return = array();
     if(count($collection) > 0) {
@@ -244,7 +251,7 @@ class _ {
     $args = self::_wrapArgs(func_get_args());
     $collection = $args[0];
     
-    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    if(!is_array($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
     $num_args = count($args);
     if($num_args === 1) return self::_wrap($collection);
@@ -266,7 +273,7 @@ class _ {
   public function uniq($collection=null) {
     list($collection) = self::_wrapArgs(func_get_args());
     
-    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    if(!is_array($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
     $return = array();
     if(count($collection) === 0) return self::_wrap($return);
@@ -295,7 +302,7 @@ class _ {
   public function indexOf($collection=null, $item=null) {
     list($collection, $item) = self::_wrapArgs(func_get_args());
     
-    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    if(!is_array($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
     $key = array_search($item, $collection, true);
     return self::_wrap((is_bool($key)) ? -1 : $key);
@@ -304,7 +311,7 @@ class _ {
   public function lastIndexOf($collection=null, $item=null) {
     list($collection, $item) = self::_wrapArgs(func_get_args());
     
-    if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
+    if(!is_array($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
     krsort($collection);
     $_ = new self;
@@ -428,7 +435,8 @@ class _ {
     
     $is_object = is_object($object);
     $array = (array) $object;
-    $extensions = self::rest(func_get_args());
+    $_ = new self;
+    $extensions = $_->rest(func_get_args());
     foreach($extensions as $extension) {
       $extension = (array) $extension;
       $array = array_merge($array, $extension);
