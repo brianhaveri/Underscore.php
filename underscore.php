@@ -312,7 +312,9 @@ class _ {
   
   public function range($stop=null) {
     $args = self::_wrapArgs(func_get_args());
-    $args = self::reject($args, function($val) {
+    
+    $_ = new self;
+    $args = $_->reject($args, function($val) {
       return is_null($val);
     });
     
@@ -332,8 +334,8 @@ class _ {
     $results = range($start, $stop, $step);
     
     // switch inclusive to exclusive
-    if($step > 0 && self::last($results) >= $stop) array_pop($results);
-    elseif($step < 0 && self::last($results) <= $stop) array_pop($results);
+    if($step > 0 && $_->last($results) >= $stop) array_pop($results);
+    elseif($step < 0 && $_->last($results) <= $stop) array_pop($results);
     
     return self::_wrap($results);
   }

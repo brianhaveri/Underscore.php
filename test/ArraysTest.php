@@ -203,5 +203,8 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9), _::range(10));
     $this->assertEquals(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), _::range(1, 11));
     $this->assertEquals(array(0, 5, 10, 15, 20, 25), _::range(0, 30, 5));
+    $this->assertEquals(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9), _(10)->range(), 'works in OO-style calls and 1 parameter');
+    $this->assertEquals(array(10,11,12), _(10)->range(13), 'works in OO-style calls and 2 parameters');
+    $this->assertEquals(array(3,6,9), _(3)->range(10, 3), 'works in OO-style calls and 3 parameters');
   }
 }
