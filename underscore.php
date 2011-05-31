@@ -9,16 +9,21 @@ function _($item) {
 class _ {
   
   private $_chained = false;
-  public $_wrapped = null;
+  public $_wrapped;
   
   private function _wrap($val) {
-    if(isset($this)) $this->_wrapped = $val;
-    return (isset($this) && $this->_chained) ? $this : $val;
+    if(isset($this) && $this->_chained) {
+      $this->_wrapped = $val;
+      return $this;
+    }
+    return $val;
   }
   
   private function _wrapArgs($caller_args) {
     $filled_args = array();
-    if(isset($this)) $filled_args[] =& $this->_wrapped;
+    if(isset($this) && isset($this->_wrapped)) {
+      $filled_args[] =& $this->_wrapped;
+    }
     if(count($caller_args) > 0) {
       foreach($caller_args as $k=>$v) {
         $filled_args[] = $v;
@@ -224,9 +229,11 @@ class _ {
     
     $return = array();
     if(count($collection) > 0) {
-      $_ = new self;
       foreach($collection as $item) {
-        if(is_array($item)) $return = array_merge($return, $_->flatten($item));
+        if(is_array($item)) {
+          $_ = new self;
+          $return = array_merge($return, $_->flatten($item));
+        }
         else $return[] = $item;
       }
     }
