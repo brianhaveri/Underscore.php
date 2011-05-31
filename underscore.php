@@ -241,16 +241,17 @@ class _ {
   }
   
   public function without($collection=null, $val=null) {
-    list($collection, $val) = self::_wrapArgs(func_get_args());
+    $args = self::_wrapArgs(func_get_args());
+    $collection = $args[0];
     
     if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
-    $args = func_get_args();
-    $num_args = func_num_args();
+    $num_args = count($args);
     if($num_args === 1) return self::_wrap($collection);
     if(count($collection) === 0) return self::_wrap($collection);
     
-    $removes = self::rest($args);
+    $_ = new self;
+    $removes = $_->rest($args);
     foreach($removes as $remove) {
       $remove_keys = array_keys($collection, $remove, true);
       if(count($remove_keys) > 0) {

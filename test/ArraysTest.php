@@ -94,11 +94,12 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(2, count(_::without($list, (object) array('one'=>1))), 'uses real object identity for comparisons.');
     $this->assertEquals(1, count(_::without($list, $list[0])), 'ditto.');
     
-    // @todo
-    /*
-    var result = (function(){ return _.without(arguments, 0, 1); })(1, 2, 1, 0, 3, 1, 4);
-    equals(result.join(', '), '2, 3, 4', 'works on an arguments object');
-    */
+    $func = function() { return _::without(func_get_args(), 0, 1); };
+    $result = $func(1, 2, 1, 0, 3, 1, 4);
+    $this->assertEquals(array(1=>2,4=>3,6=>4), $result, 'works on an arguments object');
+  
+    // extra
+    $this->assertEquals(array(4,5,6), _(array(4,5,6,7,8))->without(7,8), 'works in OO-style calls');
   }
   
   public function testUniq() {
