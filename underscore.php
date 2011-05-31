@@ -371,7 +371,8 @@ class _ {
       $results[$k] = $iterator($item);
     }
     arsort($results);
-    $first_key = self::first(array_keys($results));
+    $_ = new self;
+    $first_key = $_->first(array_keys($results));
     return $collection[$first_key];
   }
   
@@ -385,7 +386,8 @@ class _ {
       $results[$k] = $iterator($item);
     }
     asort($results);
-    $first_key = self::first(array_keys($results));
+    $_ = new self;
+    $first_key = $_->first(array_keys($results));
     return self::_wrap($collection[$first_key]);
   }
   
@@ -441,7 +443,8 @@ class _ {
     
     $is_object = is_object($object);
     $array = (array) $object;
-    $extensions = self::rest(func_get_args());
+    $_ = new self;
+    $extensions = $_->rest(func_get_args());
     foreach($extensions as $extension) {
       $extension = (array) $extension;
       $array = array_merge($extension, $array);
@@ -487,8 +490,9 @@ class _ {
     if($a == $b) return true;
     
     if(is_object($a) || is_array($a)) {
-      $keys_equal = self::isEqual(self::keys($a), self::keys($b));
-      $values_equal = self::isEqual(self::values($a), self::values($b));
+      $_ = new self;
+      $keys_equal = $_->isEqual($_->keys($a), $_->keys($b));
+      $values_equal = $_->isEqual($_->values($a), $_->values($b));
       return self::_wrap($keys_equal && $values_equal);
     }
     
