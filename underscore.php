@@ -1,9 +1,42 @@
 <?php
 
+function _($item) {
+  $_ = new _;
+  $_->_wrapped = $item;
+  return $_;
+}
+
 class _ {
   
   public static function each($collection, $iterator) {
     if(is_null($collection)) return;
+  private $_chained = false;
+  public $_wrapped = null;
+  
+  private function _wrap($val) {
+    if(isset($this) && $this->_chained) {
+      $this->_wrapped = $val;
+      return $this;
+    }
+    return $val;
+  }
+  
+  private function _wrapArgs($caller_args) {
+    $filled_args = array();
+    if(isset($this) && $this->_chained) $filled_args[] =& $this->_wrapped;
+    if(count($caller_args) > 0) {
+      foreach($caller_args as $k=>$v) {
+        $filled_args[] = $v;
+      }
+    }
+    
+    return array_pad($filled_args, count($caller_args) - 1, null);
+  }
+  
+  public function chain() {
+    $this->_chained = true;
+    return $this;
+  }
     if(!self::isArray($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
     $collection = (array) $collection;
