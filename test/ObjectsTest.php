@@ -42,6 +42,7 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     
     // extra
     $this->assertEquals(array('one', 'two'), _::keys(array('one'=>1, 'two'=>2)), 'can extract the keys from an array');
+    $this->assertEquals(array('three', 'four'), _(array('three'=>3, 'four'=>4))->keys(), 'can extract the keys from an array using OO-style call');
   }
   
   public function testValues() {
