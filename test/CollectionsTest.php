@@ -323,6 +323,7 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($stooges, _::sortBy($stooges, function($stooge) { return $stooge['age']; }));
     $this->assertEquals(array($stooges[2], $stooges[1], $stooges[0]), _::sortBy($stooges, function($stooge) { return $stooge['name']; }));
     $this->assertEquals(array(5, 4, 6, 3, 1, 2), _::sortBy(array(1, 2, 3, 4, 5, 6), function($num) { return sin($num); }));
+    $this->assertEquals($stooges, _($stooges)->sortBy(function($stooge) { return $stooge['age']; }), 'works with OO-style call');
   }
   
   public function testSize() {
