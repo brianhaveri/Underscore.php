@@ -445,15 +445,16 @@ class _ {
   }
   
   public function defaults($object=null) {
-    list($object) = self::_wrapArgs(func_get_args());
+    $args = self::_wrapArgs(func_get_args());
+    list($object) = $args;
     
-    $num_args = func_num_args();
+    $num_args = count($args);
     if($num_args === 1) return $object;
     
     $is_object = is_object($object);
     $array = (array) $object;
     $_ = new self;
-    $extensions = $_->rest(func_get_args());
+    $extensions = $_->rest($args);
     foreach($extensions as $extension) {
       $extension = (array) $extension;
       $array = array_merge($extension, $array);
