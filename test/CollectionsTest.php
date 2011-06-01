@@ -77,6 +77,7 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $iterator = function($n) { return $n % 2 === 0; };
     $this->assertEquals(2, _::detect(array(1, 2, 3, 4, 5, 6), $iterator));
     $this->assertEquals(false, _::detect(array(1, 3, 5), $iterator));
+    $this->assertEquals(false, _(array(1,3,5))->detect($iterator), 'works with OO-style calls');
   }
   
   public function testSelect() {
