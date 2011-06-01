@@ -286,6 +286,7 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     );
     $this->assertEquals($stooges[2], _::max($stooges, function($stooge) { return $stooge['age']; }));
     $this->assertEquals($stooges[0], _::max($stooges, function($stooge) { return $stooge['name']; }));
+    $this->assertEquals($stooges[0], _($stooges)->max(function($stooge) { return $stooge['name']; }), 'works with OO-style call');
   }
   
   public function testMin() {
