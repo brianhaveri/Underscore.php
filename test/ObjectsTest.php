@@ -76,6 +76,10 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $result = _::extend(array('x'=>'x'), array('a'=>'a', 'x'=>2), array('a'=>'b'));
     $this->assertEquals(array('x'=>2, 'a'=>'b'), $result, 'extending from multiple source objects last property trumps');
     
+    // extra
+    $result = _(array('x'=>'x'))->extend(array('a'=>'a', 'x'=>2), array('a'=>'b'));
+    $this->assertEquals(array('x'=>2, 'a'=>'b'), $result, 'extending from multiple source objects last property trumps');
+    
     // @todo
     /*
     result = _.extend({}, {a: void 0, b: null});
