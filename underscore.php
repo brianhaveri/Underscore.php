@@ -633,6 +633,7 @@ class _ {
   
   public $_memoized = array();
   // @todo add $hashFunction support
+  // @todo Try to get OO-style calls working
   public function memoize($function=null, $hashFunction=null) {
     list($function, $hashFunction) = self::_wrapArgs(func_get_args());
     
