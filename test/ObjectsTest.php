@@ -124,6 +124,7 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     
     // extra
     $this->assertEquals(array('methodA', 'methodB'), _::functions(new FunctionsTestClass));
+    $this->assertEquals(array('methodA', 'methodB'), _(new FunctionsTestClass)->functions());
   }
   
   public function testClone() {
