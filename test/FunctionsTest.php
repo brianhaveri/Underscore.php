@@ -120,8 +120,19 @@ class UnderscoreFunctionsTest extends PHPUnit_Framework_TestCase {
       while($timesCalled--) $after();
       return $afterCalled;
     };
-    
     $this->assertEquals(1, $testAfter(5, 5), 'after(N) should fire after being called N times');
     $this->assertEquals(0, $testAfter(5, 4), 'after(N) should not fire unless called N times');
+    
+    // extra
+    $testAfterAgain = function($afterAmount, $timesCalled) {
+      $afterCalled = 0;
+      $after = _($afterAmount)->after(function() use (&$afterCalled) {
+        $afterCalled++;
+      });
+      while($timesCalled--) $after();
+      return $afterCalled;
+    };
+    $this->assertEquals(1, $testAfterAgain(5, 5), 'after(N) should fire after being called N times in OO-style call');
+    $this->assertEquals(0, $testAfterAgain(5, 4), 'after(N) should not fire unless called N times in OO-style call');
   }
 }
