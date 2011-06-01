@@ -43,6 +43,19 @@ class UnderscoreFunctionsTest extends PHPUnit_Framework_TestCase {
     usleep(220 * 1000); $throttledIncr();
     usleep(240 * 1000); $throttledIncr();
     $this->assertEquals(5, $counter, 'incr was throttled');
+    
+    usleep(100000);
+    
+    // extra
+    $counter = 0;
+    $incr = function() use (&$counter) { $counter++; };
+    $throttledIncr = _($incr)->throttle(100);
+    $throttledIncr(); $throttledIncr(); $throttledIncr();
+    usleep(120 * 1000); $throttledIncr();
+    usleep(140 * 1000); $throttledIncr();
+    usleep(220 * 1000); $throttledIncr();
+    usleep(240 * 1000); $throttledIncr();
+    $this->assertEquals(5, $counter, 'incr was throttled with OO-style call');
   }
   
   public function testOnce() {

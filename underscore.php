@@ -659,7 +659,10 @@ class _ {
     $_instance = self::getInstance();
     
     return self::_wrap(function() use ($function, $wait, &$_instance) {
-      $key = md5(var_export($function, true));
+      $key = md5(join('', array(
+        var_export($function, true),
+        $wait
+      )));
       $microtime = microtime(true);
       $ready_to_call = (!array_key_exists($key, $_instance->_throttled) || $microtime >= $_instance->_throttled[$key]);
       if($ready_to_call) {
