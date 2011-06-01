@@ -104,6 +104,10 @@ class UnderscoreFunctionsTest extends PHPUnit_Framework_TestCase {
     
     $composed = _::compose($greet, $exclaim);
     $this->assertEquals('hi: moe!', $composed('moe'), 'in this case, the functions are also commutative');
+    
+    // extra
+    $composed = _($greet)->compose($exclaim);
+    $this->assertEquals('hi: moe!', $composed('moe'), 'in this case, the functions are also commutative');
   }
   
   public function testAfter() {
