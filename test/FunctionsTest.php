@@ -87,6 +87,12 @@ class UnderscoreFunctionsTest extends PHPUnit_Framework_TestCase {
     $arr = array('name'=>'Moe');
     $arr['hi'] = _::wrap($inner, function($fn) use ($arr) { return $fn() . $arr['name']; });
     $this->assertEquals('Hello Moe', $arr['hi']());
+    
+    // extra
+    $inner = function() { return 'Hello '; };
+    $arr = array('name'=>'Curly');
+    $arr['hi'] = _($inner)->wrap(function($fn) use ($arr) { return $fn() . $arr['name']; });
+    $this->assertEquals('Hello Curly', $arr['hi']());
   }
   
   public function testCompose() {

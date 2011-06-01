@@ -687,7 +687,9 @@ class _ {
     });
   }
   
-  public function wrap($function, $wrapper) {
+  public function wrap($function=null, $wrapper=null) {
+    list($function, $wrapper) = self::_wrapArgs(func_get_args());
+    
     return self::_wrap(function() use ($wrapper, $function) {
       $args = array_merge(array($function), func_get_args());
       return call_user_func_array($wrapper, $args);
