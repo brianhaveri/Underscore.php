@@ -217,6 +217,7 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
   }
   
   public function testReduceRight() {
+    // from js
     $list = _::reduceRight(array('foo', 'bar', 'baz'), function($memo, $str) { return $memo . $str; }, '');
     $this->assertEquals('bazbarfoo', $list, 'can perform right folds');
     
@@ -226,6 +227,10 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse($ifnull === null, 'handles a null (without initial value) properly');
     
     $this->assertEquals(138, _::reduceRight(null, function(){}, 138), 'handles a null (with initial value) properly');
+    
+    // extra
+    $list = _(array('moe','curly','larry'))->reduceRight(function($memo, $str) { return $memo . $str; }, '');
+    $this->assertEquals('larrycurlymoe', $list, 'can perform right folds in OO-style');
     
     // @todo
     /*

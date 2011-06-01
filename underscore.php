@@ -86,8 +86,8 @@ class _ {
     return self::_wrap(array_reduce($collection, $iterator, $memo));
   }
   
-  public function reduceRight($collection, $iterator, $memo=null) {
-    list($collection, $iterator) = self::_wrapArgs(func_get_args());
+  public function reduceRight($collection=null, $iterator=null, $memo=null) {
+    list($collection, $iterator, $memo) = self::_wrapArgs(func_get_args());
     
     if(!is_object($collection) && !is_array($collection)) {
       if(is_null($memo)) throw new Exception('Invalid object');
