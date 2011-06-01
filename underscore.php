@@ -100,7 +100,7 @@ class _ {
     return self::_wrap($_->reduce($collection, $iterator, $memo));
   }
   
-  public function pluck($collection, $key) {
+  public function pluck($collection=null, $key=null) {
     list($collection, $key) = self::_wrapArgs(func_get_args());
     
     if(!is_array($collection) && !is_object($collection)) $collection = str_split((string) $collection);

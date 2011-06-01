@@ -259,6 +259,7 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array('moe', 'larry', 'curly'), _::pluck($stooges, 'name'));
     $this->assertEquals(array(40, 50, 60), _::pluck($stooges, 'age'));
     $this->assertEquals(array('bar'), _::pluck($stooges, 'foo'));
+    $this->assertEquals(array('bar'), _($stooges)->pluck('foo'), 'works with OO-style call');
     
     // extra: object
     $stooges_obj = new StdClass;
@@ -269,6 +270,7 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array('moe', 'larry', 'curly'), _::pluck($stooges, 'name'));
     $this->assertEquals(array(40, 50, 60), _::pluck($stooges, 'age'));
     $this->assertEquals(array('bar'), _::pluck($stooges, 'foo'));
+    $this->assertEquals(array('bar'), _($stooges)->pluck('foo'), 'works with OO-style call');
   }
   
   public function testMax() {
