@@ -633,11 +633,10 @@ class _ {
   
   public $_memoized = array();
   // @todo add $hashFunction support
-  // @todo Try to get OO-style calls working
   public function memoize($function=null, $hashFunction=null) {
     list($function, $hashFunction) = self::_wrapArgs(func_get_args());
     
-    $_instance = self::getInstance();
+    $_instance = (isset($this) && isset($this->_wrapped)) ? $this : self::getInstance();
     
     return self::_wrap(function() use ($function, &$_instance){
       $args = func_get_args();
@@ -656,7 +655,7 @@ class _ {
   public function throttle($function=null, $wait=null) {
     list($function, $wait) = self::_wrapArgs(func_get_args());
     
-    $_instance = self::getInstance();
+    $_instance = (isset($this) && isset($this->_wrapped)) ? $this : self::getInstance();
     
     return self::_wrap(function() use ($function, $wait, &$_instance) {
       $key = md5(join('', array(
@@ -677,7 +676,7 @@ class _ {
   public function once($function=null) {
     list($function) = self::_wrapArgs(func_get_args());
     
-    $_instance = self::getInstance();
+    $_instance = (isset($this) && isset($this->_wrapped)) ? $this : self::getInstance();
     
     return self::_wrap(function() use ($function, &$_instance){
       $key = md5(var_export($function, true));
@@ -711,7 +710,7 @@ class _ {
   public function after($count=null, $function=null) {
     list($count, $function) = self::_wrapArgs(func_get_args());
     
-    $_instance = self::getInstance();
+    $_instance = (isset($this) && isset($this->_wrapped)) ? $this : self::getInstance();
     $key = md5(mt_rand());
     
     return self::_wrap(function() use ($function, &$_instance, $count, $key) {

@@ -30,6 +30,11 @@ class UnderscoreFunctionsTest extends PHPUnit_Framework_TestCase {
     $fastNames = _::memoize($names);
     $this->assertEquals('moe, larry, curly', $names('moe', 'larry', 'curly'), 'works with multiple parameters');
     $this->assertEquals('moe, larry, curly', $fastNames('moe', 'larry', 'curly'), 'works with multiple parameters');
+  
+    $foo = function() { return 'foo'; };
+    $fastFoo = _($foo)->memoize();
+    $this->assertEquals('foo', $foo(), 'can handle OO-style calls');
+    $this->assertEquals('foo', $fastFoo(), 'can handle OO-style calls');
   }
   
   public function testThrottle() {
@@ -43,8 +48,6 @@ class UnderscoreFunctionsTest extends PHPUnit_Framework_TestCase {
     usleep(220 * 1000); $throttledIncr();
     usleep(240 * 1000); $throttledIncr();
     $this->assertEquals(5, $counter, 'incr was throttled');
-    
-    usleep(100000);
     
     // extra
     $counter = 0;
@@ -62,6 +65,13 @@ class UnderscoreFunctionsTest extends PHPUnit_Framework_TestCase {
     // from js
     $num = 0;
     $increment = _::once(function() use (&$num) { return $num++; });
+    $increment();
+    $increment();
+    $this->assertEquals(1, $num);
+    
+    // extra
+    $num = 0;
+    $increment = _(function() use (&$num) { return $num++; })->once();
     $increment();
     $increment();
     $this->assertEquals(1, $num);
