@@ -340,5 +340,6 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(1, _::size(array(1)));
     $this->assertEquals(3, _::size(array(1, 2, 3)));
     $this->assertEquals(6, _::size(array(null, false, array(), array(1,2,array('a','b')), 1, 2)));
+    $this->assertEquals(3, _(array(1,2,3))->size(), 'works with OO-style calls');
   }
 }

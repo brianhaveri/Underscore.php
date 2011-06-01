@@ -183,7 +183,7 @@ class _ {
     return self::_wrap(false);
   }
   
-  public function size($collection) {
+  public function size($collection=null) {
     list($collection) = self::_wrapArgs(func_get_args());
     
     if(!is_array($collection) && !is_object($collection)) $collection = str_split((string) $collection);
