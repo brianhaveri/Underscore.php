@@ -81,8 +81,13 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
   }
   
   public function testSelect() {
+    // from js
     $evens = _::select(array(1,2,3,4,5,6), function($num) { return $num % 2 === 0; });
     $this->assertEquals(array(2, 4, 6), $evens, 'selected each even number');
+    
+    // extra
+    $odds = _(array(1,2,3,4,5,6))->select(function($num) { return $num % 2 !== 0; });
+    $this->assertEquals(array(1,3,5), $odds, 'works with OO-style calls');
     
     // @todo
     /*
