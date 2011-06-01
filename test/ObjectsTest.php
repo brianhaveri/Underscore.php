@@ -110,6 +110,13 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals('', $options_obj->empty, 'value exists');
     $this->assertTrue(_::isNaN($options_obj->nan), 'NaN is not overridden');
     $this->assertEquals('word', $options_obj->word, 'new value is added, first one wins');
+  
+    // extra
+    $options = array('zero'=>0, 'one'=>1, 'empty'=>'', 'nan'=>acos(8), 'string'=>'string');
+    $options = _($options)->defaults(array('zero'=>1, 'one'=>10, 'twenty'=>20));
+    $this->assertEquals(0, $options['zero'], 'value exists');
+    $this->assertEquals(1, $options['one'], 'value exists');
+    $this->assertEquals(20, $options['twenty'], 'default applied');
   }
   
   public function testFunctions() {
