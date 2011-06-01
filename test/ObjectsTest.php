@@ -53,6 +53,7 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     // extra
     $this->assertEquals(array(1,2), _::values($items));
     $this->assertEquals(array(1), _::values(array(1)));
+    $this->assertEquals(array(1,2), _($items)->values());
   }
   
   public function testExtend() {
