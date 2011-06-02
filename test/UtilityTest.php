@@ -42,6 +42,7 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
   }
   
   public function testMixin() {
+    // from js
     _::mixin(array(
       'myReverse' => function($string) {
         $chars = str_split($string);
@@ -50,11 +51,7 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
       }
     ));
     $this->assertEquals('aecanap', _::myReverse('panacea'), 'mixed in a function to _');
-    
-    // @todo
-    /*
-    equals(_('champ').myReverse(), 'pmahc', 'mixed in a function to the OOP wrapper');
-    */
+    $this->assertEquals('pmahc', _('champ')->myReverse(), 'mixed in a function to _ with OO-style call');
   }
   
   public function testTemplate() {
