@@ -284,6 +284,12 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     
     // extra
     $this->assertFalse(_::isFunction('array_search'), 'strings with names of functions are not functions');
+    $this->assertFalse(_::isFunction(new _));
+    $this->assertFalse(_(array(1,2,3))->isFunction());
+    $this->assertFalse(_('moe')->isFunction());
+    $this->assertTrue(_($func)->isFunction());
+    $this->assertFalse(_('array_search')->isFunction());
+    $this->assertFalse(_(new _)->isFunction());
   }
   
   public function testIsDate() {
