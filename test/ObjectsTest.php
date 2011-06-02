@@ -148,6 +148,11 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     
     $clone_obj->lucky[] = 101;
     $this->assertEquals(101, _::last($moe_obj->lucky), 'changes to deep attributes are shared with the original');
+  
+    // extra
+    $foo = array('name'=>'Foo');
+    $bar = _($foo)->clon();
+    $this->assertEquals('Foo', $bar['name'], 'works with OO-style call');
   }
   
   public function testIsEqual() {

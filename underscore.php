@@ -468,7 +468,7 @@ class _ {
     return self::_wrap(get_class_methods(get_class($object)));
   }
   
-  public function clon(&$object) {
+  public function clon(&$object=null) {
     list($object) = self::_wrapArgs(func_get_args());
     
     $clone = null;
