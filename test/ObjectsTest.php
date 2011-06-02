@@ -201,6 +201,9 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue(_::isEmpty($obj), 'deleting all the keys from an object empties it');
   
     // extra
+    $this->assertFalse(_(array(1))->isEmpty(), 'array(1) is not empty with OO-style call');
+    $this->assertTrue(_(array())->isEmpty(), 'array() is empty with OO-style call');
+    $this->assertTrue(_(null)->isEmpty(), 'null is empty with OO-style call');
   }
   
   public function testIsArray() {
