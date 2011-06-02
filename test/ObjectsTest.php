@@ -326,11 +326,18 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
   }
   
   public function testIsUndefined() {
+    // from js
     $this->assertFalse(_::isUndefined(1), 'numbers are defined');
     $this->assertFalse(_::isUndefined(null), 'null is defined');
     $this->assertFalse(_::isUndefined(false), 'false is defined');
     $this->assertFalse(_::isUndefined(acos(8)), 'NaN calculations are defined');
     $this->assertFalse(_::isUndefined(), 'empty params are defined');
+    
+    // extra
+    $this->assertFalse(_(1)->isUndefined(), 'numbers are defined with OO-style call');
+    $this->assertFalse(_(null)->isUndefined(), 'null is defined with OO-style call');
+    
+    // @todo
     //$this->assertTrue(_::isUndefined($obj->larry), 'undefined is undefined');
   }
 }
