@@ -167,21 +167,21 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     );
     $this->assertFalse($moe === $clone, 'basic equality between objects is false');
     $this->assertTrue(_::isEqual($moe, $clone), 'deep equality is true');
+    $this->assertTrue(_($moe)->isEqual($clone), 'OO-style deep equality works');
+    $this->assertFalse(_::isEqual(5, acos(8)), '5 is not equal to NaN');
+    $this->assertTrue(acos(8) != acos(8), 'NaN is not equal to NaN (native equality)');
+    $this->assertTrue(acos(8) !== acos(8), 'NaN is not equal to NaN (native identity)');
+    $this->assertFalse(_::isEqual(acos(8), acos(8)), 'NaN is not equal to NaN');
     
-    // @todo
-    /*
-    ok(_(moe).isEqual(clone), 'OO-style deep equality works');
-    ok(!_.isEqual(5, NaN), '5 is not equal to NaN');
-    ok(NaN != NaN, 'NaN is not equal to NaN (native equality)');
-    ok(NaN !== NaN, 'NaN is not equal to NaN (native identity)');
-    ok(!_.isEqual(NaN, NaN), 'NaN is not equal to NaN');
-    ok(_.isEqual(new Date(100), new Date(100)), 'identical dates are equal');
-    ok(_.isEqual((/hello/ig), (/hello/ig)), 'identical regexes are equal');
-    ok(!_.isEqual(null, [1]), 'a falsy is never equal to a truthy');
-    ok(!_.isEqual({x: 1, y: undefined}, {x: 1, z: 2}), 'objects with the same number of undefined keys are not equal');
-    ok(!_.isEqual(_({x: 1, y: undefined}).chain(), _({x: 1, z: 2}).chain()), 'wrapped objects are not equal');
-    equals(_({x: 1, y: 2}).chain().isEqual(_({x: 1, y: 2}).chain()).value(), true, 'wrapped objects are equal');
-    */
+    if(class_exists('DateTime')) {
+      $timezone = new DateTimeZone('America/Denver');
+      $this->assertTrue(_::isEqual(new DateTime(null, $timezone), new DateTime(null, $timezone)), 'identical dates are equal');
+    }
+    
+    $this->assertFalse(_::isEqual(null, array(1)), 'a falsy is never equal to a truthy');
+    //$this->assertFalse(_::isEqual(array('x'=>1, 'y'=>null), array('x'=>1, 'z'=>2)), 'objects with the same number of undefined keys are not equal');
+    //$this->assertFalse(_::isEqual(_(array('x'=>1, 'y'=>null))->chain(), _(array('x'=>1, 'z'=>2))->chain()), 'wrapped objects are not equal');
+    $this->assertEquals(true, _(array('x'=>1, 'y'=>2))->chain()->isEqual(_(array('x'=>1, 'y'=>2))->chain())->value(), 'wrapped objects are equal');
   }
   
   public function testIsEmpty() {

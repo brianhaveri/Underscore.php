@@ -494,10 +494,12 @@ class _ {
   public function isEqual($a=null, $b=null) {
     list($a, $b) = self::_wrapArgs(func_get_args());
     
+    if($this->_chained) $a =& $this;
+    
     if($a === $b) return self::_wrap(true);
     if(gettype($a) !== gettype($b)) return self::_wrap(false);
     
-    if($a == $b) return true;
+    if($a == $b) return self::_wrap(true);
     
     if(is_object($a) || is_array($a)) {
       $_ = new self;
