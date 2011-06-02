@@ -214,6 +214,8 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse(_::isArray(null));
     $this->assertTrue(_::isArray(array()));
     $this->assertTrue(_::isArray(array(array(1,2))));
+    $this->assertFalse(_(null)->isArray());
+    $this->assertTrue(_(array())->isArray());
   }
   
   public function testIsString() {
