@@ -269,6 +269,10 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse(_::isBoolean(1));
     $this->assertFalse(_::isBoolean(0));
     $this->assertFalse(_::isBoolean(-1));
+    $this->assertFalse(_(array())->isBoolean());
+    $this->assertTrue(_(true)->isBoolean());
+    $this->assertTrue(_(false)->isBoolean());
+    $this->assertFalse(_(0)->isBoolean());
   }
   
   public function testIsFunction() {
