@@ -179,9 +179,11 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     }
     
     $this->assertFalse(_::isEqual(null, array(1)), 'a falsy is never equal to a truthy');
+    $this->assertEquals(true, _(array('x'=>1, 'y'=>2))->chain()->isEqual(_(array('x'=>1, 'y'=>2))->chain())->value(), 'wrapped objects are equal');
+    
+    // @todo Lower memory usage on these
     //$this->assertFalse(_::isEqual(array('x'=>1, 'y'=>null), array('x'=>1, 'z'=>2)), 'objects with the same number of undefined keys are not equal');
     //$this->assertFalse(_::isEqual(_(array('x'=>1, 'y'=>null))->chain(), _(array('x'=>1, 'z'=>2))->chain()), 'wrapped objects are not equal');
-    $this->assertEquals(true, _(array('x'=>1, 'y'=>2))->chain()->isEqual(_(array('x'=>1, 'y'=>2))->chain())->value(), 'wrapped objects are equal');
   }
   
   public function testIsEmpty() {
@@ -197,6 +199,8 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $obj = (object) array('one'=>1);
     unset($obj->one);
     $this->assertTrue(_::isEmpty($obj), 'deleting all the keys from an object empties it');
+  
+    // extra
   }
   
   public function testIsArray() {
