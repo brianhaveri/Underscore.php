@@ -617,6 +617,12 @@ class _ {
     return call_user_func_array($mixins[$name], $arguments);
   }
   
+  public function __call($name, $arguments) {
+    $mixins =& self::getInstance()->_mixins;
+    $arguments = self::_wrapArgs($arguments);
+    return call_user_func_array($mixins[$name], $arguments);
+  }
+  
   public function template($subject=null, $context=null) {
     list($subject, $context) = self::_wrapArgs(func_get_args());
     
