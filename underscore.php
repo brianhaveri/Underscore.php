@@ -1,8 +1,8 @@
 <?php
 
-function _($item) {
+function _($item=null) {
   $_ = new _;
-  $_->_wrapped = $item;
+  if(func_num_args() > 0) $_->_wrapped = $item;
   return $_;
 }
 
@@ -11,7 +11,7 @@ class _ {
   private $_chained = false;
   public $_wrapped;
   
-  private function _wrap($val) {
+  public function _wrap($val) {
     if(isset($this) && $this->_chained) {
       $this->_wrapped = $val;
       return $this;
@@ -573,12 +573,15 @@ class _ {
     });
   }
   
+  
+  public $_uniqueId = 0;
   public function uniqueId($prefix=null) {
     list($prefix) = self::_wrapArgs(func_get_args());
-    if(is_null($prefix)) $prefix = '';
     
-    $prefix = (strlen($prefix) > 0) ? $prefix . '_' : $prefix;
-    return self::_wrap(uniqid($prefix));
+    $_instance = self::getInstance();
+    $_instance->_uniqueId++;
+    
+    return (is_null($prefix)) ? self::_wrap($_instance->_uniqueId) : self::_wrap($prefix . $_instance->_uniqueId);
   }
   
   public function times($n=null, $iterator=null) {
