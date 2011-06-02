@@ -23,7 +23,11 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(count($ids), count(_::uniq($ids)));
     
     // extra
-    $this->assertEquals('stooges_', join('', (_::first(_::uniqueId('stooges'), 8))), 'prefix assignment works');
+    $this->assertEquals('stooges', join('', (_::first(_::uniqueId('stooges'), 7))), 'prefix assignment works');
+    $this->assertEquals('stooges', join('', _(_('stooges')->uniqueId())->first(7)), 'prefix assignment works in OO-style call');
+    
+    while($i++ < 100) array_push($ids, _()->uniqueId());
+    $this->assertEquals(count($ids), count(_()->uniq($ids)));
   }
   
   public function testTimes() {
