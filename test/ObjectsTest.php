@@ -245,6 +245,12 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse(_::isNumber(log(0)), 'infinite values are not numbers');
     $this->assertTrue(_::isNumber(pi()));
     $this->assertTrue(_::isNumber(M_PI));
+    $this->assertFalse(_(acos(8))->isNumber());
+    $this->assertFalse(_('1')->isNumber());
+    $this->assertFalse(_(log(0))->isNumber());
+    $this->assertTrue(_(pi())->isNumber());
+    $this->assertTrue(_(M_PI)->isNumber());
+    $this->assertTrue(_(1)->isNumber());
   }
   
   public function testIsBoolean() {
