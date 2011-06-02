@@ -10,6 +10,10 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
     $moe_obj = (object) $moe;
     $this->assertEquals($moe, _::identity($moe));
     $this->assertEquals($moe_obj, _::identity($moe_obj));
+    
+    // extra
+    $this->assertEquals($moe, _($moe)->identity());
+    $this->assertEquals($moe_obj, _($moe_obj)->identity());
   }
   
   public function testUniqueId() {
