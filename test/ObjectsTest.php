@@ -318,6 +318,11 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse(_::isNaN(null), 'null not not NaN');
     $this->assertFalse(_::isNaN(0), '0 is not NaN');
     $this->assertTrue(_::isNaN(acos(8)), 'but invalid calculations are');
+    
+    // extra
+    $this->assertFalse(_(null)->isNan(), 'null is not NaN with OO-style call');
+    $this->assertFalse(_(0)->isNan(), '0 is not NaN with OO-style call');
+    $this->assertTrue(_(acos(8))->isNaN(), 'but invalid calculations are with OO-style call');
   }
   
   public function testIsUndefined() {
