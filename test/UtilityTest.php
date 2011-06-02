@@ -31,16 +31,14 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
   }
   
   public function testTimes() {
+    // from js
     $vals = array();
     _::times(3, function($i) use (&$vals) { $vals[] = $i; });
     $this->assertEquals(array(0,1,2), $vals, 'is 0 indexed');
     
-    // @todo
-    /*
-    vals = [];
-    _(3).times(function (i) { vals.push(i); });
-    ok(_.isEqual(vals, [0,1,2]), "works as a wrapper");
-    */
+    $vals = array();
+    _(3)->times(function($i) use (&$vals) { $vals[] = $i; });
+    $this->assertEquals(array(0,1,2), $vals, 'works as a wrapper in OO-style call');
   }
   
   public function testMixin() {
