@@ -297,12 +297,20 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse(_::isDate(1), 'numbers are not dates');
     $this->assertFalse(_::isDate(new StdClass), 'objects are not dates');
     
-    date_default_timezone_set('America/Denver'); // don't throw error if timezone not set
-    $this->assertTrue(_::isDate(new DateTime()), 'but dates are');
+    if(class_exists('DateTime')) {
+      $timezone = new DateTimeZone('America/Denver');
+      $this->assertTrue(_::isDate(new DateTime(null, $timezone)), 'but dates are');
+    }
     
     // extra
     $this->assertFalse(_::isDate(time()), 'timestamps are not dates');
     $this->assertFalse(_::isDate('Y-m-d H:i:s'), 'date strings are not dates');
+    $this->assertFalse(_(time())->isDate());
+    
+    if(class_exists('DateTime')) {
+      $timezone = new DateTimeZone('America/Denver');
+      $this->assertTrue(_(new DateTime(null, $timezone))->isDate(), 'dates are dates with OO-style call');
+    }
   }
   
   public function testIsNaN() {
