@@ -59,85 +59,77 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
     $basicTemplate = _::template("<%= thing %> is gettin' on my noives!");
     $this->assertEquals("This is gettin' on my noives!", $basicTemplate(array('thing'=>'This')), 'can do basic attribute interpolation');
     $this->assertEquals("This is gettin' on my noives!", $basicTemplate((object) array('thing'=>'This')), 'can do basic attribute interpolation');
-    /*
-        equals(result, "This is gettin' on my noives!", 'can do basic attribute interpolation');
-
-        var backslashTemplate = _.template("<%= thing %> is \\ridanculous");
-        equals(backslashTemplate({thing: 'This'}), "This is \\ridanculous");
-
-        var fancyTemplate = _.template("<ul><% \
-          for (key in people) { \
-        %><li><%= people[key] %></li><% } %></ul>");
-        result = fancyTemplate({people : {moe : "Moe", larry : "Larry", curly : "Curly"}});
-        equals(result, "<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>", 'can run arbitrary javascript in templates');
-
-        var namespaceCollisionTemplate = _.template("<%= pageCount %> <%= thumbnails[pageCount] %> <% _.each(thumbnails, function(p) { %><div class=\"thumbnail\" rel=\"<%= p %>\"></div><% }); %>");
-        result = namespaceCollisionTemplate({
-          pageCount: 3,
-          thumbnails: {
-            1: "p1-thumbnail.gif",
-            2: "p2-thumbnail.gif",
-            3: "p3-thumbnail.gif"
-          }
-        });
-        equals(result, "3 p3-thumbnail.gif <div class=\"thumbnail\" rel=\"p1-thumbnail.gif\"></div><div class=\"thumbnail\" rel=\"p2-thumbnail.gif\"></div><div class=\"thumbnail\" rel=\"p3-thumbnail.gif\"></div>");
-
-        var noInterpolateTemplate = _.template("<div><p>Just some text. Hey, I know this is silly but it aids consistency.</p></div>");
-        result = noInterpolateTemplate();
-        equals(result, "<div><p>Just some text. Hey, I know this is silly but it aids consistency.</p></div>");
-
-        var quoteTemplate = _.template("It's its, not it's");
-        equals(quoteTemplate({}), "It's its, not it's");
-
-        var quoteInStatementAndBody = _.template("<%\
-          if(foo == 'bar'){ \
-        %>Statement quotes and 'quotes'.<% } %>");
-        equals(quoteInStatementAndBody({foo: "bar"}), "Statement quotes and 'quotes'.");
-
-        var withNewlinesAndTabs = _.template('This\n\t\tis: <%= x %>.\n\tok.\nend.');
-        equals(withNewlinesAndTabs({x: 'that'}), 'This\n\t\tis: that.\n\tok.\nend.');
-
-        if (!$.browser.msie) {
-          var fromHTML = _.template($('#template').html());
-          equals(fromHTML({data : 12345}).replace(/\s/g, ''), '<li>24690</li>');
-        }
-
-        _.templateSettings = {
-          evaluate    : /\{\{([\s\S]+?)\}\}/g,
-          interpolate : /\{\{=([\s\S]+?)\}\}/g
-        };
-
-        var custom = _.template("<ul>{{ for (key in people) { }}<li>{{= people[key] }}</li>{{ } }}</ul>");
-        result = custom({people : {moe : "Moe", larry : "Larry", curly : "Curly"}});
-        equals(result, "<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>", 'can run arbitrary javascript in templates');
-
-        var customQuote = _.template("It's its, not it's");
-        equals(customQuote({}), "It's its, not it's");
-
-        var quoteInStatementAndBody = _.template("{{ if(foo == 'bar'){ }}Statement quotes and 'quotes'.{{ } }}");
-        equals(quoteInStatementAndBody({foo: "bar"}), "Statement quotes and 'quotes'.");
-
-        _.templateSettings = {
-          evaluate    : /<\?([\s\S]+?)\?>/g,
-          interpolate : /<\?=([\s\S]+?)\?>/g
-        };
-
-        var customWithSpecialChars = _.template("<ul><? for (key in people) { ?><li><?= people[key] ?></li><? } ?></ul>");
-        result = customWithSpecialChars({people : {moe : "Moe", larry : "Larry", curly : "Curly"}});
-        equals(result, "<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>", 'can run arbitrary javascript in templates');
-
-        var customWithSpecialCharsQuote = _.template("It's its, not it's");
-        equals(customWithSpecialCharsQuote({}), "It's its, not it's");
-
-        var quoteInStatementAndBody = _.template("<? if(foo == 'bar'){ ?>Statement quotes and 'quotes'.<? } ?>");
-        equals(quoteInStatementAndBody({foo: "bar"}), "Statement quotes and 'quotes'.");
-
-        _.templateSettings = {
-          interpolate : /\{\{(.+?)\}\}/g
-        };
-
-        var mustache = _.template("Hello {{planet}}!");
-        equals(mustache({planet : "World"}), "Hello World!", "can mimic mustache.js");
-    */
+    
+    $backslashTemplate = _::template('<%= thing %> is \\ridanculous');
+    $this->assertEquals('This is \\ridanculous', $backslashTemplate(array('thing'=>'This')));
+    
+    $fancyTemplate = _::template('<ul><% foreach($people as $key=>$name) { %><li><%= $name %></li><% } %>');
+    $result = $fancyTemplate(array('people'=>array('moe'=>'Moe', 'larry'=>'Larry', 'curly'=>'Curly')));
+    $this->assertEquals('<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>', $result, 'can run arbitrary php in templates');
+    
+    $namespaceCollisionTemplate = _::template("<%= $pageCount %> <%= $thumbnails->$pageCount %> <% _::each($thumbnails, function($p) { %><div class=\"thumbnail\" rel=\"<%= $p %>\"></div><% }); %>");
+    $result = $namespaceCollisionTemplate((object) array(
+      'pageCount' => 3,
+      'thumbnails'=> (object) array(
+        1 => 'p1-thumbnail.gif',
+        2 => 'p2-thumbnail.gif',
+        3 => 'p3-thumbnail.gif'
+      )
+    ));
+    $expected = "3 p3-thumbnail.gif <div class=\"thumbnail\" rel=\"p1-thumbnail.gif\"></div><div class=\"thumbnail\" rel=\"p2-thumbnail.gif\"></div><div class=\"thumbnail\" rel=\"p3-thumbnail.gif\"></div>";
+    $this->assertEquals($expected, $result);
+    
+    $noInterpolateTemplate = _::template("<div><p>Just some text. Hey, I know this is silly but it aids consistency.</p></div>");
+    $result = $noInterpolateTemplate();
+    $expected = "<div><p>Just some text. Hey, I know this is silly but it aids consistency.</p></div>";
+    $this->assertEquals($expected, $result);
+    
+    $quoteTemplate = _::template("It's its, nto it's");
+    $this->assertEquals("It's its, not it's", $quoteTemplate(new StdClass));
+    
+    $quoteInStatementAndBody = _::template("<%\
+      if($foo == 'bar'){
+    %>Statement quotes and 'quotes'.<% } %>");
+    $this->assertEquals("Statement quotes and 'quotes'.", $quoteInStatementAndBody((object) array('foo'=>'bar')));
+    
+    $withNewlinesAndTabs = _::template('This\n\t\tis: <%= $x %>.\n\tok.\nend.');
+    $this->assertEquals('This\n\t\tis: that.\n\tok.\nend.', $withNewlinesAndTabs((object) array('x'=>'that')));
+    
+    _::templateSettings(array(
+      'evaluate'    => '/\{\{([\s\S]+?)\}\}/',
+      'interpolate' => '/\{\{=([\s\S]+?)\}\}/'
+    ));
+    
+    $custom = _::template("<ul>{{ foreach($people as $key=>$name) { }}<li>{{= $people[key] }}</li>{{ } }}</ul>");
+    $result = $custom(array('people'=>array('moe'=>'Moe', 'larry'=>'Larry', 'curly'=>'Curly')));
+    $this->assertEquals("<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>", $result, 'can run arbitrary php in templates');
+    
+    $customQuote = _::template("It's its, not it's");
+    $this->assertEquals("It's its, not it's", $customQuote(new StdClass));
+    
+    $quoteInStatementAndBody = _::template("{{ if($foo == 'bar'){ }}Statement quotes and 'quotes'.{{ } }}");
+    $this->assertEquals("Statement quotes and 'quotes'.", $quoteInStatementAndBody(array('foo'=>'bar')));
+    
+    _::templateSettings(array(
+      'evaluate'    => '/<\?([\s\S]+?)\?>/',
+      'interpolate' => '/<\?=([\s\S]+?)\?>/'
+    ));
+    
+    $customWithSpecialChars = _::template("<ul><? foreach($people as $key=>$name) { ?><li><?= $people[$key] ?></li><? } ?></ul>");
+    $result = $customWithSpecialChars(array('people'=>array('moe'=>'Moe', 'larry'=>'Larry', 'curly'=>'Curly')));
+    $this->assertEquals("<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>", $result, 'can run arbitrary php in templates');
+    
+    $customWithSpecialCharsQuote = _::template("It's its, not it's");
+    $this->assertEquals("It's its, not it's", $customWithSpecialCharsQuote(new StdClass));
+    
+    $quoteInStatementAndBody = _::template("<? if($foo == 'bar'){ ?>Statement quotes and 'quotes'.<? } ?>");
+    $this->assertEquals("Statement quotes and 'quotes'", $quoteInStatementAndBody(array('foo'=>'bar')));
+    
+    _::templateSettings(array(
+      'interpolate' => '/\{\{(.+?)\}\}/'
+    ));
+    
+    $mustache = _::template("Hello {{$planet}}!");
+    $this->assertEquals("Hello World!", $mustache(array('planet'=>'World')), 'can mimic mustache.js');
   }
 }
