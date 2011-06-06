@@ -56,18 +56,18 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
   
   public function testTemplate() {
     // from js
-    $basicTemplate = _::template("<%= thing %> is gettin' on my noives!");
-    $this->assertEquals("This is gettin' on my noives!", $basicTemplate(array('thing'=>'This')), 'can do basic attribute interpolation');
-    $this->assertEquals("This is gettin' on my noives!", $basicTemplate((object) array('thing'=>'This')), 'can do basic attribute interpolation');
+    $basicTemplate = _::template('<%= $thing %> is gettin on my noives!');
+    $this->assertEquals("This is gettin on my noives!", $basicTemplate(array('thing'=>'This')), 'can do basic attribute interpolation');
+    $this->assertEquals("This is gettin on my noives!", $basicTemplate((object) array('thing'=>'This')), 'can do basic attribute interpolation');
     
-    $backslashTemplate = _::template('<%= thing %> is \\ridanculous');
+    $backslashTemplate = _::template('<%= $thing %> is \\ridanculous');
     $this->assertEquals('This is \\ridanculous', $backslashTemplate(array('thing'=>'This')));
     
     $fancyTemplate = _::template('<ul><% foreach($people as $key=>$name) { %><li><%= $name %></li><% } %>');
     $result = $fancyTemplate(array('people'=>array('moe'=>'Moe', 'larry'=>'Larry', 'curly'=>'Curly')));
     $this->assertEquals('<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>', $result, 'can run arbitrary php in templates');
     
-    $namespaceCollisionTemplate = _::template("<%= $pageCount %> <%= $thumbnails->$pageCount %> <% _::each($thumbnails, function($p) { %><div class=\"thumbnail\" rel=\"<%= $p %>\"></div><% }); %>");
+    $namespaceCollisionTemplate = _::template('<%= $pageCount %> <%= $thumbnails->$pageCount %> <% _::each($thumbnails, function($p) { %><div class=\"thumbnail\" rel=\"<%= $p %>\"></div><% }); %>');
     $result = $namespaceCollisionTemplate((object) array(
       'pageCount' => 3,
       'thumbnails'=> (object) array(
@@ -87,9 +87,9 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
     $quoteTemplate = _::template("It's its, nto it's");
     $this->assertEquals("It's its, not it's", $quoteTemplate(new StdClass));
     
-    $quoteInStatementAndBody = _::template("<%\
-      if($foo == 'bar'){
-    %>Statement quotes and 'quotes'.<% } %>");
+    $quoteInStatementAndBody = _::template('<%\
+      if($foo == "bar"){
+    %>Statement quotes and \'quotes\'.<% } %>');
     $this->assertEquals("Statement quotes and 'quotes'.", $quoteInStatementAndBody((object) array('foo'=>'bar')));
     
     $withNewlinesAndTabs = _::template('This\n\t\tis: <%= $x %>.\n\tok.\nend.');
@@ -100,14 +100,14 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
       'interpolate' => '/\{\{=([\s\S]+?)\}\}/'
     ));
     
-    $custom = _::template("<ul>{{ foreach($people as $key=>$name) { }}<li>{{= $people[key] }}</li>{{ } }}</ul>");
+    $custom = _::template('<ul>{{ foreach($people as $key=>$name) { }}<li>{{= $people[key] }}</li>{{ } }}</ul>');
     $result = $custom(array('people'=>array('moe'=>'Moe', 'larry'=>'Larry', 'curly'=>'Curly')));
     $this->assertEquals("<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>", $result, 'can run arbitrary php in templates');
     
     $customQuote = _::template("It's its, not it's");
     $this->assertEquals("It's its, not it's", $customQuote(new StdClass));
     
-    $quoteInStatementAndBody = _::template("{{ if($foo == 'bar'){ }}Statement quotes and 'quotes'.{{ } }}");
+    $quoteInStatementAndBody = _::template('{{ if($foo == "bar"){ }}Statement quotes and \'quotes\'.{{ } }}');
     $this->assertEquals("Statement quotes and 'quotes'.", $quoteInStatementAndBody(array('foo'=>'bar')));
     
     _::templateSettings(array(
@@ -115,21 +115,26 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
       'interpolate' => '/<\?=([\s\S]+?)\?>/'
     ));
     
-    $customWithSpecialChars = _::template("<ul><? foreach($people as $key=>$name) { ?><li><?= $people[$key] ?></li><? } ?></ul>");
+    $customWithSpecialChars = _::template('<ul><? foreach($people as $key=>$name) { ?><li><?= $people[$key] ?></li><? } ?></ul>');
     $result = $customWithSpecialChars(array('people'=>array('moe'=>'Moe', 'larry'=>'Larry', 'curly'=>'Curly')));
     $this->assertEquals("<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>", $result, 'can run arbitrary php in templates');
     
     $customWithSpecialCharsQuote = _::template("It's its, not it's");
     $this->assertEquals("It's its, not it's", $customWithSpecialCharsQuote(new StdClass));
     
-    $quoteInStatementAndBody = _::template("<? if($foo == 'bar'){ ?>Statement quotes and 'quotes'.<? } ?>");
+    $quoteInStatementAndBody = _::template('<? if($foo == "bar"){ ?>Statement quotes and \'quotes\'.<? } ?>');
     $this->assertEquals("Statement quotes and 'quotes'", $quoteInStatementAndBody(array('foo'=>'bar')));
     
     _::templateSettings(array(
       'interpolate' => '/\{\{(.+?)\}\}/'
     ));
     
-    $mustache = _::template("Hello {{$planet}}!");
+    $mustache = _::template('Hello {{$planet}}!');
     $this->assertEquals("Hello World!", $mustache(array('planet'=>'World')), 'can mimic mustache.js');
+  
+    // extra
+    // from js
+    $basicTemplate = _::template('<%= $thing %> is gettin\' on my <%= $nerves %>!');
+    $this->assertEquals("This is gettin' on my noives!", $basicTemplate(array('thing'=>'This', 'nerves'=>'noives')), 'can do basic attribute interpolation for multiple variables');    
   }
 }
