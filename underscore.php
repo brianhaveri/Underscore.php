@@ -290,6 +290,7 @@ class _ {
     return self::_wrap($collection);
   }
   
+  public function unique($collection=null) { return self::uniq($collection); }
   public function uniq($collection=null) {
     list($collection) = self::_wrapArgs(func_get_args());
     

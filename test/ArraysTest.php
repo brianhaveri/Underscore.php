@@ -115,6 +115,7 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     
     // extra
     $this->assertEquals(array(4,5,6), _(array(4,5,4,4,5,5,6))->uniq(), 'works with OO call');
+    $this->assertEquals(array(4,5,6), _(array(4,5,4,4,5,5,6))->unique(), 'aliased as "unique"');
   }
   
   public function testIntersect() {
