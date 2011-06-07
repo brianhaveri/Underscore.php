@@ -121,6 +121,7 @@ class _ {
     
     $collection = (array) $collection;
     return self::_wrap(is_int(array_search($val, $collection, true)));
+    return self::_wrap((array_search($val, $collection, true) !== false));
   }
   
   public function invoke($collection=null, $function=null, $args=null) {
