@@ -116,10 +116,7 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue(_(array(1,2,3,4))->all(), 'works with OO-style calls');
     $this->assertTrue(_(array(true, true, true))->all(_::identity()));
     
-    // @todo
-    /*
-    ok(_.every([true, true, true], _.identity), 'aliased as "every"');
-    */
+    $this->assertTrue(_(array(true, true, true))->every(_::identity()), 'aliased as "every"');
   }
   
   public function testAny() {

@@ -146,6 +146,7 @@ class _ {
     return self::_wrap(is_int(array_search(true, $collection, false)));
   }
   
+  public function every($collection=null, $iterator=null) { return self::all($collection, $iterator); }
   public function all($collection=null, $iterator=null) {
     list($collection, $iterator) = self::_wrapArgs(func_get_args());
     
