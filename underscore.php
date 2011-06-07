@@ -123,6 +123,17 @@ class _ {
     return self::_wrap(is_int(array_search($val, $collection, true)));
   }
   
+  public function invoke($collection=null, $function=null, $args=null) {
+    $args = self::_wrapArgs(func_get_args());
+    $_ = new self;
+    list($collection, $function) = $_->first($args, 2);
+    $args = $_->rest($args, 2);
+    
+    return $_->map($collection, function($val) use ($_, $function) {
+      return $function($val);
+    });
+  }
+  
   public function any($collection=null, $iterator=null) {
     list($collection, $iterator) = self::_wrapArgs(func_get_args());
     

@@ -187,6 +187,21 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     */
   }
   
+  public function testInvoke() {
+    // from js
+    $list = array(
+      array(5,1,7),
+      array(3,2,1)
+    );
+    $sort = function($vals) {
+      sort($vals);
+      return $vals;
+    };
+    $result = _::invoke($list, $sort);
+    $this->assertEquals(array(1,5,7), $result[0], 'first array sorted');
+    $this->assertEquals(array(1,2,3), $result[1], 'second array sorted');
+  }
+  
   public function testReduce() {
     // from js
     $sum = _::reduce(array(1,2,3), function($sum, $num) { return $sum + $num; }, 0);
