@@ -693,18 +693,20 @@ class _ {
   }
   
   public $_memoized = array();
-  // @todo add $hashFunction support
   public function memoize($function=null, $hashFunction=null) {
     list($function, $hashFunction) = self::_wrapArgs(func_get_args());
     
     $_instance = (isset($this) && isset($this->_wrapped)) ? $this : self::getInstance();
     
-    return self::_wrap(function() use ($function, &$_instance){
+    return self::_wrap(function() use ($function, &$_instance, $hashFunction) {
       $args = func_get_args();
-      $key = md5(join('_', array(
-        var_export($function, true),
-        var_export($args, true)
-      )));
+      if(is_null($hashFunction)) $hashFunction = function($function, $args) {
+        return md5(join('_', array(
+          var_export($function, true),
+          var_export($args, true)
+        )));
+      };
+      $key = $hashFunction($function, $args);
       if(!array_key_exists($key, $_instance->_memoized)) {
         $_instance->_memoized[$key] = call_user_func_array($function, $args);
       }

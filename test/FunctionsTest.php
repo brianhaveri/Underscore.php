@@ -35,6 +35,16 @@ class UnderscoreFunctionsTest extends PHPUnit_Framework_TestCase {
     $fastFoo = _($foo)->memoize();
     $this->assertEquals('foo', $foo(), 'can handle OO-style calls');
     $this->assertEquals('foo', $fastFoo(), 'can handle OO-style calls');
+    
+    $bar = function() { return 'bar'; };
+    $fastBar = _::memoize($bar, function($function, $args) {
+      return sha1(join('x', array(
+        var_export($function, 1),
+        var_export($args, 1)
+      )));
+    });
+    $this->assertEquals('bar', $bar(), 'can custom hash function');
+    $this->assertEquals('bar', $fastBar(), 'can use custom hash function');
   }
   
   public function testThrottle() {
