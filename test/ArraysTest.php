@@ -33,13 +33,15 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array(1,2,3,4), _::rest($numbers, 0), 'working rest(0)');
     $this->assertEquals(array(3,4), _::rest($numbers, 2), 'rest can take an index');
     
-    // @todo
-    /*
-    var result = (function(){ return _(arguments).tail(); })(1, 2, 3, 4);
-    equals(result.join(', '), '2, 3, 4', 'aliased as tail and works on arguments object');
-    result = _.map([[1,2,3],[1,2,3]], _.rest);
-    equals(_.flatten(result).join(','), '2,3,2,3', 'works well with _.map');
-    */
+    $func = function() { return _(func_get_args())->tail(); };
+    $result = $func(1,2,3,4);
+    $this->assertEquals(array(2,3,4), $result, 'aliased as tail and works on arguments');
+    
+    $result = _::map(array(array(1,2,3), array(1,2,3)), function($vals) { return _::rest($vals); });
+    $this->assertEquals('2,3,2,3', join(',', _::flatten($result)), 'works well with _::map');
+    
+    // extra
+    $this->assertEquals(array('b','c'), _::tail(array('a','b','c')));
   }
   
   public function testLast() {

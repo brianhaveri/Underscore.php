@@ -212,6 +212,7 @@ class _ {
     return self::_wrap(array_splice($collection, 0, $n, true));
   }
   
+  public function tail($collection=null, $index=null) { return self::rest($collection, $index); }
   public function rest($collection=null, $index=null) {
     list($collection, $index) = self::_wrapArgs(func_get_args());
     if(is_null($index)) $index = 1;
