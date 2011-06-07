@@ -664,10 +664,6 @@ class _ {
       
       // Backslash replacement
       $code = preg_replace('/[\\\]{1,}/', '\\\\', $code);
-      //$code = preg_replace("/[']{1,}/", "\\'", $code);
-      //$code = str_replace("\r", "\\r", $code);
-      //$code = str_replace("\n", "\\n", $code);
-      //$code = str_replace("\t", "\\t", $code);
       
       // Wrap interpolated and evaluated blocks inside PHP tags
       extract((array) $context);
