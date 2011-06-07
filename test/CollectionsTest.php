@@ -42,13 +42,6 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     _(array(1,2,3))->each(function($num, $i) use ($test) {
       $test->assertEquals($num, $i+1, 'each iterators provide value and iteration count within OO-style call');
     });
-    
-    // @todo
-    /*
-    answers = [];
-    _.forEach([1, 2, 3], function(num){ answers.push(num); });
-    equals(answers.join(', '), '1, 2, 3', 'aliased as "forEach"');
-    */
   }
   
   public function testMap() {
