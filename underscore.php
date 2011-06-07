@@ -660,12 +660,11 @@ class _ {
 
     $class_name = __CLASS__;
     
-   $return = self::_wrap(function($context=null) use ($code, $class_name) {
+    $return = self::_wrap(function($context=null) use ($code, $class_name) {
       $ts = $class_name::getInstance()->_template_settings;
       
       // Wrap interpolated and evaluated blocks inside PHP tags
       extract((array) $context);
-      
       preg_match_all($ts['interpolate'], $code, $vars, PREG_SET_ORDER);
       if(count($vars) > 0) {
         foreach($vars as $var) {
@@ -688,7 +687,6 @@ class _ {
       
       $func = create_function('$context', $code);
       return $func((array) $context);
-      
     });
     
     return self::_wrap((isset($this) && $this->_wrapped) ? $return($context) : $return);
