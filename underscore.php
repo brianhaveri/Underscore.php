@@ -623,7 +623,81 @@ class _ {
     return call_user_func_array($mixins[$name], $arguments);
   }
   
-  public function template($subject=null, $context=null) {
+  // Temporary PHP open and close tags used within templates
+  // Allows for normal processing of templates even when
+  // the developer uses PHP open or close tags for interpolation or evaluation
+  const TEMPLATE_OPEN_TAG = '760e7dab2836853c63805033e514668301fa9c47';
+  const TEMPLATE_CLOSE_TAG= 'd228a8fa36bd7db108b01eddfb03a30899987a2b';
+  
+  const TEMPLATE_DEFAULT_EVALUATE   = '/<%([\s\S]+?)%>/';
+  const TEMPLATE_DEFAULT_INTERPOLATE= '/<%=([\s\S]+?)%>/';
+  public $_template_settings = array(
+    'evaluate'    => self::TEMPLATE_DEFAULT_EVALUATE,
+    'interpolate' => self::TEMPLATE_DEFAULT_INTERPOLATE
+  );
+  
+  public function templateSettings($settings=null) {
+    $_template_settings =& self::getInstance()->_template_settings;
+    
+    if(is_null($settings)) {
+      $_template_settings = array(
+        'evaluate'    => self::TEMPLATE_DEFAULT_EVALUATE,
+        'interpolate' => self::TEMPLATE_DEFAULT_INTERPOLATE
+      );
+      return true;
+    }
+    
+    foreach($settings as $k=>$v) {
+      if(!array_key_exists($k, $_template_settings)) continue;
+      
+      $_template_settings[$k] = $v;
+    }
+    return true;
+  }
+  
+  public function template($code=null, $context=null) {
+    list($code, $context) = self::_wrapArgs(func_get_args());
+
+    $class_name = __CLASS__;
+    $return = self::_wrap(function($context=null) use ($code, $class_name) {
+      $c = $class_name::getInstance()->_template_settings;
+      
+      // Backslash replacement
+      $code = preg_replace('/[\\\]{1,}/', '\\\\', $code);
+      //$code = preg_replace("/[']{1,}/", "\\'", $code);
+      //$code = str_replace("\r", "\\r", $code);
+      //$code = str_replace("\n", "\\n", $code);
+      //$code = str_replace("\t", "\\t", $code);
+      
+      // Wrap interpolated and evaluated blocks inside PHP tags
+      extract((array) $context);
+      preg_match_all($c['interpolate'], $code, $vars, PREG_SET_ORDER);
+      if(count($vars) > 0) {
+        foreach($vars as $var) {
+          $echo = $class_name::TEMPLATE_OPEN_TAG . ' echo ' . trim($var[1]) . '; ' . $class_name::TEMPLATE_CLOSE_TAG;
+          $code = str_replace($var[0], $echo, $code);
+        }
+      }
+      preg_match_all($c['evaluate'], $code, $vars, PREG_SET_ORDER);
+      if(count($vars) > 0) {
+        foreach($vars as $var) {
+          $echo = $class_name::TEMPLATE_OPEN_TAG . trim($var[1]) . $class_name::TEMPLATE_CLOSE_TAG;
+          $code = str_replace($var[0], $echo, $code);
+        }
+      }
+      
+      // Use the output buffer to grab the return value
+      $code = str_replace($class_name::TEMPLATE_OPEN_TAG, '<?php ', $code);
+      $code = str_replace($class_name::TEMPLATE_CLOSE_TAG, '?>', $code);
+      $code = 'ob_start(); extract($context); ?>' . $code . '<?php return ob_get_clean();';
+      
+      $func = create_function('$context', $code);
+      return $func((array) $context);
+    });
+    return self::_wrap($return);
+  }
+  
+  public function templateold($subject=null, $context=null) {
     list($subject, $context) = self::_wrapArgs(func_get_args());
     
     $return = self::_wrap(function($context) use (&$subject) {
