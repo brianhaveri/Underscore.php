@@ -351,6 +351,17 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array(array(2,4,6), array(1,3,5)), $parity, 'created a group for each value using OO-style call');
   }
   
+  public function testSortedIndex() {
+    // from js
+    $numbers = array(10, 20, 30, 40, 50);
+    $num = 35;
+    $index = _::sortedIndex($numbers, $num);
+    $this->assertEquals(3, $index, '35 should be inserted at index 3');
+    
+    // extra
+    $this->assertEquals(3, _($numbers)->sortedIndex(35), '35 should be inserted at index 3 with OO-style call');
+  }
+  
   public function testSize() {
     // from js
     $items = (object) array(

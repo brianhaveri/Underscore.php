@@ -437,6 +437,27 @@ class _ {
     return $result;
   }
   
+  public function sortedIndex($collection=null, $value=null, $iterator=null) {
+    list($collection, $value, $iterator) = self::_wrapArgs(func_get_args());
+    
+    $collection = (array) $collection;
+    $_ = new self;
+    
+    $calculated_value = (!is_null($iterator)) ? $iterator($value) : $value;
+    
+    while(count($collection) > 1) {
+      $midpoint = floor(count($collection) / 2);
+      $midpoint_values = array_slice($collection, $midpoint, 1);
+      $midpoint_value = $midpoint_values[0];
+      $midpoint_calculated_value = (!is_null($iterator)) ? $iterator($midpoint_value) : $midpoint_value;
+      
+      $collection = ($calculated_value < $midpoint_calculated_value) ? array_slice($collection, 0, $midpoint, true) : array_slice($collection, $midpoint, null, true);
+    }
+    $keys = array_keys($collection);
+    
+    return self::_wrap(current($keys) + 1);
+  }
+  
   public function keys($collection=null) {
     list($collection) = self::_wrapArgs(func_get_args());
     
