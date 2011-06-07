@@ -134,6 +134,7 @@ class _ {
     });
   }
   
+  public function some($collection=null, $iterator=null) { return self::any($collection, $iterator); }
   public function any($collection=null, $iterator=null) {
     list($collection, $iterator) = self::_wrapArgs(func_get_args());
     
