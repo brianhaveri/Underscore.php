@@ -521,6 +521,7 @@ class _ {
     return self::_wrap(($is_object) ? (object) $array : $array);
   }
   
+  public function methods($object=null) { return self::functions($object); }
   public function functions($object=null) {
     list($object) = self::_wrapArgs(func_get_args());
     
