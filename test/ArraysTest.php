@@ -59,14 +59,12 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     // from js
     $this->assertEquals(3, count(_::compact($vals)), 'can trim out all falsy values');
     
+    $func = function() { return count(_(func_get_args())->compact()); };
+    $result = $func(0, 1, false, 2, false, 3);
+    $this->assertEquals(3, $result, 'works on arguments');
+    
     // extra
     $this->assertEquals(array(1, 2, 3), _::compact($vals), 'can remove all falsy values');
-    
-    // @todo
-    /*
-    var result = (function(){ return _(arguments).compact().length; })(0, 1, false, 2, false, 3);
-    equals(result, 3, 'works on an arguments object');
-    */
   }
   
   public function testFlatten() {
