@@ -82,11 +82,8 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $odds = _(array(1,2,3,4,5,6))->select(function($num) { return $num % 2 !== 0; });
     $this->assertEquals(array(1,3,5), $odds, 'works with OO-style calls');
     
-    // @todo
-    /*
-    evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
-    equals(evens.join(', '), '2, 4, 6', 'aliased as "filter"');
-    */
+    $evens = _::filter(array(1,2,3,4,5,6), function($num) { return $num % 2 === 0; });
+    $this->assertEquals(array(2,4,6), $evens, 'aliased as filter');
   }
   
   public function testReject() {

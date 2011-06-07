@@ -159,6 +159,7 @@ class _ {
     return self::_wrap(is_bool(array_search(false, $collection, false)));
   }
   
+  public function filter($collection=null, $iterator=null) { return self::select($collection, $iterator); }
   public function select($collection=null, $iterator=null) {
     list($collection, $iterator) = self::_wrapArgs(func_get_args());
     
