@@ -209,6 +209,7 @@ class _ {
     return self::_wrap(count((array) $collection));
   }
   
+  public function head($collection=null, $n=null) { return self::first($collection, $n); }
   public function first($collection=null, $n=null) {
     list($collection, $n) = self::_wrapArgs(func_get_args());
     

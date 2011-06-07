@@ -23,6 +23,9 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     // extra
     $this->assertEquals(array(1), _::first(array(1,2,3), 1), 'can pass an index of 1 to first');
     $this->assertEquals(array(4,5), _(array(4,5,6,7))->first(2), 'can perform OO-style "first()" with index passed');
+  
+    $this->assertEquals(1, _::head(array(1,2,3)), 'aliased as "head"');
+    $this->assertEquals(array(), _::head(array(1,2,3), 0), 'aliased as "head"');
   }
   
   public function testRest() {
