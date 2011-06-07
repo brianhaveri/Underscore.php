@@ -458,6 +458,10 @@ class _ {
     return self::_wrap(current($keys) + 1);
   }
   
+  public function toArray($collection=null) {
+    return (array) $collection;
+  }
+  
   public function keys($collection=null) {
     list($collection) = self::_wrapArgs(func_get_args());
     
