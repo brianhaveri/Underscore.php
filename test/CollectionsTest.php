@@ -226,14 +226,11 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $list = _(array('moe','curly','larry'))->reduceRight(function($memo, $str) { return $memo . $str; }, '');
     $this->assertEquals('larrycurlymoe', $list, 'can perform right folds in OO-style');
     
-    // @todo
-    /*
-    var list = _.foldr(["foo", "bar", "baz"], function(memo, str){ return memo + str; }, '');
-    equals(list, 'bazbarfoo', 'aliased as "foldr"');
-
-    var list = _.foldr(["foo", "bar", "baz"], function(memo, str){ return memo + str; });
-    equals(list, 'bazbarfoo', 'default initial value');
-    */
+    $list = _::foldr(array('foo', 'bar', 'baz'), function($memo, $str) { return $memo . $str; }, '');
+    $this->assertEquals('bazbarfoo', $list, 'aliased as "foldr"');
+    
+    $list = _::foldr(array('foo', 'bar', 'baz'), function($memo, $str) { return $memo . $str; });
+    $this->assertEquals('bazbarfoo', $list, 'default initial value');
   }
   
   public function testPluck() {

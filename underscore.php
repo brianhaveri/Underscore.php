@@ -87,6 +87,7 @@ class _ {
     return self::_wrap(array_reduce($collection, $iterator, $memo));
   }
   
+  public function foldr($collection=null, $iterator=null, $memo=null) { return self::reduceRight($collection, $iterator, $memo); }
   public function reduceRight($collection=null, $iterator=null, $memo=null) {
     list($collection, $iterator, $memo) = self::_wrapArgs(func_get_args());
     
