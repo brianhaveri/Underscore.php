@@ -75,6 +75,7 @@ class _ {
     return self::_wrap($return);
   }
   
+  public function foldl($collection=null, $iterator=null, $memo=null) { return self::reduce($collection, $iterator, $memo); }
   public function inject($collection=null, $iterator=null, $memo=null) { return self::reduce($collection, $iterator, $memo); }
   public function reduce($collection=null, $iterator=null, $memo=null) {
     list($collection, $iterator, $memo) = self::_wrapArgs(func_get_args());

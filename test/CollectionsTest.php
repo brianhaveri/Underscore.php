@@ -208,6 +208,9 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     
     $sum = _::inject(array(1,2,3), function($sum, $num) { return $sum + $num; }, 0);
     $this->assertEquals(6, $sum, 'aliased as "inject"');
+    
+    $sum = _::foldl(array(1,2,3), function($sum, $num) { return $sum + $num; }, 0);
+    $this->assertEquals(6, $sum, 'aliased as "foldl"');
   }
   
   public function testReduceRight() {
