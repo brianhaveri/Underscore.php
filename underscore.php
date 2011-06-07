@@ -659,22 +659,21 @@ class _ {
     list($code, $context) = self::_wrapArgs(func_get_args());
 
     $class_name = __CLASS__;
-    $return = self::_wrap(function($context=null) use ($code, $class_name) {
-      $c = $class_name::getInstance()->_template_settings;
-      
-      // Backslash replacement
-      $code = preg_replace('/[\\\]{1,}/', '\\\\', $code);
+    
+   $return = self::_wrap(function($context=null) use ($code, $class_name) {
+      $ts = $class_name::getInstance()->_template_settings;
       
       // Wrap interpolated and evaluated blocks inside PHP tags
       extract((array) $context);
-      preg_match_all($c['interpolate'], $code, $vars, PREG_SET_ORDER);
+      
+      preg_match_all($ts['interpolate'], $code, $vars, PREG_SET_ORDER);
       if(count($vars) > 0) {
         foreach($vars as $var) {
           $echo = $class_name::TEMPLATE_OPEN_TAG . ' echo ' . trim($var[1]) . '; ' . $class_name::TEMPLATE_CLOSE_TAG;
           $code = str_replace($var[0], $echo, $code);
         }
       }
-      preg_match_all($c['evaluate'], $code, $vars, PREG_SET_ORDER);
+      preg_match_all($ts['evaluate'], $code, $vars, PREG_SET_ORDER);
       if(count($vars) > 0) {
         foreach($vars as $var) {
           $echo = $class_name::TEMPLATE_OPEN_TAG . trim($var[1]) . $class_name::TEMPLATE_CLOSE_TAG;
@@ -689,28 +688,10 @@ class _ {
       
       $func = create_function('$context', $code);
       return $func((array) $context);
-    });
-    return self::_wrap($return);
-  }
-  
-  public function templateold($subject=null, $context=null) {
-    list($subject, $context) = self::_wrapArgs(func_get_args());
-    
-    $return = self::_wrap(function($context) use (&$subject) {
-      $result = $subject;
-      foreach($context as $term=>$replacement) {
-        $term_patterns = array(
-          '<%= ' . $term . ' %>'
-        );
-        foreach($term_patterns as $term_pattern) {
-          $result = str_replace($term_pattern, addslashes($replacement), $result);
-        }
-      }
-      return $result;
+      
     });
     
-    if($context) echo $return();
-    return self::_wrap($return);
+    return self::_wrap((isset($this) && $this->_wrapped) ? $return($context) : $return);
   }
   
   public $_memoized = array();
