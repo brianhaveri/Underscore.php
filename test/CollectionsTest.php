@@ -206,11 +206,8 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $sum = _(array(1,2,3))->reduce(function($sum, $num) { return $sum + $num; });
     $this->assertEquals(6, $sum, 'OO-style reduce');
     
-    // @todo
-    /*
-    sum = _.inject([1, 2, 3], function(sum, num){ return sum + num; }, 0);
-    equals(sum, 6, 'aliased as "inject"');
-    */
+    $sum = _::inject(array(1,2,3), function($sum, $num) { return $sum + $num; }, 0);
+    $this->assertEquals(6, $sum, 'aliased as "inject"');
   }
   
   public function testReduceRight() {
