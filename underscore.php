@@ -424,6 +424,19 @@ class _ {
     return self::_wrap(array_values($results));
   }
   
+  public function groupBy($collection=null, $iterator=null) {
+    list($collection, $iterator) = self::_wrapArgs(func_get_args());
+    
+    $result = array();
+    $collection = (array) $collection;
+    foreach($collection as $k=>$v) {
+      $key = $iterator($v, $k);
+      if(!array_key_exists($key, $result)) $result[$key] = array();
+      $result[$key][] = $v;
+    }
+    return $result;
+  }
+  
   public function keys($collection=null) {
     list($collection) = self::_wrapArgs(func_get_args());
     
