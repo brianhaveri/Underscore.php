@@ -166,10 +166,7 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse(_::includ($collection, 'bar'));
     $this->assertFalse(_::includ($collection, 'Foo'));
     
-    // @todo
-    /*
-    ok(_.contains({moe:1, larry:3, curly:9}, 3) === true, '_.include on objects checks their values');
-    */
+    $this->assertTrue(_::contains((object) array('moe'=>1, 'larry'=>3, 'curly'=>9), 3), '_::includ on objects checks their values');
   }
   
   public function testInvoke() {

@@ -114,13 +114,13 @@ class _ {
     return self::_wrap($return);
   }
   
+  public function contains($collection=null, $val=null) { return self::includ($collection, $val); }
   public function includ($collection=null, $val=null) {
     list($collection, $val) = self::_wrapArgs(func_get_args());
     
     if(!is_array($collection) && !is_object($collection)) $collection = str_split((string) $collection);
     
     $collection = (array) $collection;
-    return self::_wrap(is_int(array_search($val, $collection, true)));
     return self::_wrap((array_search($val, $collection, true) !== false));
   }
   
