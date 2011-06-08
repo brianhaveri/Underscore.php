@@ -18,7 +18,7 @@
     }
     #container {
       margin: 0 0 0 50px;
-      width: 700px;
+      width: 680px;
     }
     h1 { font-size: 32px; padding: 20px 0 5px 0; margin-left: -5px; }
     h1 .small { font-size: 0.4em; }
@@ -75,7 +75,7 @@
         <a href="#reject">reject</a>,
         <a href="#all">all</a>,
         <a href="#any">any</a>,
-        <a href="#include">include</a>,
+        <a href="#includ">includ</a>,
         <a href="#invoke">invoke</a>,
         <a href="#pluck">pluck</a>,
         <a href="#max">max</a>,
@@ -168,7 +168,7 @@ _(array(1, 2, 3))->map(function($n) { return $n * 2; });</pre>
 
 <h2 id="collections">Collections</h2>
 <p class="block" id="each"><b class="function">each</b> <code>_::each(collection, iterator)</code></p>
-<p>Iterates over the collection and yield each in turn to the iterator function. Arguments passed to iterator are (value, key, collection) Unlike Underscore.js, context is passed using PHP's <code class="inline">use</code> statement. Underscore.php does not contain the forEach alias because 'foreach' is a reserved keyword in PHP.</p>
+<p>Iterates over the collection and yield each in turn to the iterator function. Arguments passed to iterator are (value, key, collection). Unlike Underscore.js, context is passed using PHP's <code class="inline">use</code> statement. Underscore.php does not contain the forEach alias because 'foreach' is a reserved keyword in PHP.</p>
 <pre>_::each(array(1, 2, 3), function($num) { echo $num . ','; }); // 1,2,3,
 
 $multiplier = 2;
@@ -178,7 +178,7 @@ _::each(array(1, 2, 3), function($num, $index) use ($multiplier) {
 // 0=2,1=4,2=6,</pre>
 
 <p class="block" id="map"><b class="function">map</b> <code>_::map(collection, iterator)</code></p>
-<p>Returns an array of values by mapping each in collection through the iterator. Arguments passed to iterator are (value, key, collection) Unlike Underscore.js, context is passed using PHP's <code class="inline">use</code> statement.</p>
+<p>Returns an array of values by mapping each in collection through the iterator. Arguments passed to iterator are (value, key, collection). Unlike Underscore.js, context is passed using PHP's <code class="inline">use</code> statement.</p>
 <pre>_::map(array(1, 2, 3), function($num) { return $num * 3; }); // array(3, 6, 9)
 
 _::map(array('one'=>1, 'two'=>2, 'three'=>3), function($num, $key) {
@@ -187,6 +187,41 @@ _::map(array('one'=>1, 'two'=>2, 'three'=>3), function($num, $key) {
 // array(3, 6, 9);
 </pre>
 
+<p class="block" id="reduce"><b class="function">reduce</b> <code>_::reduce(collection, iterator, memo)</code> <span class="alias">Aliases: <b>inject, foldl</b></span></p>
+<p>Reduce the collection into a single value. Memo is the initial state of the reduction, updated by the return value of the iterator. Unlike Underscore.js, context is passed using PHP's <code class="inline">use</code> statement.</p>
+<pre>_::reduce(array(1, 2, 3), function($memo, $num) { return $memo + $num; }, 0); // 6</pre>
+
+<p class="block" id="reduceRight"><b class="function">reduceRight</b> <code>_::reduceRight(collection, iterator, memo)</code> <span class="alias">Alias: <b>foldr</b></span></p>
+<p>Right-associative version of reduce.</p>
+<pre>$list = array((array(0, 1), array(2, 3), array(5, 6)));
+$flat = _::reduceRight($list, function($a, $b) { return $a . $b; }, array());
+// array(4, 5, 2, 3, 0, 1)</pre>
+
+<p class="block" id="detect"><b class="function">detect</b> <code>_::detect(collection, iterator)</code></p>
+<p>Return the value of the first item in the collection that passes the truth iterator test.</p>
+<pre>_::select(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // 2</pre>
+
+<p class="block" id="select"><b class="function">select</b> <code>_::select(collection, iterator)</code></p>
+<p>Return the values in the collection that pass the truth iterator test.</p>
+<pre>_::select(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // array(2, 4)</pre>
+
+<p class="block" id="reject"><b class="function">select</b> <code>_::reject(collection, iterator)</code></p>
+<p>Return the values in the collection that fail the truth iterator test.</p>
+<pre>_::reject(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // array(1, 3)</pre>
+
+<p class="block" id="select"><b class="function">all</b> <code>_::all(collection, iterator)</code></p>
+<p>Returns true if all values in the collection pass the truth iterator test.</p>
+<pre>_::all(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // false
+_::all(array(1, 2, 3, 4), function($num) { return $num < 5; }); // true</pre>
+
+<p class="block" id="select"><b class="function">any</b> <code>_::any(collection, iterator)</code></p>
+<p>Returns true if any values in the collection pass the truth iterator test.</p>
+<pre>_::any(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // true
+_::any(array(1, 2, 3, 4), function($num) { return $num === 5; }); // false</pre>
+
+<p class="block" id="includ"><b class="function">includ</b> <code>_::includ(collection, value)</code> <span class="alias">Alias: <b>contains</b></span></p>
+<p>Returns true if value is found in the collection using === to test equality. This function is called 'include' in Underscore.js, but was renamed to 'includ' in Underscore.php because 'include' is a reserved keyword in PHP.</p>
+<pre>_::includ(array(1, 2, 3), 3); // true</pre>
 
 <h2 id="arrays">Arrays</h2>
 <p class="block" id="first"><b class="function">first</b> <code>_::first(array, [n])</code> <span class="alias">Alias: <b>head</b></span></p>
