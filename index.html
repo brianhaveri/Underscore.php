@@ -3,44 +3,44 @@
 <head>
   <meta charset='utf-8'>
 
-  <title>brianhaveri/Underscore.php @ GitHub</title>
+  <title>Underscore.php</title>
 
   <style type="text/css">
     body {
       margin-top: 1.0em;
       background-color: #f2f2f2;
       font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #000000;
+      font-size: 14px;
+      color: #222;
+      line-height: 1.4em;
     }
     #container {
-      margin: 0 auto;
+      margin: 0 0 0 50px;
       width: 700px;
     }
-    h1 { font-size: 3.8em; color: #0d0d0d; margin-bottom: 3px; }
+    h1 { font-size: 32px; margin-bottom: 3px; }
     h1 .small { font-size: 0.4em; }
-    h1 a { text-decoration: none }
-    h2 { font-size: 1.5em; color: #0d0d0d; }
-    h3 { text-align: center; color: #0d0d0d; }
-    a { color: #0d0d0d; }
+    h1 a { background: none; color: #222; }
+    h2 { font-size: 24px; font-weight: bold; color: #0d0d0d; margin: 30px 0 5px 0; border-top: 3px solid #ddd; padding-top: 30px; }
+    h3 { font-size: 16px; font-weight: bold; color: #0d0d0d; margin: 20px 0 5px 0; }
+    p { margin: 0 0 10px 0; }
+    a { background: #5A68A5; color: #fff; padding: 5px 5px 2px 5px; text-decoration: none; }
+    a:hover { background: #384683; }
     .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-    pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
+    pre { color: #666; background: #ddd; padding: 15px; margin: 5px 0; border-left: 5px solid #5A68A5; font-family: Monaco, "Lucida Grande", monospace; }
+    code { font-family: Monaco, "Lucida Grande", monospace; color: #666; margin-left: 15px; }
+    hr { border: 0; width: 100%; border-bottom: 3px solid #ddd; margin: 20px 0; }
     .footer { text-align:center; padding-top:30px; font-style: italic; }
+    .fade { color: #aaa; }
+    .function { font-size: 20px; }
+    .alias { float: right; color: #666; font-style: italic; }
+    .block { margin-top: 35px; }
+    nav p { line-height: 1.8em; }
   </style>
 </head>
 
 <body>
-  <a href="http://github.com/brianhaveri/Underscore.php"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
-
   <div id="container">
-
-    <div class="download">
-      <a href="http://github.com/brianhaveri/Underscore.php/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/brianhaveri/Underscore.php/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
-    </div>
 
     <h1><a href="http://github.com/brianhaveri/Underscore.php">Underscore.php</a>
       <span class="small">by <a href="http://github.com/brianhaveri">brianhaveri</a></span></h1>
@@ -49,37 +49,143 @@
       PHP port of Underscore.js
     </div>
 
-    <h2>Authors</h2>
-<p>Brian Haveri</p>
-<h2>Contact</h2>
-<p>Brian Haveri</p>
-
-
     <h2>Download</h2>
     <p>
       You can download this project in either
       <a href="http://github.com/brianhaveri/Underscore.php/zipball/master">zip</a> or
       <a href="http://github.com/brianhaveri/Underscore.php/tarball/master">tar</a> formats.
     </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/brianhaveri/Underscore.php</pre>
-    </p>
+    
+    <nav>
+      <h2>Table of Contents</h2>
+      <p><a href="#styles">Object-Oriented and Functional Styles</a></p>
+      
+      <h3>Collections</h3>
+      <p>
+        <a href="#reduce">reduce</a>,
+        <a href="#reduceRight">reduceRight</a>,
+        <a href="#detect">detect</a>,
+        <a href="#select">select</a>,
+        <a href="#reject">reject</a>,
+        <a href="#all">all</a>,
+        <a href="#any">any</a>,
+        <a href="#include">include</a>,
+        <a href="#invoke">invoke</a>,
+        <a href="#pluck">pluck</a>,
+        <a href="#max">max</a>,
+        <a href="#min">min</a>,
+        <a href="#sortBy">sortBy</a>,
+        <a href="#sortedIndex">sortedIndex</a>,
+        <a href="#toArray">toArray</a>,
+        <a href="#size">size</a>
+      </p>
+      
+      <h3>Arrays</h3>
+      <p>
+        <a href="#first">first</a>,
+        <a href="#rest">rest</a>,
+        <a href="#last">last</a>,
+        <a href="#compact">compact</a>,
+        <a href="#flatten">flatten</a>,
+        <a href="#without">without</a>,
+        <a href="#uniq">uniq</a>,
+        <a href="#intersect">intersect</a>,
+        <a href="#zip">zip</a>,
+        <a href="#indexOf">indexOf</a>,
+        <a href="#lastIndexOf">lastIndexOf</a>,
+        <a href="#range">range</a></span>
+      </p>
+      
+      <h3>Functions</h3>
+      <p>
+        <span class="fade">bind (not included)</span>,
+        <span class="fade">bindAll (not included)</span>
+        <a href="#memoize">memoize</a>,
+        <span class="fade">delay (not included)</span>,
+        <span class="fade">defer (not included)</span>,
+        <a href="#throttle">throttle</a>,
+        <span class="fade">debounce (not included)</span>,
+        <a href="#once">once</a>,
+        <a href="#after">after</a>,
+        <a href="#wrap">wrap</a>,
+        <a href="#compose">compose</a>
+      </p>
+      
+      <h3>Objects</h3>
+      <p>
+        <a href="#keys">keys</a>,
+        <a href="#values">values</a>,
+        <a href="#functions">functions</a>,
+        <a href="#extend">extend</a>,
+        <a href="#defaults">defaults</a>,
+        <a href="#clone">clone</a>,
+        <a href="#tap">tap</a>,
+        <a href="#isEqual">isEqual</a>,
+        <a href="#isEmpty">isEmpty</a>,
+        <span class="fade">isElement (not included)</span>,
+        <a href="#isArray">isArray</a>,
+        <span class="fade">isArguments (not included)</span>,
+        <a href="#isFunction">isFunction</a>,
+        <a href="#isString">isString</a>,
+        <a href="#isNumber">isNumber</a>,
+        <a href="#isBoolean">isBoolean</a>,
+        <a href="#isDate">isDate</a>,
+        <span class="fade">isRegExp (not included)</span>,
+        <a href="#isNaN">isNaN</a>,
+        <a href="#isNull">isNull</a>,
+        <a href="#isUndefined">isUndefined</a>
+      </p>
+      
+      <h3>Utility</h3>
+      <p>
+        <span class="fade">noConflict (not included)</span>,
+        <a href="#identity">identity</a>,
+        <a href="#times">times</a>,
+        <a href="#mixin">mixin</a>,
+        <a href="#uniqueId">uniqueId</a>,
+        <a href="#template">template</a>
+      </p>
+      
+      <h3>Chaining</h3>
+      <p>
+        <a href="#chain">chain</a>,
+        <a href="#value">value</a>
+      </p>
+    </nav>
+    
+    <h2 id="styles">Object-Oriented and Functional Styles</h2>
+    <p>Underscore.php works in both object-oriented and functional styles. The following lines are identical ways to double a list of numbers.</p>
+    <pre>_::map(array(1, 2, 3), function($n) { return $n * 2; });
+_(array(1, 2, 3))->map(function($n) { return $n * 2; });</pre>
 
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/brianhaveri/Underscore.php">brianhaveri/Underscore.php</a>
-    </div>
+<h2 id="arrays">Arrays</h2>
+<p class="block" id="first"><b class="function">first</b> <code>_::first(array, [n])</code> <span class="alias">Alias: <b>head</b></span></p>
+<p>Get the first element of an array. Passing n returns the first n elements.</p>
+<pre>_::first(array(5, 4, 3, 2, 1)); // 5
+_::first(array(5, 4, 3, 2, 1), 3); // array(5, 4, 3)</pre>
 
+<p class="block" id="rest"><b class="function">rest</b> <code>_::rest(array, [index])</code> <span class="alias">Alias: <b>tail</b></span></p>
+<p>Get the rest of the array elements. Passing an index returns from that index onward.</p>
+<pre>_::rest(array(5, 4, 3, 2, 1)); // array(4, 3, 2, 1)</pre>
+
+<p class="block" id="last"><b class="function">last</b> <code>_::rest(array)</code> <span class="alias">Alias: <b>tail</b></span></p>
+<p>Get the last element of an array.</p>
+<pre>_::last(array(5, 4, 3, 2, 1)); // 1</pre>
+
+    <h2>Credit</h2>
+    <p>Author: Brian Haveri</p>
+    <p>Thanks to Jeremy Ashkenas and all contributors to Underscore.js.</p>
   </div>
 
   <script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-11187420-10");
-pageTracker._trackPageview();
-} catch(err) {}</script>
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+  <script type="text/javascript">
+  try {
+  var pageTracker = _gat._getTracker("UA-11187420-10");
+  pageTracker._trackPageview();
+  } catch(err) {}
+  </script>
 </body>
 </html>
