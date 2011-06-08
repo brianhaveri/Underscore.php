@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset='utf-8'>
+  <meta charset="utf-8">
+  <meta name="author" content="Brian Haveri" />
+  <meta name="description" content="Underscore.php is a PHP port of the popular Underscore.js library" />
 
   <title>Underscore.php</title>
 
@@ -18,7 +20,7 @@
       margin: 0 0 0 50px;
       width: 700px;
     }
-    h1 { font-size: 32px; margin-bottom: 3px; }
+    h1 { font-size: 32px; padding: 20px 0 5px 0; margin-left: -5px; }
     h1 .small { font-size: 0.4em; }
     h1 a { background: none; color: #222; }
     h2 { font-size: 24px; font-weight: bold; color: #0d0d0d; margin: 30px 0 5px 0; border-top: 3px solid #ddd; padding-top: 30px; }
@@ -45,10 +47,11 @@
     <h1><a href="http://github.com/brianhaveri/Underscore.php">Underscore.php</a>
       <span class="small">by <a href="http://github.com/brianhaveri">brianhaveri</a></span></h1>
 
-    <div class="description">
-      PHP port of Underscore.js
-    </div>
-
+    <nav>
+      <p><a href="http://github.com/brianhaveri/Underscore.php">Underscore.php</a> is a PHP port of the popular <a href="http://documentcloud.github.com/underscore/">Underscore.js</a> library. In addition to porting Underscore's functionality, Underscore.php includes matching unit tests.</p>
+      <p>Underscore.php is <a href="http://github.com/brianhaveri/Underscore.php">hosted on GitHub</a> and open sourced under the MIT license.</p>
+    </nav>
+      
     <h2>Download</h2>
     <p>
       You can download this project in either
@@ -98,13 +101,13 @@
       
       <h3>Functions</h3>
       <p>
-        <span class="fade">bind (not included)</span>,
-        <span class="fade">bindAll (not included)</span>
+        <span class="fade">bind</span>,
+        <span class="fade">bindAll</span>
         <a href="#memoize">memoize</a>,
-        <span class="fade">delay (not included)</span>,
-        <span class="fade">defer (not included)</span>,
+        <span class="fade">delay</span>,
+        <span class="fade">defer</span>,
         <a href="#throttle">throttle</a>,
-        <span class="fade">debounce (not included)</span>,
+        <span class="fade">debounce</span>,
         <a href="#once">once</a>,
         <a href="#after">after</a>,
         <a href="#wrap">wrap</a>,
@@ -122,15 +125,15 @@
         <a href="#tap">tap</a>,
         <a href="#isEqual">isEqual</a>,
         <a href="#isEmpty">isEmpty</a>,
-        <span class="fade">isElement (not included)</span>,
+        <span class="fade">isElement</span>,
         <a href="#isArray">isArray</a>,
-        <span class="fade">isArguments (not included)</span>,
+        <span class="fade">isArguments</span>,
         <a href="#isFunction">isFunction</a>,
         <a href="#isString">isString</a>,
         <a href="#isNumber">isNumber</a>,
         <a href="#isBoolean">isBoolean</a>,
         <a href="#isDate">isDate</a>,
-        <span class="fade">isRegExp (not included)</span>,
+        <span class="fade">isRegExp</span>,
         <a href="#isNaN">isNaN</a>,
         <a href="#isNull">isNull</a>,
         <a href="#isUndefined">isUndefined</a>
@@ -138,7 +141,7 @@
       
       <h3>Utility</h3>
       <p>
-        <span class="fade">noConflict (not included)</span>,
+        <span class="fade">noConflict</span>,
         <a href="#identity">identity</a>,
         <a href="#times">times</a>,
         <a href="#mixin">mixin</a>,
@@ -151,6 +154,8 @@
         <a href="#chain">chain</a>,
         <a href="#value">value</a>
       </p>
+      
+      <p class="fade"><i>Some functions were not ported from Underscore.js to Underscore.php for technical reasons or because they weren't applicable to PHP.</i></p>
     </nav>
     
     <h2 id="styles">Object-Oriented and Functional Styles</h2>
@@ -227,8 +232,10 @@ _::range(0, 30, 5);   // array(0, 5, 10, 15, 20, 25)
 _::range(0, -5, -1);  // array(0, -1, -2, -3, -4)
 _::range(0);          // array()</pre>
 
-    <h2>Credit</h2>
-    <p>Author: Brian Haveri</p>
+    <h2>Author</h2>
+    <p>Brian Haveri <a href="https://github.com/brianhaveri/">GitHub</a>, <a href="http://twitter.com/brianhaveri">@brianhaveri</a></p>
+    
+    <h3>Credit</h3>
     <p>Thanks to Jeremy Ashkenas and all contributors to Underscore.js.</p>
   </div>
 
