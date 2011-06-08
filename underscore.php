@@ -127,15 +127,17 @@ class _ {
     return self::_wrap((array_search($val, $collection, true) !== false));
   }
   
-  public function invoke($collection=null, $function=null, $args=null) {
+  public function invoke($collection=null, $function_name=null, $arguments=null) {
     $args = self::_wrapArgs(func_get_args());
     $_ = new self;
-    list($collection, $function) = $_->first($args, 2);
-    $args = $_->rest($args, 2);
+    list($collection, $function_name) = $_->first($args, 2);
+    $arguments = $_->rest($args, 2);
     
-    return $_->map($collection, function($val) use ($_, $function) {
-      return $function($val);
-    });
+    $is_obj = is_object($collection);
+    $result = (empty($arguments)) ? array_map($function_name, (array) $collection) : array_map($function_name, (array) $collection, $arguments);
+    if($is_obj) $result = (object) $result;
+    
+    return self::_wrap($result);
   }
   
   public function some($collection=null, $iterator=null) { return self::any($collection, $iterator); }

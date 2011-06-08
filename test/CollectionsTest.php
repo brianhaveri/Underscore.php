@@ -171,17 +171,11 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
   
   public function testInvoke() {
     // from js
-    $list = array(
-      array(5,1,7),
-      array(3,2,1)
-    );
-    $sort = function($vals) {
-      sort($vals);
-      return $vals;
-    };
-    $result = _::invoke($list, $sort);
-    $this->assertEquals(array(1,5,7), $result[0], 'first array sorted');
-    $this->assertEquals(array(1,2,3), $result[1], 'second array sorted');
+    // the sort example from js doesn't work here because sorting occurs in place in PHP
+    $list = array(' foo', ' bar ');
+    $this->assertEquals(array('foo','bar'), _::invoke($list, 'trim'), 'trim applied on array');
+    $this->assertEquals((object) array('foo','bar'), _::invoke((object) $list, 'trim'), 'trim applied on object');
+    $this->assertEquals(array('foo','bar'), _($list)->invoke('trim'), 'works with OO-style call');
   }
   
   public function testReduce() {
