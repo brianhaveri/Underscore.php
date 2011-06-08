@@ -25,7 +25,7 @@
     h3 { font-size: 16px; font-weight: bold; color: #0d0d0d; margin: 20px 0 5px 0; }
     p { margin: 0 0 10px 0; }
     a { background: #5A68A5; color: #fff; padding: 5px 5px 2px 5px; text-decoration: none; }
-    a:hover { background: #384683; }
+    a:hover { background: #384683; color: #fff; }
     .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
     pre { color: #666; background: #ddd; padding: 15px; margin: 5px 0; border-left: 5px solid #5A68A5; font-family: Monaco, "Lucida Grande", monospace; }
     code { font-family: Monaco, "Lucida Grande", monospace; color: #666; margin-left: 15px; }
@@ -34,7 +34,7 @@
     .fade { color: #aaa; }
     .function { font-size: 20px; }
     .alias { float: right; color: #666; font-style: italic; }
-    .block { margin-top: 35px; }
+    .block { margin-top: 35px; margin-bottom: 2px; }
     nav p { line-height: 1.8em; }
   </style>
 </head>
@@ -168,9 +168,64 @@ _::first(array(5, 4, 3, 2, 1), 3); // array(5, 4, 3)</pre>
 <p>Get the rest of the array elements. Passing an index returns from that index onward.</p>
 <pre>_::rest(array(5, 4, 3, 2, 1)); // array(4, 3, 2, 1)</pre>
 
-<p class="block" id="last"><b class="function">last</b> <code>_::rest(array)</code> <span class="alias">Alias: <b>tail</b></span></p>
+<p class="block" id="last"><b class="function">last</b> <code>_::last(array)</code></p>
 <p>Get the last element of an array.</p>
 <pre>_::last(array(5, 4, 3, 2, 1)); // 1</pre>
+
+<p class="block" id="compact"><b class="function">compact</b> <code>_::compact(array)</code></p>
+<p>Returns a copy of the array with falsy values removed</p>
+<pre>_::compact(array(false, true, 'a', 0, 1, '')); // array(true, 'a', 1)</pre>
+
+<p class="block" id="flatten"><b class="function">flatten</b> <code>_::flatten(array)</code></p>
+<p>Flattens a multidimensional array</p>
+<pre>_::flatten(array(1, array(2), array(3, array(array(array(4))))));
+// array(1, 2, 3, 4)</pre>
+
+<p class="block" id="without"><b class="function">without</b> <code>_::without(array, [*values])</code></p>
+<p>Returns a copy of the array with all instances of <b>values</b> removed. === is used for equality testing.</p>
+<pre>_::without(array(5, 4, 3, 2, 1), 3, 2); // array(5, 4, 1)</pre>
+
+<p class="block" id="uniq"><b class="function">uniq</b> <code>_::uniq(array)</code> <span class="alias">Alias: <b>unique</b></span></p>
+<p>Returns a copy of the array containing no duplicate values. Unlike Underscore.js, Underscore.php does not accept a second isSorted parameter.</p>
+<pre>_::uniq(array(2, 2, 4, 4, 4, 1, 1, 1)); // array(2, 4, 1)</pre>
+
+
+
+<p class="block" id="intersect"><b class="function">intersect</b> <code>_::intersect(*arrays)</code></p>
+<p>Returns an array containing the intersection of all the arrays. Each value in the resulting array exists in all arrays.</p>
+<pre>$arr1 = array(0, 1, 2, 3);
+$arr2 = array(1, 2, 3, 4);
+$arr3 = array(2, 3, 4, 5);
+_::intersect($arr1, $arr2, $arr3); // array(2, 3)</pre>
+
+<p class="block" id="zip"><b class="function">zip</b> <code>_::zip(*arrays)</code></p>
+<p>Merges arrays</p>
+<pre>$names = array('moe', 'larry', 'curly');
+$ages = array(30, 40, 50);
+$leaders = array(true, false, false);
+
+_::zip($names, $ages, $leaders);
+// array(
+//   array('moe', 30, true),
+//   array('larry', 40, false),
+//   array('curly', 50, false)
+// )</pre>
+
+<p class="block" id="indexOf"><b class="function">indexOf</b> <code>_::indexOf(array, value)</code></p>
+<p>Returns the index of the first match. Returns -1 if no match is found. Unlike Underscore.js, Underscore.php does not take a second isSorted parameter.</p>
+<pre>_::indexOf(array(1, 2, 3, 2, 2), 2); // 1</pre>
+
+<p class="block" id="lastIndexOf"><b class="function">lastIndexOf</b> <code>_::lastIndexOf(array, value)</code></p>
+<p>Returns the index of the last match. Returns -1 if no match is found.</p>
+<pre>_::indexOf(array(1, 2, 3, 2, 2), 2); // 4</pre>
+
+<p class="block" id="range"><b class="function">range</b> <code>_::range([start], stop, [step])</code></p>
+<p>Returns an array of integers from <b>start</b> to <b>stop</b> (exclusive) by <b>step</b>. Defaults: <b>start</b>=0, <b>step</b>=1.</p>
+<pre>_::range(10);         // array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+_::range(1, 5);       // array(1, 2, 3, 4)
+_::range(0, 30, 5);   // array(0, 5, 10, 15, 20, 25)
+_::range(0, -5, -1);  // array(0, -1, -2, -3, -4)
+_::range(0);          // array()</pre>
 
     <h2>Credit</h2>
     <p>Author: Brian Haveri</p>
