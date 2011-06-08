@@ -342,4 +342,19 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     // @todo
     //$this->assertTrue(_::isUndefined($obj->larry), 'undefined is undefined');
   }
+  
+  public function testTap() {
+    $intercepted = null;
+    $interceptor = function($obj) use (&$intercepted) { $intercepted = $obj; };
+    $returned = _::tap(1, $interceptor);
+    $this->assertEquals(1, $intercepted, 'passed tapped object to interceptor');
+    $this->assertEquals(1, $returned, 'returns tapped object');
+    
+    $returned = _(array(1,2,3))->chain()
+      ->map(function($n) { return $n * 2; })
+      ->max()
+      ->tap($interceptor)
+      ->value();
+    $this->assertTrue($returned === 6 && $intercepted === 6, 'can use tapped objects in a chain');
+  }
 }

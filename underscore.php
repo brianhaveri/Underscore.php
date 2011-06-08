@@ -553,6 +553,13 @@ class _ {
     return self::_wrap($clone);
   }
   
+  public function tap($object=null, $interceptor=null) {
+    list($object, $interceptor) = self::_wrapArgs(func_get_args());
+    
+    $interceptor($object);
+    return self::_wrap($object);
+  }
+  
   public function isEqual($a=null, $b=null) {
     list($a, $b) = self::_wrapArgs(func_get_args());
     
