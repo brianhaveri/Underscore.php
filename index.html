@@ -31,6 +31,7 @@
     .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
     pre { color: #666; background: #ddd; padding: 15px; margin: 5px 0; border-left: 5px solid #5A68A5; font-family: Monaco, "Lucida Grande", monospace; }
     code { font-family: Monaco, "Lucida Grande", monospace; color: #666; margin-left: 15px; }
+    code.inline { margin: 0; }
     hr { border: 0; width: 100%; border-bottom: 3px solid #ddd; margin: 20px 0; }
     .footer { text-align:center; padding-top:30px; font-style: italic; }
     .fade { color: #aaa; }
@@ -65,6 +66,8 @@
       
       <h3>Collections</h3>
       <p>
+        <a href="#each">each</a>,
+        <a href="#map">map</a>,
         <a href="#reduce">reduce</a>,
         <a href="#reduceRight">reduceRight</a>,
         <a href="#detect">detect</a>,
@@ -162,6 +165,28 @@
     <p>Underscore.php works in both object-oriented and functional styles. The following lines are identical ways to double a list of numbers.</p>
     <pre>_::map(array(1, 2, 3), function($n) { return $n * 2; });
 _(array(1, 2, 3))->map(function($n) { return $n * 2; });</pre>
+
+<h2 id="collections">Collections</h2>
+<p class="block" id="each"><b class="function">each</b> <code>_::each(collection, iterator)</code></p>
+<p>Iterates over the collection and yield each in turn to the iterator function. Arguments passed to iterator are (value, key, collection) Unlike Underscore.js, context is passed using PHP's <code class="inline">use</code> statement. Underscore.php does not contain the forEach alias because 'foreach' is a reserved keyword in PHP.</p>
+<pre>_::each(array(1, 2, 3), function($num) { echo $num . ','; }); // 1,2,3,
+
+$multiplier = 2;
+_::each(array(1, 2, 3), function($num, $index) use ($multiplier) {
+  echo $index . '=' . ($num * $multiplier) . ',';
+});
+// 0=2,1=4,2=6,</pre>
+
+<p class="block" id="map"><b class="function">map</b> <code>_::map(collection, iterator)</code></p>
+<p>Returns an array of values by mapping each in collection through the iterator. Arguments passed to iterator are (value, key, collection) Unlike Underscore.js, context is passed using PHP's <code class="inline">use</code> statement.</p>
+<pre>_::map(array(1, 2, 3), function($num) { return $num * 3; }); // array(3, 6, 9)
+
+_::map(array('one'=>1, 'two'=>2, 'three'=>3), function($num, $key) {
+  return $num * 3;
+});
+// array(3, 6, 9);
+</pre>
+
 
 <h2 id="arrays">Arrays</h2>
 <p class="block" id="first"><b class="function">first</b> <code>_::first(array, [n])</code> <span class="alias">Alias: <b>head</b></span></p>
