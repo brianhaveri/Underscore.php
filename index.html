@@ -223,6 +223,62 @@ _::any(array(1, 2, 3, 4), function($num) { return $num === 5; }); // false</pre>
 <p>Returns true if value is found in the collection using === to test equality. This function is called 'include' in Underscore.js, but was renamed to 'includ' in Underscore.php because 'include' is a reserved keyword in PHP.</p>
 <pre>_::includ(array(1, 2, 3), 3); // true</pre>
 
+<p class="block" id="invoke"><b class="function">invoke</b> <code>_::invoke(collection, functionName)</code></p>
+<p>Returns a copy of the collection after running functionName across all elements.</p>
+<pre>_::invoke(array(' foo', ' bar '), 'trim'); // array('foo', 'bar')</pre>
+
+<p class="block" id="pluck"><b class="function">pluck</b> <code>_::pluck(collection, propertyName)</code></p>
+<p>Extract an array of property values</p>
+<pre>$stooges = array(
+  array('name'=>'moe', 'age'=>40),
+  array('name'=>'larry', 'age'=>50),
+  array('name'=>'curly', 'age'=>60)
+);
+_::pluck($stooges, 'name'); // array('moe', 'larry', 'curly')</pre>
+
+<p class="block" id="max"><b class="function">max</b> <code>_::max(collection, [iterator])</code></p>
+<p>Returns the maximum value from the collection. If passed an iterator, max will return max value returned by the iterator. Unlike Underscore.js, context is passed using PHP's <code class="inline">use</code> statement.</p>
+<pre>$stooges = array(
+  array('name'=>'moe', 'age'=>40),
+  array('name'=>'larry', 'age'=>50),
+  array('name'=>'curly', 'age'=>60)
+);
+_::max($stooges, function($stooge) { return $stooge['age']; });
+// array('name'=>'curly', 'age'=>60)</pre>
+
+<p class="block" id="min"><b class="function">min</b> <code>_::min(collection, [iterator])</code></p>
+<p>Returns the minimum value from the collection. If passed an iterator, min will return min value returned by the iterator. Unlike Underscore.js, context is passed using PHP's <code class="inline">use</code> statement.</p>
+<pre>$stooges = array(
+  array('name'=>'moe', 'age'=>40),
+  array('name'=>'larry', 'age'=>50),
+  array('name'=>'curly', 'age'=>60)
+);
+_::min($stooges, function($stooge) { return $stooge['age']; });
+// array('name'=>'moe', 'age'=>40)</pre>
+
+<p class="block" id="sortBy"><b class="function">sortBy</b> <code>_::sortBy(collection, iterator)</code></p>
+<p>Returns a sorted array based on the iterator. If passed an iterator, min will return min value returned by the iterator. Unlike Underscore.js, context is passed using PHP's <code class="inline">use</code> statement.</p>
+<pre>_::sortBy(array(1, 2, 3), function($n) { return -$n; }); // array(3, 2, 1)</pre>
+
+<p class="block" id="sortedIndex"><b class="function">sortedIndex</b> <code>_::sortedIndex(collection, value, [iterator])</code></p>
+<p>Returns the index at which the value should be inserted into the sorted collection.</p>
+<pre>_::sortedIndex(array(10, 20, 30, 40), 35); // 3</pre>
+
+<p class="block" id="toArray"><b class="function">toArray</b> <code>_::toArray(collection)</code></p>
+<p>Converts the collection into an array.</p>
+<pre>$stooge = new StdClass;
+$stooge->name = 'moe';
+$stooge->age = 40;
+_::toArray($stooge); // array('name'=>'moe', 'age'=>40)</pre>
+
+<p class="block" id="size"><b class="function">size</b> <code>_::size(collection)</code></p>
+<p>Returns the number of values in the collection.</p>
+<pre>$stooge = new StdClass;
+$stooge->name = 'moe';
+$stooge->age = 40;
+_::size($stooge); // 2</pre>
+
+
 <h2 id="arrays">Arrays</h2>
 <p class="block" id="first"><b class="function">first</b> <code>_::first(array, [n])</code> <span class="alias">Alias: <b>head</b></span></p>
 <p>Get the first element of an array. Passing n returns the first n elements.</p>
