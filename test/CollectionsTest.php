@@ -42,6 +42,18 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     _(array(1,2,3))->each(function($num, $i) use ($test) {
       $test->assertEquals($num, $i+1, 'each iterators provide value and iteration count within OO-style call');
     });
+    
+    // docs
+    $str = '';
+    _::each(array(1, 2, 3), function($num) use (&$str) { $str .= $num . ','; });
+    $this->assertEquals('1,2,3,', $str);
+
+    $str = '';
+    $multiplier = 2;
+    _::each(array(1, 2, 3), function($num, $index) use ($multiplier, &$str) {
+      $str .= $index . '=' . ($num * $multiplier) . ',';
+    });
+    $this->assertEquals('0=2,1=4,2=6,', $str);
   }
   
   public function testMap() {
@@ -60,6 +72,13 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     
     $doubled = _(array(1,2,3))->map(function($num) { return $num * 2; });
     $this->assertEquals(array(2,4,6), $doubled, 'OO-style doubled numbers');
+  
+    $this->assertEquals(array(2, 4, 6), _::map(array(1, 2, 3), function($n) { return $n * 2; }));
+    $this->assertEquals(array(2, 4, 6), _(array(1, 2, 3))->map(function($n) { return $n * 2; }));
+    
+    // docs
+    $this->assertEquals(array(3,6,9), _::map(array(1, 2, 3), function($num) { return $num * 3; }));
+    $this->assertEquals(array(3,6,9), _::map(array('one'=>1, 'two'=>2, 'three'=>3), function($num, $key) { return $num * 3; }));
   }
   
   public function testDetect() {
@@ -205,6 +224,9 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     
     $sum = _::foldl(array(1,2,3), function($sum, $num) { return $sum + $num; }, 0);
     $this->assertEquals(6, $sum, 'aliased as "foldl"');
+    
+    // docs
+    $this->assertEquals(6, _::reduce(array(1, 2, 3), function($memo, $num) { return $memo + $num; }, 0));
   }
   
   public function testReduceRight() {
@@ -228,6 +250,11 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     
     $list = _::foldr(array('foo', 'bar', 'baz'), function($memo, $str) { return $memo . $str; });
     $this->assertEquals('bazbarfoo', $list, 'default initial value');
+    
+    // docs
+    $list = array(array(0, 1), array(2, 3), array(4, 5));
+    $flat = _::reduceRight($list, function($a, $b) { return array_merge($a, $b); }, array());
+    $this->assertEquals(array(4, 5, 2, 3, 0, 1), $flat);
   }
   
   public function testPluck() {
