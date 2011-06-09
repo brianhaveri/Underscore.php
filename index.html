@@ -389,10 +389,10 @@ $func(); // 'x'</pre>
 <p class="block" id="wrap"><b class="function">wrap</b> <code>_::wrap(function, wrapper)</code></p>
 <p>Wraps the <b>function</b> inside the <b>wrapper</b> function, passing it as the first argument. Lets the <b>wrapper</b> execute code before and/or after the <b>function</b> runs.</p>
 <pre>$hello = function($name) { return 'hello: ' . $name; };
-$hi = _::wrap($hello, function($name) {
-  return 'before, ' . $func($name) . ', after'; 
+$hi = _::wrap($hello, function($func) {
+  return 'before, ' . $func('moe') . ', after'; 
 });
-$hi('moe'); // 'before, hello: moe, after'</pre>
+$this->assertEquals('before, hello: moe, after', $hi()); // 'before, hello: moe, after'</pre>
 
 <p class="block" id="compose"><b class="function">compose</b> <code>_::compose(*functions)</code></p>
 <p>Returns the composition of the <b>functions</b>, where the return value is passed to the following function.</p>
