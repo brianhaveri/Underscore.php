@@ -319,7 +319,8 @@ class _ {
       
       $return = array_intersect($return, $next);
     }
-    return self::_wrap($return);
+    
+    return self::_wrap(array_values($return));
   }
   
   public function indexOf($collection=null, $item=null) {
