@@ -135,6 +135,9 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     // extra
     $this->assertEquals(array(4,5,6), _(array(4,5,4,4,5,5,6))->uniq(), 'works with OO call');
     $this->assertEquals(array(4,5,6), _(array(4,5,4,4,5,5,6))->unique(), 'aliased as "unique"');
+    
+    // docs
+    $this->assertEquals(array(2, 4, 1), _::uniq(array(2, 2, 4, 4, 4, 1, 1, 1)));
   }
   
   public function testIntersect() {
@@ -148,6 +151,12 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $func = function() use ($leaders) { $args = func_get_args(); return _::intersect($args[0], $leaders); };
     $result = $func($stooges);
     $this->assertEquals(array('moe'), $result, 'works on an arguments object');
+  
+    // docs
+    $arr1 = array(0, 1, 2, 3);
+    $arr2 = array(1, 2, 3, 4);
+    $arr3 = array(2, 3, 4, 5);
+    $this->assertEquals(array(2, 3), _::intersect($arr1, $arr2, $arr3));
   }
   
   public function testZip() {
@@ -166,6 +175,19 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $expected = array(array(1,'a'), array(2,'b'), array(3,'c'));
     $this->assertEquals($expected, _::zip($numbers, $letters), 'can perform normal zips');
     $this->assertEquals($expected, _($numbers)->zip($letters), 'can perform OO-style zips');
+  
+    // docs
+    $names = array('moe', 'larry', 'curly');
+    $ages = array(30, 40, 50);
+    $leaders = array(true, false, false);
+
+    $expected = array(
+      array('moe', 30, true),
+      array('larry', 40, false),
+      array('curly', 50, false)
+    );
+    $result = _::zip($names, $ages, $leaders);
+    $this->assertEquals($expected, $result);
   }
   
   public function testIndexOf() {
@@ -189,6 +211,9 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(2, _(array('a','b','c','d'))->indexOf('c'), 'works with OO-style calls');
     $this->assertEquals('b', _(array('a'=>5,'b'=>10,'c'=>15))->indexOf(10), 'works with associative arrays');
     $this->assertEquals(1, _::indexOf('foobar', 'o'), 'works with strings');
+  
+    // docs
+    $this->assertEquals(1, _::indexOf(array(1, 2, 3, 2, 2), 2));
   }
   
   public function testLastIndexOf() {
@@ -206,6 +231,9 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(4, _(array('a','b','c','c','c','d'))->lastIndexOf('c'), 'works with OO-style calls');
     $this->assertEquals('c', _(array('a'=>5,'b'=>10,'c'=>10))->lastIndexOf(10), 'works with associative arrays');
     $this->assertEquals(2, _::lastIndexOf('foobar', 'o'), 'works with strings');
+  
+    // docs
+    $this->assertEquals(4, _::lastIndexOf(array(1, 2, 3, 2, 2), 2));
   }
   
   public function testRange() {
@@ -226,5 +254,12 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9), _(10)->range(), 'works in OO-style calls and 1 parameter');
     $this->assertEquals(array(10,11,12), _(10)->range(13), 'works in OO-style calls and 2 parameters');
     $this->assertEquals(array(3,6,9), _(3)->range(10, 3), 'works in OO-style calls and 3 parameters');
+  
+    // docs
+    $this->assertEquals(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9), _::range(10));
+    $this->assertEquals(array(1, 2, 3, 4), _::range(1, 5));
+    $this->assertEquals(array(0, 5, 10, 15, 20, 25), _::range(0, 30, 5));
+    $this->assertEquals(array(0, -1, -2, -3, -4), _::range(0, -5, -1));
+    $this->assertEquals(array(), _::range(0));
   }
 }
