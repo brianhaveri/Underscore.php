@@ -14,9 +14,18 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
     // extra
     $this->assertEquals($moe, _($moe)->identity());
     $this->assertEquals($moe_obj, _($moe_obj)->identity());
+    
+    // docs
+    $moe = array('name'=>'moe');
+    $this->assertTrue($moe === _::identity($moe));
   }
 
   public function testUniqueId() {
+    // docs
+    $this->assertEquals(0, _::uniqueId());
+    $this->assertEquals('stooge_1', _::uniqueId('stooge_'));
+    $this->assertEquals(2, _::uniqueId());
+    
     // from js
     $ids = array();
     while($i++ < 100) array_push($ids, _::uniqueId());
@@ -39,6 +48,11 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
     $vals = array();
     _(3)->times(function($i) use (&$vals) { $vals[] = $i; });
     $this->assertEquals(array(0,1,2), $vals, 'works as a wrapper in OO-style call');
+  
+    // docs
+    $result = '';
+    _::times(3, function() use (&$result) { $result .= 'a'; });
+    $this->assertEquals('aaa', $result);
   }
 
   public function testMixin() {
@@ -52,6 +66,14 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
     ));
     $this->assertEquals('aecanap', _::myReverse('panacea'), 'mixed in a function to _');
     $this->assertEquals('pmahc', _('champ')->myReverse(), 'mixed in a function to _ with OO-style call');
+    
+    // docs
+    _::mixin(array(
+      'capitalize'=> function($string) { return ucwords($string); },
+      'yell'      => function($string) { return strtoupper($string); }
+    ));
+    $this->assertEquals('Moe', _::capitalize('moe'));
+    $this->assertEquals('MOE', _::yell('moe'));
   }
 
   public function testTemplate() {
