@@ -26,6 +26,10 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
   
     $this->assertEquals(1, _::head(array(1,2,3)), 'aliased as "head"');
     $this->assertEquals(array(), _::head(array(1,2,3), 0), 'aliased as "head"');
+  
+    // docs
+    $this->assertEquals(5, _::first(array(5, 4, 3, 2, 1)));
+    $this->assertEquals(array(5, 4, 3), _::first(array(5, 4, 3, 2, 1), 3));
   }
   
   public function testRest() {
@@ -45,6 +49,9 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     
     // extra
     $this->assertEquals(array('b','c'), _::tail(array('a','b','c')));
+    
+    // docs
+    $this->assertEquals(array(4, 3, 2, 1), _::rest(array(5, 4, 3, 2, 1)));
   }
   
   public function testLast() {
@@ -54,6 +61,9 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $func = function() { return _(func_get_args())->last(); };
     $result = $func(1,2,3,4);
     $this->assertEquals(4, $result, 'works on arguments');
+    
+    // docs
+    $this->assertEquals(1, _::last(array(5, 4, 3, 2, 1)));
   }
   
   public function testCompact() {
@@ -68,6 +78,9 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     
     // extra
     $this->assertEquals(array(1, 2, 3), _::compact($vals), 'can remove all falsy values');
+    
+    // docs
+    $this->assertEquals(array(true, 'a', 1), _::compact(array(false, true, 'a', 0, 1, '')));
   }
   
   public function testFlatten() {
@@ -79,6 +92,9 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $func = function() { return _::flatten(func_get_args()); };
     $result = $func(1, array(2), array(3, array(array(array(4)))));
     $this->assertEquals(array(1,2,3,4), $result, 'works with arguments');
+    
+    // docs
+    $this->assertEquals(array(1, 2, 3, 4), _::flatten(array(1, array(2), array(3, array(array(array(4)))))));
   }
   
   public function testWithout() {
@@ -99,6 +115,9 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
   
     // extra
     $this->assertEquals(array(4,5,6), _(array(4,5,6,7,8))->without(7,8), 'works in OO-style calls');
+    
+    // docs
+    $this->assertEquals(array(5, 4, 4=>1), _::without(array(5, 4, 3, 2, 1), 3, 2));
   }
   
   public function testUniq() {
