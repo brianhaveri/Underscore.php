@@ -202,7 +202,7 @@ $flat = _::reduceRight($list, function($a, $b) { return array_merge($a, $b); }, 
 
 <p class="block" id="detect"><b class="function">detect</b> <code>_::detect(collection, iterator)</code></p>
 <p>Return the value of the first item in the collection that passes the truth iterator test.</p>
-<pre>_::select(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // 2</pre>
+<pre>_::detect(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // 2</pre>
 
 <p class="block" id="select"><b class="function">select</b> <code>_::select(collection, iterator)</code></p>
 <p>Return the values in the collection that pass the truth iterator test.</p>
@@ -341,7 +341,7 @@ _::zip($names, $ages, $leaders);
 
 <p class="block" id="lastIndexOf"><b class="function">lastIndexOf</b> <code>_::lastIndexOf(array, value)</code></p>
 <p>Returns the index of the last match. Returns -1 if no match is found.</p>
-<pre>_::indexOf(array(1, 2, 3, 2, 2), 2); // 4</pre>
+<pre>_::lastIndexOf(array(1, 2, 3, 2, 2), 2); // 4</pre>
 
 <p class="block" id="range"><b class="function">range</b> <code>_::range([start], stop, [step])</code></p>
 <p>Returns an array of integers from <b>start</b> to <b>stop</b> (exclusive) by <b>step</b>. Defaults: <b>start</b>=0, <b>step</b>=1.</p>
@@ -427,7 +427,7 @@ _::defaults($food, $defaults); // (object) array('dairy'=>'cheese', 'meat'=>'bac
 <p class="block" id="clon"><b class="function">clon</b> <code>_::clon(object)</code></p>
 <p>Returns a shallow copy of the object. This function is called 'clone' in Underscore.js, but was renamed to 'clon' in Underscore.php because 'clone' is a reserved keyword in PHP.</p>
 <pre>$stooge = (object) array('name'=>'moe');
-_::clone($stooge); // (object) array('name'=>'moe');</pre>
+_::clon($stooge); // (object) array('name'=>'moe');</pre>
 
 <p class="block" id="tap"><b class="function">tap</b> <code>_::tap(object, interceptor)</code></p>
 <p>Invokes the <b>interceptor</b> on the <b>object</b>, then returns the object. Useful for performing intermediary operations on the object.</p>
@@ -464,7 +464,7 @@ _::isFunction('trim'); // false</pre>
 <p class="block" id="isString"><b class="function">isString</b> <code>_::isString(object)</code></p>
 <p>Returns true if passed a string.</p>
 <pre>_::isString('moe'); // true
-_::isFunction(''); // true</pre>
+_::isString(''); // true</pre>
 
 <p class="block" id="isNumber"><b class="function">isNumber</b> <code>_::isNumber(object)</code></p>
 <p>Returns true if passed a number.</p>
@@ -525,7 +525,7 @@ _::uniqueId(); // 2</pre>
 <pre>$compiled = _::template('hello: <%= $name %>');
 $compiled(array('name'=>'moe')); // 'hello: moe'
 
-$list = "<% _::each($people, function($name) { %>" &lt;li&gt;<%= $name %>&lt;/li&gt; <% }); %>";
+$list = '<% _::each($people, function($name) { %> &lt;li&gt;<%= $name %>&lt;/li&gt; <% }); %>';
 _::template($list, array('people'=>array('moe', 'curly', 'larry')));
 // '&lt;li&gt;moe&lt;/li&gt;&lt;li&gt;curly&lt;/li&gt;&lt;li&gt;larry&lt;/li&gt;'</pre>
 
