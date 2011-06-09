@@ -36,4 +36,14 @@ class UnderscoreChainingTest extends PHPUnit_Framework_TestCase {
     })->value();
     $this->assertEquals(array(10, 6, 2), $numbers, 'filtered and reversed the numbers');
   }
+  
+  public function testDocs() {
+    $numbers = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    $result = _($numbers)->chain()
+      ->select(function($n) { return $n < 5; })
+      ->reject(function($n) { return $n === 3; })
+      ->sortBy(function($n) { return -$n; })
+      ->value();
+    $this->assertEquals(array(4, 2, 1), $result);
+  }
 }
