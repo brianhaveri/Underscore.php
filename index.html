@@ -312,8 +312,8 @@ _::first(array(5, 4, 3, 2, 1), 3); // array(5, 4, 3)</pre>
 // array(1, 2, 3, 4)</pre>
 
 <p class="block" id="without"><b class="function">without</b> <code>_::without(array, [*values])</code></p>
-<p>Returns a copy of the array with all instances of <b>values</b> removed. === is used for equality testing.</p>
-<pre>_::without(array(5, 4, 3, 2, 1), 3, 2); // array(5, 4, 1)</pre>
+<p>Returns a copy of the array with all instances of <b>values</b> removed. === is used for equality testing. Keys are maintained.</p>
+<pre>_::without(array(5, 4, 3, 2, 1), 3, 2); // array(5, 4, 4=>1)</pre>
 
 <p class="block" id="uniq"><b class="function">uniq</b> <code>_::uniq(array)</code> <span class="alias">Alias: <b>unique</b></span></p>
 <p>Returns a copy of the array containing no duplicate values. Unlike Underscore.js, Underscore.php does not accept a second isSorted parameter.</p>
