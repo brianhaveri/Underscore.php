@@ -449,7 +449,7 @@ _(array(1, 2, 3))->chain()
 <p>Are these items equal? Uses === equality testing. Objects tested using values.</p>
 <pre>$stooge = (object) array('name'=>'moe');
 $clon = _::clon($stooge);
-$stooge == $clon; // false
+$stooge === $clon; // false
 _::isEqual($stooge, $clon); // true</pre>
 
 <p class="block" id="isEmpty"><b class="function">isEmpty</b> <code>_::isEmpty(object)</code></p>
