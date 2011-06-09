@@ -196,8 +196,8 @@ _::map(array('one'=>1, 'two'=>2, 'three'=>3), function($num, $key) {
 
 <p class="block" id="reduceRight"><b class="function">reduceRight</b> <code>_::reduceRight(collection, iterator, memo)</code> <span class="alias">Alias: <b>foldr</b></span></p>
 <p>Right-associative version of reduce.</p>
-<pre>$list = array((array(0, 1), array(2, 3), array(5, 6)));
-$flat = _::reduceRight($list, function($a, $b) { return $a . $b; }, array());
+<pre>$list = array(array(0, 1), array(2, 3), array(4, 5));
+$flat = _::reduceRight($list, function($a, $b) { return array_merge($a, $b); }, array());
 // array(4, 5, 2, 3, 0, 1)</pre>
 
 <p class="block" id="detect"><b class="function">detect</b> <code>_::detect(collection, iterator)</code></p>
