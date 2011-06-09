@@ -198,6 +198,12 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse(_::isEqual(null, array(1)), 'a falsy is never equal to a truthy');
     $this->assertEquals(true, _(array('x'=>1, 'y'=>2))->chain()->isEqual(_(array('x'=>1, 'y'=>2))->chain())->value(), 'wrapped objects are equal');
     
+    // docs
+    $stooge = (object) array('name'=>'moe');
+    $clon = _::clon($stooge);
+    $this->assertFalse($stooge === $clon);
+    $this->assertTrue(_::isEqual($stooge, $clon));
+    
     // @todo Lower memory usage on these
     //$this->assertFalse(_::isEqual(array('x'=>1, 'y'=>null), array('x'=>1, 'z'=>2)), 'objects with the same number of undefined keys are not equal');
     //$this->assertFalse(_::isEqual(_(array('x'=>1, 'y'=>null))->chain(), _(array('x'=>1, 'z'=>2))->chain()), 'wrapped objects are not equal');
@@ -221,6 +227,12 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse(_(array(1))->isEmpty(), 'array(1) is not empty with OO-style call');
     $this->assertTrue(_(array())->isEmpty(), 'array() is empty with OO-style call');
     $this->assertTrue(_(null)->isEmpty(), 'null is empty with OO-style call');
+  
+    // docs
+    $stooge = (object) array('name'=>'moe');
+    $this->assertFalse(_::isEmpty($stooge));
+    $this->assertTrue(_::isEmpty(new StdClass));
+    $this->assertTrue(_::isEmpty((object) array()));
   }
   
   public function testIsArray() {
@@ -233,6 +245,10 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue(_::isArray(array(array(1,2))));
     $this->assertFalse(_(null)->isArray());
     $this->assertTrue(_(array())->isArray());
+    
+    // docs
+    $this->assertTrue(_::isArray(array(1, 2)));
+    $this->assertFalse(_::isArray((object) array(1, 2)));
   }
   
   public function testIsString() {
@@ -248,6 +264,10 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse(_(1)->isString());
     $this->assertTrue(_('1')->isString());
     $this->assertTrue(_('')->isString());
+    
+    // docs
+    $this->assertTrue(_::isString('moe'));
+    $this->assertTrue(_::isString(''));
   }
   
   public function testIsNumber() {
@@ -268,6 +288,11 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue(_(pi())->isNumber());
     $this->assertTrue(_(M_PI)->isNumber());
     $this->assertTrue(_(1)->isNumber());
+    
+    // docs
+    $this->assertTrue(_::isNumber(1));
+    $this->assertTrue(_::isNumber(2.5));
+    $this->assertFalse(_::isNumber('5'));
   }
   
   public function testIsBoolean() {
@@ -290,6 +315,11 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue(_(true)->isBoolean());
     $this->assertTrue(_(false)->isBoolean());
     $this->assertFalse(_(0)->isBoolean());
+    
+    // docs
+    $this->assertFalse(_::isBoolean(null));
+    $this->assertTrue(_::isBoolean(true));
+    $this->assertFalse(_::isBoolean(0));
   }
   
   public function testIsFunction() {
@@ -327,6 +357,14 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     if(class_exists('DateTime')) {
       $timezone = new DateTimeZone('America/Denver');
       $this->assertTrue(_(new DateTime(null, $timezone))->isDate(), 'dates are dates with OO-style call');
+    }
+    
+    // docs
+    $this->assertFalse(_::isDate(null));
+    $this->assertFalse(_::isDate('2011-06-09 01:02:03'));
+    if(class_exists('DateTime')) {
+      $timezone = new DateTimeZone('America/Denver');
+      $this->assertTrue(_::isDate(new DateTime(null, $timezone)));
     }
   }
   
