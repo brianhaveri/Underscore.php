@@ -423,6 +423,12 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     // from js
     $numbers = _::toArray((object) array('one'=>1, 'two'=>2, 'three'=>3));
     $this->assertEquals('1, 2, 3', join(', ', $numbers), 'object flattened into array');
+    
+    // docs
+    $stooge = new StdClass;
+    $stooge->name = 'moe';
+    $stooge->age = 40;
+    $this->assertEquals(array('name'=>'moe', 'age'=>40), _::toArray($stooge));
   }
   
   public function testSize() {
@@ -445,6 +451,6 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $stooge = new StdClass;
     $stooge->name = 'moe';
     $stooge->age = 40;
-    $this->assertEquals(array('name'=>'moe', 'age'=>40), _::toArray($stooge));
+    $this->assertEquals(2, _::size($stooge));
   }
 }
