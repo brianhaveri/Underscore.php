@@ -45,6 +45,13 @@ class UnderscoreFunctionsTest extends PHPUnit_Framework_TestCase {
     });
     $this->assertEquals('bar', $bar(), 'can custom hash function');
     $this->assertEquals('bar', $fastBar(), 'can use custom hash function');
+  
+    // docs
+    $fibonacci = function($n) use (&$fibonacci) {
+      return $n < 2 ? $n : $fibonacci($n - 1) + $fibonacci($n - 2);
+    };
+    $fastFibonacci = _::memoize($fibonacci);
+    $this->assertEquals($fibonacci(2), $fastFibonacci(2));
   }
   
   public function testThrottle() {
@@ -72,7 +79,7 @@ class UnderscoreFunctionsTest extends PHPUnit_Framework_TestCase {
   }
   
   public function testOnce() {
-    // from js
+    // from js + docs
     $num = 0;
     $increment = _::once(function() use (&$num) { return $num++; });
     $increment();
