@@ -748,7 +748,7 @@ class _ {
       return $func((array) $context);
     });
     
-    return self::_wrap((isset($this) && $this->_wrapped) ? $return($context) : $return);
+    return self::_wrap(((isset($this) && $this->_wrapped) || !is_null($context)) ? $return($context) : $return);
   }
   
   public $_memoized = array();
