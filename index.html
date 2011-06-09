@@ -83,6 +83,7 @@
         <a href="#pluck">pluck</a>,
         <a href="#max">max</a>,
         <a href="#min">min</a>,
+        <a href="#groupBy">groupBy</a>,
         <a href="#sortBy">sortBy</a>,
         <a href="#sortedIndex">sortedIndex</a>,
         <a href="#toArray">toArray</a>,
@@ -258,6 +259,11 @@ _::max($stooges, function($stooge) { return $stooge['age']; });
 );
 _::min($stooges, function($stooge) { return $stooge['age']; });
 // array('name'=>'moe', 'age'=>40)</pre>
+
+<p class="block" id="groupBy"><b class="function">groupBy</b> <code>_::groupBy(collection, iterator)</code></p>
+<p>Group values by their return value when passed through the iterator.</p>
+<pre>_::groupBy(array(1, 2, 3, 4, 5), function($n) { return $n % 2; });
+// array(0=>array(2, 4), 1=>array(1, 3, 5))</pre>
 
 <p class="block" id="sortBy"><b class="function">sortBy</b> <code>_::sortBy(collection, iterator)</code></p>
 <p>Returns a sorted array based on the iterator. If passed an iterator, min will return min value returned by the iterator. Unlike Underscore.js, context is passed using PHP's <code>use</code> statement.</p>
