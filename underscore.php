@@ -633,7 +633,7 @@ class _ {
   }
   
   
-  public $_uniqueId = 0;
+  public $_uniqueId = -1;
   public function uniqueId($prefix=null) {
     list($prefix) = self::_wrapArgs(func_get_args());
     
