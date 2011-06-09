@@ -27,6 +27,9 @@
     h3 { font-size: 16px; font-weight: bold; color: #0d0d0d; margin: 20px 0 5px 0; }
     p { margin: 0 0 10px 0; }
     a { background: #5A68A5; color: #fff; padding: 5px 5px 2px 5px; text-decoration: none; }
+    @media screen and (-webkit-min-device-pixel-ratio:0) {
+      a { padding: 2px 5px; }
+    }
     a:hover { background: #384683; color: #fff; }
     .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
     pre { color: #666; background: #ddd; padding: 15px; margin: 5px 0; border-left: 5px solid #5A68A5; font-family: Monaco, "Lucida Grande", monospace; }
@@ -205,7 +208,7 @@ $flat = _::reduceRight($list, function($a, $b) { return $a . $b; }, array());
 <p>Return the values in the collection that pass the truth iterator test.</p>
 <pre>_::select(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // array(2, 4)</pre>
 
-<p class="block" id="reject"><b class="function">select</b> <code>_::reject(collection, iterator)</code></p>
+<p class="block" id="reject"><b class="function">reject</b> <code>_::reject(collection, iterator)</code></p>
 <p>Return the values in the collection that fail the truth iterator test.</p>
 <pre>_::reject(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // array(1, 3)</pre>
 
@@ -347,6 +350,49 @@ _::range(1, 5);       // array(1, 2, 3, 4)
 _::range(0, 30, 5);   // array(0, 5, 10, 15, 20, 25)
 _::range(0, -5, -1);  // array(0, -1, -2, -3, -4)
 _::range(0);          // array()</pre>
+
+<h2 id="collections">Functions</h2>
+<p class="block" id="memoize"><b class="function">memoize</b> <code>_::memoize(function, [hashFunction])</code></p>
+<p>Memoizes a function by caching the computed result. Useful for computationally expensive functions. Optionally, pass a hashFunction to calculate the key for the cached value.</p>
+<pre>$fibonacci = function($n) use (&$fibonacci) {
+  return $n < 2 ? $n : $fibonacci($n - 1) + $fibonacci($n - 2);
+};
+$fastFibonacci = _::memoize($fibonacci);
+</pre>
+
+<p class="block" id="throttle"><b class="function">throttle</b> <code>_::throttle(function, wait)</code></p>
+<p>Throttles a function so that it can only be called once every <b>wait</b> milliseconds.</p>
+<pre>$func = function() { return 'x'; }
+_::throttle($func);</pre>
+
+<p class="block" id="once"><b class="function">once</b> <code>_::once(function)</code></p>
+<p>Creates a version of the function that can only be called once.</p>
+<pre>$func = _::once(function() { return 'x'; });
+$func(); // x
+$func(); //</pre>
+
+<p class="block" id="after"><b class="function">after</b> <code>_::after(count, function)</code></p>
+<p>Creates a version of the function that will only run after being called <b>count</b> times.</p>
+<pre>$func = _::after(3, function() { return 'x'; });
+$func(); //
+$func(); //
+$func(); // x</pre>
+
+<p class="block" id="wrap"><b class="function">wrap</b> <code>_::wrap(function, wrapper)</code></p>
+<p>Wraps the <b>function</b> inside the <b>wrapper</b> function, passing it as the first argument. Lets the <b>wrapper</b> execute code before and/or after the <b>function</b> runs.</p>
+<pre>$hello = function($name) { return 'hello: ' . $name; };
+$hi = _::wrap($hello, function($func) {
+  return 'before, ' . $func('moe') . ', after'; 
+});
+$hi(); // before, hello: moe, after</pre>
+
+<p class="block" id="compose"><b class="function">compose</b> <code>_::compose(*functions)</code></p>
+<p>Returns the composition of the <b>functions</b>, where the return value is passed to the following function.</p>
+<pre>$greet = function($name) { return 'hi: ' . $name; };
+$exclaim = function($statement) { return $statement . '!'; };
+$welcome = _::compose($exclaim, $greet);
+$welcome(); // hi: moe!
+</pre>
 
     <h2>Author</h2>
     <p>Brian Haveri <a href="https://github.com/brianhaveri/">GitHub</a>, <a href="http://twitter.com/brianhaveri">@brianhaveri</a></p>
