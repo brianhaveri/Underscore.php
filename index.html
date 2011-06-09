@@ -516,8 +516,8 @@ $moe === _::identity($moe); // true</pre>
 <p class="block" id="mixin"><b class="function">mixin</b> <code>_::mixin(array)</code></p>
 <p>Extend Underscore.php with your own functions.</p>
 <pre>_::mixin(array(
-  'capitalize': function($string) { return ucwords($string); },
-  'yell':       function($string) { return strtoupper($string); }
+  'capitalize'=> function($string) { return ucwords($string); },
+  'yell'      => function($string) { return strtoupper($string); }
 ));
 _::capitalize('moe'); // 'Moe'
 _::yell('moe');       // 'MOE'</pre>
