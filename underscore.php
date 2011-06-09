@@ -24,7 +24,7 @@ class _ {
   
   // All methods should wrap their returns within _wrap
   // because this function understands both OO-style and functional calls
-  public function _wrap($val) {
+  private function _wrap($val) {
     if(isset($this) && $this->_chained) {
       $this->_wrapped = $val;
       return $this;
