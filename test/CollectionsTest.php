@@ -203,7 +203,8 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse(_::includ($collection, 'Foo'));
     
     $this->assertTrue(_::contains((object) array('moe'=>1, 'larry'=>3, 'curly'=>9), 3), '_::includ on objects checks their values');
-  
+    
+    // docs
     $this->assertTrue(_::includ(array(1, 2, 3), 3));
   }
   
@@ -398,6 +399,10 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     // extra
     $parity = _(array(1,2,3,4,5,6))->groupBy(function($num) { return $num % 2; });
     $this->assertEquals(array(array(2,4,6), array(1,3,5)), $parity, 'created a group for each value using OO-style call');
+    
+    // docs
+    $result = _::groupBy(array(1, 2, 3, 4, 5), function($n) { return $n % 2; });
+    $this->assertEquals(array(0=>array(2, 4), 1=>array(1, 3, 5)), $result);
   }
   
   public function testSortedIndex() {
@@ -435,5 +440,11 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(3, _::size(array(1, 2, 3)));
     $this->assertEquals(6, _::size(array(null, false, array(), array(1,2,array('a','b')), 1, 2)));
     $this->assertEquals(3, _(array(1,2,3))->size(), 'works with OO-style calls');
+  
+    // docs
+    $stooge = new StdClass;
+    $stooge->name = 'moe';
+    $stooge->age = 40;
+    $this->assertEquals(array('name'=>'moe', 'age'=>40), _::toArray($stooge));
   }
 }
