@@ -169,5 +169,21 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
       if($foo == "bar"){
     %>Statement quotes and \'quotes\'.<% } %>')->template((object) array('foo'=>'bar'));
     $this->assertEquals("Statement quotes and 'quotes'.", $result);
+    
+    // docs
+    $compiled = _::template('hello: <%= $name %>');
+    $result = $compiled(array('name'=>'moe'));
+    $this->assertEquals('hello: moe', $result);
+    
+    $list = '<% _::each($people, function($name) { %><li><%= $name %></li><% }); %>';
+    $result = _::template($list, array('people'=>array('moe', 'curly', 'larry')));
+    $this->assertEquals('<li>moe</li><li>curly</li><li>larry</li>', $result);
+    
+    _::templateSettings(array(
+      'interpolate' => '/\{\{(.+?)\}\}/'
+    ));
+    $mustache = _::template('Hello {{$planet}}!');
+    $result = $mustache(array('planet'=>'World'));
+    $this->assertEquals('Hello World!', $result);
   }
 }
