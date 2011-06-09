@@ -110,6 +110,13 @@ class UnderscoreFunctionsTest extends PHPUnit_Framework_TestCase {
     $arr = array('name'=>'Curly');
     $arr['hi'] = _($inner)->wrap(function($fn) use ($arr) { return $fn() . $arr['name']; });
     $this->assertEquals('Hello Curly', $arr['hi']());
+    
+    // docs
+    $hello = function($name) { return 'hello: ' . $name; };
+    $hi = _::wrap($hello, function($func) {
+      return 'before, ' . $func('moe') . ', after'; 
+    });
+    $this->assertEquals('before, hello: moe, after', $hi());
   }
   
   public function testCompose() {
@@ -125,6 +132,12 @@ class UnderscoreFunctionsTest extends PHPUnit_Framework_TestCase {
     // extra
     $composed = _($greet)->compose($exclaim);
     $this->assertEquals('hi: moe!', $composed('moe'), 'in this case, the functions are also commutative');
+  
+    // docs
+    $greet = function($name) { return 'hi: ' . $name; };
+    $exclaim = function($statement) { return $statement . '!'; };
+    $welcome = _::compose($exclaim, $greet);
+    $this->assertEquals('hi: moe!', $welcome('moe'));
   }
   
   public function testAfter() {
@@ -151,5 +164,13 @@ class UnderscoreFunctionsTest extends PHPUnit_Framework_TestCase {
     };
     $this->assertEquals(1, $testAfterAgain(5, 5), 'after(N) should fire after being called N times in OO-style call');
     $this->assertEquals(0, $testAfterAgain(5, 4), 'after(N) should not fire unless called N times in OO-style call');
+  
+    // docs
+    $str = '';
+    $func = _::after(3, function() use(&$str) { $str = 'x'; });
+    $func();
+    $func();
+    $func();
+    $this->assertEquals('x', $str);
   }
 }
