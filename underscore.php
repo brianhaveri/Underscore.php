@@ -621,17 +621,6 @@ class _ {
     return self::_wrap(is_nan($item));
   }
   
-  public function isUndefined($item=null) {
-    if(is_null($item))   return self::_wrap(false);
-    if(is_bool($item))   return self::_wrap(false);
-    if(is_int($item))    return self::_wrap(false);
-    if(is_object($item)) return self::_wrap(false);
-    if(is_array($item))  return self::_wrap(false);
-    if(is_string($item)) return self::_wrap(false);
-    if(is_nan($item))    return self::_wrap(false);
-    return self::_wrap(!isset($item));
-  }
-  
   public function identity() {
     $args = self::_wrapArgs(func_get_args());
     
