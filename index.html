@@ -34,7 +34,7 @@
     .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
     pre { color: #666; background: #ddd; padding: 15px; margin: 5px 0; border-left: 5px solid #5A68A5; font-family: Monaco, "Lucida Grande", monospace; }
     code { font-family: Monaco, "Lucida Grande", monospace; color: #666; margin-left: 15px; }
-    code.inline { margin: 0; }
+    p code { margin: 0; }
     hr { border: 0; width: 100%; border-bottom: 3px solid #ddd; margin: 20px 0; }
     .footer { text-align:center; padding-top:30px; font-style: italic; }
     .fade { color: #aaa; }
@@ -142,7 +142,7 @@
         <span class="fade">isRegExp</span>,
         <a href="#isNaN">isNaN</a>,
         <a href="#isNull">isNull</a>,
-        <a href="#isUndefined">isUndefined</a>
+        <span class="fade">isUndefined</span>
       </p>
       
       <h3>Utility</h3>
@@ -171,7 +171,7 @@ _(array(1, 2, 3))->map(function($n) { return $n * 2; });</pre>
 
 <h2>Collections (Arrays or Objects)</h2>
 <p class="block" id="each"><b class="function">each</b> <code>_::each(collection, iterator)</code></p>
-<p>Iterates over the collection and yield each in turn to the iterator function. Arguments passed to iterator are (value, key, collection). Unlike Underscore.js, context is passed using PHP's <code class="inline">use</code> statement. Underscore.php does not contain the forEach alias because 'foreach' is a reserved keyword in PHP.</p>
+<p>Iterates over the collection and yield each in turn to the iterator function. Arguments passed to iterator are (value, key, collection). Unlike Underscore.js, context is passed using PHP's <code>use</code> statement. Underscore.php does not contain the forEach alias because 'foreach' is a reserved keyword in PHP.</p>
 <pre>_::each(array(1, 2, 3), function($num) { echo $num . ','; }); // 1,2,3,
 
 $multiplier = 2;
@@ -181,7 +181,7 @@ _::each(array(1, 2, 3), function($num, $index) use ($multiplier) {
 // 0=2,1=4,2=6,</pre>
 
 <p class="block" id="map"><b class="function">map</b> <code>_::map(collection, iterator)</code></p>
-<p>Returns an array of values by mapping each in collection through the iterator. Arguments passed to iterator are (value, key, collection). Unlike Underscore.js, context is passed using PHP's <code class="inline">use</code> statement.</p>
+<p>Returns an array of values by mapping each in collection through the iterator. Arguments passed to iterator are (value, key, collection). Unlike Underscore.js, context is passed using PHP's <code>use</code> statement.</p>
 <pre>_::map(array(1, 2, 3), function($num) { return $num * 3; }); // array(3, 6, 9)
 
 _::map(array('one'=>1, 'two'=>2, 'three'=>3), function($num, $key) {
@@ -191,7 +191,7 @@ _::map(array('one'=>1, 'two'=>2, 'three'=>3), function($num, $key) {
 </pre>
 
 <p class="block" id="reduce"><b class="function">reduce</b> <code>_::reduce(collection, iterator, memo)</code> <span class="alias">Aliases: <b>inject, foldl</b></span></p>
-<p>Reduce the collection into a single value. Memo is the initial state of the reduction, updated by the return value of the iterator. Unlike Underscore.js, context is passed using PHP's <code class="inline">use</code> statement.</p>
+<p>Reduce the collection into a single value. Memo is the initial state of the reduction, updated by the return value of the iterator. Unlike Underscore.js, context is passed using PHP's <code>use</code> statement.</p>
 <pre>_::reduce(array(1, 2, 3), function($memo, $num) { return $memo + $num; }, 0); // 6</pre>
 
 <p class="block" id="reduceRight"><b class="function">reduceRight</b> <code>_::reduceRight(collection, iterator, memo)</code> <span class="alias">Alias: <b>foldr</b></span></p>
@@ -240,7 +240,7 @@ _::any(array(1, 2, 3, 4), function($num) { return $num === 5; }); // false</pre>
 _::pluck($stooges, 'name'); // array('moe', 'larry', 'curly')</pre>
 
 <p class="block" id="max"><b class="function">max</b> <code>_::max(collection, [iterator])</code></p>
-<p>Returns the maximum value from the collection. If passed an iterator, max will return max value returned by the iterator. Unlike Underscore.js, context is passed using PHP's <code class="inline">use</code> statement.</p>
+<p>Returns the maximum value from the collection. If passed an iterator, max will return max value returned by the iterator. Unlike Underscore.js, context is passed using PHP's <code>use</code> statement.</p>
 <pre>$stooges = array(
   array('name'=>'moe', 'age'=>40),
   array('name'=>'larry', 'age'=>50),
@@ -250,7 +250,7 @@ _::max($stooges, function($stooge) { return $stooge['age']; });
 // array('name'=>'curly', 'age'=>60)</pre>
 
 <p class="block" id="min"><b class="function">min</b> <code>_::min(collection, [iterator])</code></p>
-<p>Returns the minimum value from the collection. If passed an iterator, min will return min value returned by the iterator. Unlike Underscore.js, context is passed using PHP's <code class="inline">use</code> statement.</p>
+<p>Returns the minimum value from the collection. If passed an iterator, min will return min value returned by the iterator. Unlike Underscore.js, context is passed using PHP's <code>use</code> statement.</p>
 <pre>$stooges = array(
   array('name'=>'moe', 'age'=>40),
   array('name'=>'larry', 'age'=>50),
@@ -260,7 +260,7 @@ _::min($stooges, function($stooge) { return $stooge['age']; });
 // array('name'=>'moe', 'age'=>40)</pre>
 
 <p class="block" id="sortBy"><b class="function">sortBy</b> <code>_::sortBy(collection, iterator)</code></p>
-<p>Returns a sorted array based on the iterator. If passed an iterator, min will return min value returned by the iterator. Unlike Underscore.js, context is passed using PHP's <code class="inline">use</code> statement.</p>
+<p>Returns a sorted array based on the iterator. If passed an iterator, min will return min value returned by the iterator. Unlike Underscore.js, context is passed using PHP's <code>use</code> statement.</p>
 <pre>_::sortBy(array(1, 2, 3), function($n) { return -$n; }); // array(3, 2, 1)</pre>
 
 <p class="block" id="sortedIndex"><b class="function">sortedIndex</b> <code>_::sortedIndex(collection, value, [iterator])</code></p>
@@ -368,7 +368,7 @@ _::throttle($func);</pre>
 <p class="block" id="once"><b class="function">once</b> <code>_::once(function)</code></p>
 <p>Creates a version of the function that can only be called once.</p>
 <pre>$func = _::once(function() { return 'x'; });
-$func(); // x
+$func(); // 'x'
 $func(); //</pre>
 
 <p class="block" id="after"><b class="function">after</b> <code>_::after(count, function)</code></p>
@@ -376,7 +376,7 @@ $func(); //</pre>
 <pre>$func = _::after(3, function() { return 'x'; });
 $func(); //
 $func(); //
-$func(); // x</pre>
+$func(); // 'x'</pre>
 
 <p class="block" id="wrap"><b class="function">wrap</b> <code>_::wrap(function, wrapper)</code></p>
 <p>Wraps the <b>function</b> inside the <b>wrapper</b> function, passing it as the first argument. Lets the <b>wrapper</b> execute code before and/or after the <b>function</b> runs.</p>
@@ -384,14 +384,14 @@ $func(); // x</pre>
 $hi = _::wrap($hello, function($func) {
   return 'before, ' . $func('moe') . ', after'; 
 });
-$hi(); // before, hello: moe, after</pre>
+$hi(); // 'before, hello: moe, after'</pre>
 
 <p class="block" id="compose"><b class="function">compose</b> <code>_::compose(*functions)</code></p>
 <p>Returns the composition of the <b>functions</b>, where the return value is passed to the following function.</p>
 <pre>$greet = function($name) { return 'hi: ' . $name; };
 $exclaim = function($statement) { return $statement . '!'; };
 $welcome = _::compose($exclaim, $greet);
-$welcome(); // hi: moe!</pre>
+$welcome(); // 'hi: moe!'</pre>
 
 
 <h2>Objects</h2>
@@ -494,12 +494,79 @@ _::isNaN(acos(8)); // true</pre>
 <pre>_::isNull(null); // true
 _::isNull(false); // false</pre>
 
-    <h2>Author</h2>
-    <p>Brian Haveri <a href="https://github.com/brianhaveri/">GitHub</a>, <a href="http://twitter.com/brianhaveri">@brianhaveri</a></p>
-    
-    <h3>Credit</h3>
-    <p>Thanks to Jeremy Ashkenas and all contributors to Underscore.js.</p>
-  </div>
+
+<h2>Utility</h2>
+<p class="block" id="identity"><b class="function">identity</b> <code>_::identity(value)</code></p>
+<p>Returns the same value passed as the argument</p>
+<pre>$moe = array('name'=>'moe');
+$moe === _::identity($moe); // true</pre>
+
+<p class="block" id="times"><b class="function">times</b> <code>_::times(n, iterator)</code></p>
+<p>Invokes the <b>iterator</b> function <b>n</b> times.</p>
+<pre>_::times(3, function() { echo 'a'; }); // 'aaa'</pre>
+
+<p class="block" id="mixin"><b class="function">mixin</b> <code>_::mixin(array)</code></p>
+<p>Extend Underscore.php with your own functions.</p>
+<pre>_::mixin(array(
+  'capitalize': function($string) { return ucwords($string); },
+  'yell':       function($string) { return strtoupper($string); }
+));
+_::capitalize('moe'); // 'Moe'
+_::yell('moe');       // 'MOE'</pre>
+
+<p class="block" id="uniqueId"><b class="function">uniqueId</b> <code>_::uniqueId([prefix])</code></p>
+<p>Generate a globally unique id.</p>
+<pre>_::uniqueId(); // 0
+_::uniqueId('stooge_'); // 'stooge_1'
+_::uniqueId(); // 2</pre>
+
+<p class="block" id="template"><b class="function">template</b> <code>_::template(templateString, [context])</code></p>
+<p>Compile templates into functions that can be evaluated for rendering. Templates can interpolate variables and execute arbitrary PHP code.</p>
+<pre>$compiled = _::template('hello: <%= $name %>');
+$compiled(array('name'=>'moe')); // 'hello: moe'
+
+$list = "<% _::each($people, function($name) { %>" &lt;li&gt;<%= $name %>&lt;/li&gt; <% }); %>";
+_::template($list, array('people'=>array('moe', 'curly', 'larry')));
+// '&lt;li&gt;moe&lt;/li&gt;&lt;li&gt;curly&lt;/li&gt;&lt;li&gt;larry&lt;/li&gt;'</pre>
+
+<h3>Single vs. double quotes</h3>
+<p>Note: if your template strings include variables, wrap your template strings in single quotes, not double quotes. Wrapping in double quotes will cause your variables to be interpolated prior to entering the template function.</p>
+<pre>// Correct
+$compiled = _::template('hello: <%= $name %>');
+
+// Incorrect
+$compiled = _::template("hello: <%= $name %>");</pre>
+
+<h3>Custom delimiters</h3>
+<p>You can set custom delimiters (for instance, Mustache style) by calling <code>_::templateSettings()</code> and passing interpolate and/or evaluate values:</p>
+<pre>
+// Mustache style 
+_::templateSettings(array(
+  'interpolate' => '/\{\{(.+?)\}\}/'
+));
+
+$mustache = _::template('Hello {{$planet}}!');
+$mustache(array('planet'=>'World')); // "Hello World!"</pre>
+
+
+<h2>Chaining</h2>
+<p class="block" id="chain"><b class="function">chain</b> <code>_(obj)->chain()</code></p>
+<p>Returns a wrapped object. Methods will return the object until you call <code>value()</code></p>
+<pre>// filter and reverse the numbers
+$numbers = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+$result = _($numbers)->chain()
+  ->select(function($n) { return $n < 5; })
+  ->reject(function($n) { return $n === 3; })
+  ->sortBy(function($n) { return -$n; })
+  ->value(); // array(4, 2, 1)</pre>
+
+
+<h2>Author</h2>
+<p>Brian Haveri <a href="https://github.com/brianhaveri/">GitHub</a>, <a href="http://twitter.com/brianhaveri">@brianhaveri</a></p>
+
+<h3>Credit</h3>
+<p>Thanks to Jeremy Ashkenas and all contributors to Underscore.js.</p>
+</div>
 
   <script type="text/javascript">
   var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
