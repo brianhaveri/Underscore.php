@@ -127,7 +127,7 @@
         <a href="#functions">functions</a>,
         <a href="#extend">extend</a>,
         <a href="#defaults">defaults</a>,
-        <a href="#clone">clone</a>,
+        <a href="#clon">clon</a>,
         <a href="#tap">tap</a>,
         <a href="#isEqual">isEqual</a>,
         <a href="#isEmpty">isEmpty</a>,
@@ -169,7 +169,7 @@
     <pre>_::map(array(1, 2, 3), function($n) { return $n * 2; });
 _(array(1, 2, 3))->map(function($n) { return $n * 2; });</pre>
 
-<h2 id="collections">Collections</h2>
+<h2>Collections (Arrays or Objects)</h2>
 <p class="block" id="each"><b class="function">each</b> <code>_::each(collection, iterator)</code></p>
 <p>Iterates over the collection and yield each in turn to the iterator function. Arguments passed to iterator are (value, key, collection). Unlike Underscore.js, context is passed using PHP's <code class="inline">use</code> statement. Underscore.php does not contain the forEach alias because 'foreach' is a reserved keyword in PHP.</p>
 <pre>_::each(array(1, 2, 3), function($num) { echo $num . ','; }); // 1,2,3,
@@ -282,7 +282,7 @@ $stooge->age = 40;
 _::size($stooge); // 2</pre>
 
 
-<h2 id="arrays">Arrays</h2>
+<h2>Arrays</h2>
 <p class="block" id="first"><b class="function">first</b> <code>_::first(array, [n])</code> <span class="alias">Alias: <b>head</b></span></p>
 <p>Get the first element of an array. Passing n returns the first n elements.</p>
 <pre>_::first(array(5, 4, 3, 2, 1)); // 5
@@ -351,7 +351,7 @@ _::range(0, 30, 5);   // array(0, 5, 10, 15, 20, 25)
 _::range(0, -5, -1);  // array(0, -1, -2, -3, -4)
 _::range(0);          // array()</pre>
 
-<h2 id="collections">Functions</h2>
+<h2>Functions</h2>
 <p class="block" id="memoize"><b class="function">memoize</b> <code>_::memoize(function, [hashFunction])</code></p>
 <p>Memoizes a function by caching the computed result. Useful for computationally expensive functions. Optionally, pass a hashFunction to calculate the key for the cached value.</p>
 <pre>$fibonacci = function($n) use (&$fibonacci) {
@@ -391,8 +391,98 @@ $hi(); // before, hello: moe, after</pre>
 <pre>$greet = function($name) { return 'hi: ' . $name; };
 $exclaim = function($statement) { return $statement . '!'; };
 $welcome = _::compose($exclaim, $greet);
-$welcome(); // hi: moe!
-</pre>
+$welcome(); // hi: moe!</pre>
+
+
+<h2>Objects</h2>
+<p class="block" id="keys"><b class="function">keys</b> <code>_::keys(object)</code></p>
+<p>Get the keys</p>
+<pre>_::keys((object) array('name'=>'moe', 'age'=>40)); // array('name', 'age')</pre>
+
+<p class="block" id="values"><b class="function">values</b> <code>_::values(object)</code></p>
+<p>Get the values</p>
+<pre>_::values((object) array('name'=>'moe', 'age'=>40)); // array('moe', 40)</pre>
+
+<p class="block" id="functions"><b class="function">functions</b> <code>_::functions(object)</code> <span class="alias">Alias: <b>methods</b></span></p>
+<p>Get the names of functions available to the object</p>
+<pre>
+class Stooge {
+  public function getName() { return 'moe'; }
+  public function getAge() { return 40'; }
+}
+$stooge = new Stooge;
+_::functions($stooge); // array('getName', 'getAge')</pre>
+
+<p class="block" id="extend"><b class="function">extend</b> <code>_::extend(destination, *sources)</code></p>
+<p>Copy all properties from the <b>source</b> objects into the <b>destination</b> object. Copying happens in order, so rightmost sources have override power.</p>
+<pre>_::extend((object) array('name'=>'moe'), (object) array('age'=>50));
+// (object) array('name'=>'moe', 'age'=>50)</pre>
+
+<p class="block" id="defaults"><b class="function">defaults</b> <code>_::defaults(object, *defaults)</code></p>
+<p>Returns the object with any missing values filled in using the defaults. Once a default is applied for a given property, it will not be overridden by following defaults.</p>
+<pre>$food = (object) array('dairy'=>'cheese');
+$defaults = (object) array('meat'=>'bacon');
+_::defaults($food, $defaults); // (object) array('dairy'=>'cheese', 'meat'=>'bacon');</pre>
+
+<p class="block" id="clon"><b class="function">clon</b> <code>_::clon(object)</code></p>
+<p>Returns a shallow copy of the object. This function is called 'clone' in Underscore.js, but was renamed to 'clon' in Underscore.php because 'clone' is a reserved keyword in PHP.</p>
+<pre>$stooge = (object) array('name'=>'moe');
+_::clone($stooge); // (object) array('name'=>'moe');</pre>
+
+<p class="block" id="tap"><b class="function">tap</b> <code>_::tap(object, interceptor)</code></p>
+<p>Invokes the <b>interceptor</b> on the <b>object</b>, then returns the object. Useful for performing intermediary operations on the object.</p>
+<pre>$interceptor = function($obj) { return $obj * 2; };
+_(array(1, 2, 3))->chain()
+  ->max()
+  ->tap($interceptor)
+  ->value(); // 6</pre>
+
+<p class="block" id="isEqual"><b class="function">isEqual</b> <code>_::isEqual(object, other)</code></p>
+<p>Are these items equal? Uses === equality testing. Objects tested using values.</p>
+<pre>$stooge = (object) array('name'=>'moe');
+$clone = _::clone($stooge);
+$stooge == $clone; // false
+_::isEqual($stooge, $clone); // true</pre>
+
+<p class="block" id="isEmpty"><b class="function">isEmpty</b> <code>_::isEmpty(object)</code></p>
+<p>Returns true if the <b>object</b> contains no values.</p>
+<pre>$stooge = (object) array('name'=>'moe');
+_::isEmpty($stooge); // false
+_::isEmpty(new StdClass); // true
+_::isEmpty((object) array()); // true</pre>
+
+<p class="block" id="isArray"><b class="function">isArray</b> <code>_::isArray(object)</code></p>
+<p>Returns true if passed an array.</p>
+<pre>_::isArray(array(1, 2)); // true
+_::isArray((object) array(1, 2)); // false</pre>
+
+<p class="block" id="isFunction"><b class="function">isFunction</b> <code>_::isFunction(object)</code></p>
+<p>Returns true if passed a function.</p>
+<pre>_::isFunction(function() {}); // true
+_::isFunction('trim'); // false</pre>
+
+<p class="block" id="isString"><b class="function">isString</b> <code>_::isString(object)</code></p>
+<p>Returns true if passed a string.</p>
+<pre>_::isString('moe'); // true
+_::isFunction(''); // true</pre>
+
+<p class="block" id="isNumber"><b class="function">isNumber</b> <code>_::isNumber(object)</code></p>
+<p>Returns true if passed a number.</p>
+<pre>_::isNumber(1); // true
+_::isNumber(2.5); // true
+_::isNumber('5'); // false</pre>
+
+<p class="block" id="isBoolean"><b class="function">isBoolean</b> <code>_::isBoolean(object)</code></p>
+<p>Returns true if passed a boolean.</p>
+<pre>_::isBoolean(null); // false
+_::isBoolean(true); // true
+_::isBoolean(0); // false</pre>
+
+<p class="block" id="isDate"><b class="function">isDate</b> <code>_::isDate(object)</code></p>
+<p>Returns true if passed a DateTime object</p>
+<pre>_::isDate(null); // false
+_::isDate('2011-06-09 01:02:03'); // false
+_::isDate(new DateTime); // true</pre>
 
     <h2>Author</h2>
     <p>Brian Haveri <a href="https://github.com/brianhaveri/">GitHub</a>, <a href="http://twitter.com/brianhaveri">@brianhaveri</a></p>
