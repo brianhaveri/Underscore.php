@@ -373,9 +373,11 @@ _::throttle($func);</pre>
 
 <p class="block" id="once"><b class="function">once</b> <code>_::once(function)</code></p>
 <p>Creates a version of the function that can only be called once.</p>
-<pre>$func = _::once(function() { return 'x'; });
-$func(); // 'x'
-$func(); //</pre>
+<pre>$num = 0;
+$increment = _::once(function() use (&$num) { return $num++; });
+$increment();
+$increment();
+$this->assertEquals(1, $num);</pre>
 
 <p class="block" id="after"><b class="function">after</b> <code>_::after(count, function)</code></p>
 <p>Creates a version of the function that will only run after being called <b>count</b> times.</p>
