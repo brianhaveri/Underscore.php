@@ -43,6 +43,9 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     // extra
     $this->assertEquals(array('one', 'two'), _::keys(array('one'=>1, 'two'=>2)), 'can extract the keys from an array');
     $this->assertEquals(array('three', 'four'), _(array('three'=>3, 'four'=>4))->keys(), 'can extract the keys from an array using OO-style call');
+  
+    // docs
+    $this->assertEquals(array('name', 'age'), _::keys((object) array('name'=>'moe', 'age'=>40)));
   }
   
   public function testValues() {
@@ -54,6 +57,9 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array(1,2), _::values($items));
     $this->assertEquals(array(1), _::values(array(1)));
     $this->assertEquals(array(1,2), _($items)->values());
+    
+    // docs
+    $this->assertEquals(array('moe', 40), _::values((object) array('name'=>'moe', 'age'=>40)));
   }
   
   public function testExtend() {
@@ -80,11 +86,10 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $result = _(array('x'=>'x'))->extend(array('a'=>'a', 'x'=>2), array('a'=>'b'));
     $this->assertEquals(array('x'=>2, 'a'=>'b'), $result, 'extending from multiple source objects last property trumps');
     
-    // @todo
-    /*
-    result = _.extend({}, {a: void 0, b: null});
-    equals(_.keys(result).join(''), 'b', 'extend does not copy undefined values');
-    */
+    // docs
+    $expected = (object) array('name'=>'moe', 'age'=>50);
+    $result = _::extend((object) array('name'=>'moe'), (object) array('age'=>50));
+    $this->assertEquals($expected, $result);
   }
   
   public function testDefaults() {
@@ -117,6 +122,12 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(0, $options['zero'], 'value exists');
     $this->assertEquals(1, $options['one'], 'value exists');
     $this->assertEquals(20, $options['twenty'], 'default applied');
+    
+    // docs
+    $food = (object) array('dairy'=>'cheese');
+    $defaults = (object) array('meat'=>'bacon');
+    $expected = (object) array('dairy'=>'cheese', 'meat'=>'bacon');
+    $this->assertEquals($expected, _::defaults($food, $defaults));
   }
   
   public function testFunctions() {
@@ -129,7 +140,7 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array('methodA', 'methodB'), _(new FunctionsTestClass)->methods());
   }
   
-  public function testClone() {
+  public function testClon() {
     // from js
     $moe = array('name'=>'moe', 'lucky'=>array(13, 27, 34));
     $clone = _::clon($moe);
@@ -155,6 +166,10 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $foo = array('name'=>'Foo');
     $bar = _($foo)->clon();
     $this->assertEquals('Foo', $bar['name'], 'works with OO-style call');
+    
+    // docs
+    $stooge = (object) array('name'=>'moe');
+    $this->assertEquals((object) array('name'=>'moe'), _::clon($stooge));
   }
   
   public function testIsEqual() {
