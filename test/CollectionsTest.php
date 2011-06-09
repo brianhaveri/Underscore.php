@@ -106,6 +106,9 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     
     $evens = _::filter(array(1,2,3,4,5,6), function($num) { return $num % 2 === 0; });
     $this->assertEquals(array(2,4,6), $evens, 'aliased as filter');
+    
+    // docs
+    $this->assertEquals(array(2,4), _::select(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }));
   }
   
   public function testReject() {
@@ -116,6 +119,9 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     // extra
     $evens = _(array(1,2,3,4,5,6))->reject(function($num) { return $num % 2 !== 0; });
     $this->assertEquals(array(2,4,6), $evens, 'works with OO-style calls');
+  
+    // docs
+    $this->assertEquals(array(1, 3), _::reject(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }));
   }
   
   public function testAll() {
@@ -139,6 +145,10 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue(_(array(true, true, true))->all(_::identity()));
     
     $this->assertTrue(_(array(true, true, true))->every(_::identity()), 'aliased as "every"');
+  
+    // docs
+    $this->assertFalse(_::all(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }));
+    $this->assertTrue(_::all(array(1, 2, 3, 4), function($num) { return $num < 5; }));
   }
   
   public function testAny() {
@@ -163,6 +173,10 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     
     $this->assertTrue(_::some(array(false, false, true)), 'alias as "some"');
     $this->assertTrue(_(array(1,2,3,4))->some(), 'aliased as "some"');
+  
+    // docs
+    $this->assertTrue(_::any(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }));
+    $this->assertFalse(_::any(array(1, 2, 3, 4), function($num) { return $num === 5; }));
   }
   
   public function testInclud() {
@@ -189,6 +203,8 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse(_::includ($collection, 'Foo'));
     
     $this->assertTrue(_::contains((object) array('moe'=>1, 'larry'=>3, 'curly'=>9), 3), '_::includ on objects checks their values');
+  
+    $this->assertTrue(_::includ(array(1, 2, 3), 3));
   }
   
   public function testInvoke() {
@@ -198,6 +214,9 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array('foo','bar'), _::invoke($list, 'trim'), 'trim applied on array');
     $this->assertEquals((object) array('foo','bar'), _::invoke((object) $list, 'trim'), 'trim applied on object');
     $this->assertEquals(array('foo','bar'), _($list)->invoke('trim'), 'works with OO-style call');
+  
+    // docs
+    $this->assertEquals(array('foo', 'bar'), _::invoke(array(' foo', ' bar '), 'trim'));
   }
   
   public function testReduce() {
@@ -289,6 +308,14 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array(40, 50, 60), _::pluck($stooges, 'age'));
     $this->assertEquals(array('bar'), _::pluck($stooges, 'foo'));
     $this->assertEquals(array('bar'), _($stooges)->pluck('foo'), 'works with OO-style call');
+  
+    // docs
+    $stooges = array(
+      array('name'=>'moe', 'age'=>40),
+      array('name'=>'larry', 'age'=>50),
+      array('name'=>'curly', 'age'=>60)
+    );
+    $this->assertEquals(array('moe', 'larry', 'curly'), _::pluck($stooges, 'name'));
   }
   
   public function testMax() {
@@ -305,6 +332,14 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($stooges[2], _::max($stooges, function($stooge) { return $stooge['age']; }));
     $this->assertEquals($stooges[0], _::max($stooges, function($stooge) { return $stooge['name']; }));
     $this->assertEquals($stooges[0], _($stooges)->max(function($stooge) { return $stooge['name']; }), 'works with OO-style call');
+  
+    // docs
+    $stooges = array(
+      array('name'=>'moe', 'age'=>40),
+      array('name'=>'larry', 'age'=>50),
+      array('name'=>'curly', 'age'=>60)
+    );
+    $this->assertEquals(array('name'=>'curly', 'age'=>60), _::max($stooges, function($stooge) { return $stooge['age']; }));
   }
   
   public function testMin() {
@@ -321,6 +356,14 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($stooges[0], _::min($stooges, function($stooge) { return $stooge['age']; }));
     $this->assertEquals($stooges[2], _::min($stooges, function($stooge) { return $stooge['name']; }));
     $this->assertEquals($stooges[2], _($stooges)->min(function($stooge) { return $stooge['name']; }), 'works with OO-style call');
+  
+    // docs
+    $stooges = array(
+      array('name'=>'moe', 'age'=>40),
+      array('name'=>'larry', 'age'=>50),
+      array('name'=>'curly', 'age'=>60)
+    );
+    $this->assertEquals(array('name'=>'moe', 'age'=>40), _::min($stooges, function($stooge) { return $stooge['age']; }));
   }
   
   public function testSortBy() {
@@ -342,6 +385,9 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array($stooges[2], $stooges[1], $stooges[0]), _::sortBy($stooges, function($stooge) { return $stooge['name']; }));
     $this->assertEquals(array(5, 4, 6, 3, 1, 2), _::sortBy(array(1, 2, 3, 4, 5, 6), function($num) { return sin($num); }));
     $this->assertEquals($stooges, _($stooges)->sortBy(function($stooge) { return $stooge['age']; }), 'works with OO-style call');
+  
+    // docs
+    $this->assertEquals(array(3, 2, 1), _::sortBy(array(1, 2, 3), function($n) { return -$n; }));
   }
   
   public function testGroupBy() {
@@ -363,6 +409,9 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     
     // extra
     $this->assertEquals(3, _($numbers)->sortedIndex(35), '35 should be inserted at index 3 with OO-style call');
+  
+    // docs
+    $this->assertEquals(3, _::sortedIndex(array(10, 20, 30, 40), 35));
   }
   
   public function testToArray() {
