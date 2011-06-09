@@ -337,6 +337,10 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue(_($func)->isFunction());
     $this->assertFalse(_('array_search')->isFunction());
     $this->assertFalse(_(new _)->isFunction());
+    
+    // docs
+    $this->assertTrue(_::isFunction(function() {}));
+    $this->assertFalse(_::isFunction('trim'));
   }
   
   public function testIsDate() {
@@ -378,9 +382,14 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse(_(null)->isNan(), 'null is not NaN with OO-style call');
     $this->assertFalse(_(0)->isNan(), '0 is not NaN with OO-style call');
     $this->assertTrue(_(acos(8))->isNaN(), 'but invalid calculations are with OO-style call');
+  
+    // docs
+    $this->assertFalse(_::isNaN(null));
+    $this->assertTrue(_::isNaN(acos(8)));
   }
   
   public function testTap() {
+    // from js
     $intercepted = null;
     $interceptor = function($obj) use (&$intercepted) { $intercepted = $obj; };
     $returned = _::tap(1, $interceptor);
@@ -393,5 +402,13 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
       ->tap($interceptor)
       ->value();
     $this->assertTrue($returned === 6 && $intercepted === 6, 'can use tapped objects in a chain');
+  
+    // docs
+    $interceptor = function($obj) { return $obj * 2; };
+    $result = _(array(1, 2, 3))->chain()
+      ->max()
+      ->tap($interceptor)
+      ->value();
+    $this->assertEquals(3, $result);
   }
 }
