@@ -377,7 +377,7 @@ _::throttle($func);</pre>
 $increment = _::once(function() use (&$num) { return $num++; });
 $increment();
 $increment();
-$this->assertEquals(1, $num);</pre>
+echo $num; // 1</pre>
 
 <p class="block" id="after"><b class="function">after</b> <code>_::after(count, function)</code></p>
 <p>Creates a version of the function that will only run after being called <b>count</b> times.</p>
@@ -392,7 +392,7 @@ $func(); // 'x'</pre>
 $hi = _::wrap($hello, function($func) {
   return 'before, ' . $func('moe') . ', after'; 
 });
-$this->assertEquals('before, hello: moe, after', $hi()); // 'before, hello: moe, after'</pre>
+$hi(); // 'before, hello: moe, after'</pre>
 
 <p class="block" id="compose"><b class="function">compose</b> <code>_::compose(*functions)</code></p>
 <p>Returns the composition of the <b>functions</b>, where the return value is passed to the following function.</p>
