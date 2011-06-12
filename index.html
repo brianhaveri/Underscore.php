@@ -165,253 +165,256 @@
       <p class="fade"><i>Some functions were not ported from Underscore.js to Underscore.php for technical reasons or because they weren't applicable to PHP.</i></p>
     </nav>
     
+    <h2>Single Underscore vs. Double Underscore</h2>
+    <p>In many PHP installations, <code>_()</code> already exists as an alias to <code>gettext()</code>. The previous declaration of <code>_</code> in PHP forces Underscore.php to use another name. For consistency and memorability, <code>__</code> has been chosen for both the function and class name.</p>
+    
     <h2 id="styles">Object-Oriented and Static Styles</h2>
     <p>Underscore.php works in both object-oriented and static styles. The following lines are identical ways to double a list of numbers.</p>
-    <pre>_::map(array(1, 2, 3), function($n) { return $n * 2; });
-_(array(1, 2, 3))->map(function($n) { return $n * 2; });</pre>
+    <pre>__::map(array(1, 2, 3), function($n) { return $n * 2; });
+__(array(1, 2, 3))->map(function($n) { return $n * 2; });</pre>
 
 <h2>Collections (Arrays or Objects)</h2>
-<p class="block" id="each"><b class="function">each</b> <code>_::each(collection, iterator)</code></p>
+<p class="block" id="each"><b class="function">each</b> <code>__::each(collection, iterator)</code></p>
 <p>Iterates over the collection and yield each in turn to the iterator function. Arguments passed to iterator are (value, key, collection). Unlike Underscore.js, context is passed using PHP's <code>use</code> statement. Underscore.php does not contain the forEach alias because 'foreach' is a reserved keyword in PHP.</p>
-<pre>_::each(array(1, 2, 3), function($num) { echo $num . ','; }); // 1,2,3,
+<pre>__::each(array(1, 2, 3), function($num) { echo $num . ','; }); // 1,2,3,
 
 $multiplier = 2;
-_::each(array(1, 2, 3), function($num, $index) use ($multiplier) {
+__::each(array(1, 2, 3), function($num, $index) use ($multiplier) {
   echo $index . '=' . ($num * $multiplier) . ',';
 });
 // 0=2,1=4,2=6,</pre>
 
-<p class="block" id="map"><b class="function">map</b> <code>_::map(collection, iterator)</code></p>
+<p class="block" id="map"><b class="function">map</b> <code>__::map(collection, iterator)</code></p>
 <p>Returns an array of values by mapping each in collection through the iterator. Arguments passed to iterator are (value, key, collection). Unlike Underscore.js, context is passed using PHP's <code>use</code> statement.</p>
-<pre>_::map(array(1, 2, 3), function($num) { return $num * 3; }); // array(3, 6, 9)
+<pre>__::map(array(1, 2, 3), function($num) { return $num * 3; }); // array(3, 6, 9)
 
-_::map(array('one'=>1, 'two'=>2, 'three'=>3), function($num, $key) {
+__::map(array('one'=>1, 'two'=>2, 'three'=>3), function($num, $key) {
   return $num * 3;
 });
 // array(3, 6, 9);
 </pre>
 
-<p class="block" id="reduce"><b class="function">reduce</b> <code>_::reduce(collection, iterator, memo)</code> <span class="alias">Aliases: <b>inject, foldl</b></span></p>
+<p class="block" id="reduce"><b class="function">reduce</b> <code>__::reduce(collection, iterator, memo)</code> <span class="alias">Aliases: <b>inject, foldl</b></span></p>
 <p>Reduce the collection into a single value. Memo is the initial state of the reduction, updated by the return value of the iterator. Unlike Underscore.js, context is passed using PHP's <code>use</code> statement.</p>
-<pre>_::reduce(array(1, 2, 3), function($memo, $num) { return $memo + $num; }, 0); // 6</pre>
+<pre>__::reduce(array(1, 2, 3), function($memo, $num) { return $memo + $num; }, 0); // 6</pre>
 
-<p class="block" id="reduceRight"><b class="function">reduceRight</b> <code>_::reduceRight(collection, iterator, memo)</code> <span class="alias">Alias: <b>foldr</b></span></p>
+<p class="block" id="reduceRight"><b class="function">reduceRight</b> <code>__::reduceRight(collection, iterator, memo)</code> <span class="alias">Alias: <b>foldr</b></span></p>
 <p>Right-associative version of reduce.</p>
 <pre>$list = array(array(0, 1), array(2, 3), array(4, 5));
-$flat = _::reduceRight($list, function($a, $b) { return array_merge($a, $b); }, array());
+$flat = __::reduceRight($list, function($a, $b) { return array_merge($a, $b); }, array());
 // array(4, 5, 2, 3, 0, 1)</pre>
 
-<p class="block" id="detect"><b class="function">detect</b> <code>_::detect(collection, iterator)</code></p>
+<p class="block" id="detect"><b class="function">detect</b> <code>__::detect(collection, iterator)</code></p>
 <p>Return the value of the first item in the collection that passes the truth iterator test.</p>
-<pre>_::detect(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // 2</pre>
+<pre>__::detect(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // 2</pre>
 
-<p class="block" id="select"><b class="function">select</b> <code>_::select(collection, iterator)</code></p>
+<p class="block" id="select"><b class="function">select</b> <code>__::select(collection, iterator)</code></p>
 <p>Return the values in the collection that pass the truth iterator test.</p>
-<pre>_::select(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // array(2, 4)</pre>
+<pre>__::select(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // array(2, 4)</pre>
 
-<p class="block" id="reject"><b class="function">reject</b> <code>_::reject(collection, iterator)</code></p>
+<p class="block" id="reject"><b class="function">reject</b> <code>__::reject(collection, iterator)</code></p>
 <p>Return the values in the collection that fail the truth iterator test.</p>
-<pre>_::reject(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // array(1, 3)</pre>
+<pre>__::reject(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // array(1, 3)</pre>
 
-<p class="block" id="all"><b class="function">all</b> <code>_::all(collection, iterator)</code></p>
+<p class="block" id="all"><b class="function">all</b> <code>__::all(collection, iterator)</code></p>
 <p>Returns true if all values in the collection pass the truth iterator test.</p>
-<pre>_::all(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // false
-_::all(array(1, 2, 3, 4), function($num) { return $num < 5; }); // true</pre>
+<pre>__::all(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // false
+__::all(array(1, 2, 3, 4), function($num) { return $num < 5; }); // true</pre>
 
-<p class="block" id="any"><b class="function">any</b> <code>_::any(collection, iterator)</code></p>
+<p class="block" id="any"><b class="function">any</b> <code>__::any(collection, iterator)</code></p>
 <p>Returns true if any values in the collection pass the truth iterator test.</p>
-<pre>_::any(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // true
-_::any(array(1, 2, 3, 4), function($num) { return $num === 5; }); // false</pre>
+<pre>__::any(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // true
+__::any(array(1, 2, 3, 4), function($num) { return $num === 5; }); // false</pre>
 
-<p class="block" id="includ"><b class="function">includ</b> <code>_::includ(collection, value)</code> <span class="alias">Alias: <b>contains</b></span></p>
+<p class="block" id="includ"><b class="function">includ</b> <code>__::includ(collection, value)</code> <span class="alias">Alias: <b>contains</b></span></p>
 <p>Returns true if value is found in the collection using === to test equality. This function is called 'include' in Underscore.js, but was renamed to 'includ' in Underscore.php because 'include' is a reserved keyword in PHP.</p>
-<pre>_::includ(array(1, 2, 3), 3); // true</pre>
+<pre>__::includ(array(1, 2, 3), 3); // true</pre>
 
-<p class="block" id="invoke"><b class="function">invoke</b> <code>_::invoke(collection, functionName)</code></p>
+<p class="block" id="invoke"><b class="function">invoke</b> <code>__::invoke(collection, functionName)</code></p>
 <p>Returns a copy of the collection after running functionName across all elements.</p>
-<pre>_::invoke(array(' foo', ' bar '), 'trim'); // array('foo', 'bar')</pre>
+<pre>__::invoke(array(' foo', ' bar '), 'trim'); // array('foo', 'bar')</pre>
 
-<p class="block" id="pluck"><b class="function">pluck</b> <code>_::pluck(collection, propertyName)</code></p>
+<p class="block" id="pluck"><b class="function">pluck</b> <code>__::pluck(collection, propertyName)</code></p>
 <p>Extract an array of property values</p>
 <pre>$stooges = array(
   array('name'=>'moe', 'age'=>40),
   array('name'=>'larry', 'age'=>50),
   array('name'=>'curly', 'age'=>60)
 );
-_::pluck($stooges, 'name'); // array('moe', 'larry', 'curly')</pre>
+__::pluck($stooges, 'name'); // array('moe', 'larry', 'curly')</pre>
 
-<p class="block" id="max"><b class="function">max</b> <code>_::max(collection, [iterator])</code></p>
+<p class="block" id="max"><b class="function">max</b> <code>__::max(collection, [iterator])</code></p>
 <p>Returns the maximum value from the collection. If passed an iterator, max will return max value returned by the iterator. Unlike Underscore.js, context is passed using PHP's <code>use</code> statement.</p>
 <pre>$stooges = array(
   array('name'=>'moe', 'age'=>40),
   array('name'=>'larry', 'age'=>50),
   array('name'=>'curly', 'age'=>60)
 );
-_::max($stooges, function($stooge) { return $stooge['age']; });
+__::max($stooges, function($stooge) { return $stooge['age']; });
 // array('name'=>'curly', 'age'=>60)</pre>
 
-<p class="block" id="min"><b class="function">min</b> <code>_::min(collection, [iterator])</code></p>
+<p class="block" id="min"><b class="function">min</b> <code>__::min(collection, [iterator])</code></p>
 <p>Returns the minimum value from the collection. If passed an iterator, min will return min value returned by the iterator. Unlike Underscore.js, context is passed using PHP's <code>use</code> statement.</p>
 <pre>$stooges = array(
   array('name'=>'moe', 'age'=>40),
   array('name'=>'larry', 'age'=>50),
   array('name'=>'curly', 'age'=>60)
 );
-_::min($stooges, function($stooge) { return $stooge['age']; });
+__::min($stooges, function($stooge) { return $stooge['age']; });
 // array('name'=>'moe', 'age'=>40)</pre>
 
-<p class="block" id="groupBy"><b class="function">groupBy</b> <code>_::groupBy(collection, iterator)</code></p>
+<p class="block" id="groupBy"><b class="function">groupBy</b> <code>__::groupBy(collection, iterator)</code></p>
 <p>Group values by their return value when passed through the iterator.</p>
-<pre>_::groupBy(array(1, 2, 3, 4, 5), function($n) { return $n % 2; });
+<pre>__::groupBy(array(1, 2, 3, 4, 5), function($n) { return $n % 2; });
 // array(0=>array(2, 4), 1=>array(1, 3, 5))</pre>
 
-<p class="block" id="sortBy"><b class="function">sortBy</b> <code>_::sortBy(collection, iterator)</code></p>
+<p class="block" id="sortBy"><b class="function">sortBy</b> <code>__::sortBy(collection, iterator)</code></p>
 <p>Returns a sorted array based on the iterator. If passed an iterator, min will return min value returned by the iterator. Unlike Underscore.js, context is passed using PHP's <code>use</code> statement.</p>
-<pre>_::sortBy(array(1, 2, 3), function($n) { return -$n; }); // array(3, 2, 1)</pre>
+<pre>__::sortBy(array(1, 2, 3), function($n) { return -$n; }); // array(3, 2, 1)</pre>
 
-<p class="block" id="sortedIndex"><b class="function">sortedIndex</b> <code>_::sortedIndex(collection, value, [iterator])</code></p>
+<p class="block" id="sortedIndex"><b class="function">sortedIndex</b> <code>__::sortedIndex(collection, value, [iterator])</code></p>
 <p>Returns the index at which the value should be inserted into the sorted collection.</p>
-<pre>_::sortedIndex(array(10, 20, 30, 40), 35); // 3</pre>
+<pre>__::sortedIndex(array(10, 20, 30, 40), 35); // 3</pre>
 
-<p class="block" id="toArray"><b class="function">toArray</b> <code>_::toArray(collection)</code></p>
+<p class="block" id="toArray"><b class="function">toArray</b> <code>__::toArray(collection)</code></p>
 <p>Converts the collection into an array.</p>
 <pre>$stooge = new StdClass;
 $stooge->name = 'moe';
 $stooge->age = 40;
-_::toArray($stooge); // array('name'=>'moe', 'age'=>40)</pre>
+__::toArray($stooge); // array('name'=>'moe', 'age'=>40)</pre>
 
-<p class="block" id="size"><b class="function">size</b> <code>_::size(collection)</code></p>
+<p class="block" id="size"><b class="function">size</b> <code>__::size(collection)</code></p>
 <p>Returns the number of values in the collection.</p>
 <pre>$stooge = new StdClass;
 $stooge->name = 'moe';
 $stooge->age = 40;
-_::size($stooge); // 2</pre>
+__::size($stooge); // 2</pre>
 
 
 <h2>Arrays</h2>
-<p class="block" id="first"><b class="function">first</b> <code>_::first(array, [n])</code> <span class="alias">Alias: <b>head</b></span></p>
+<p class="block" id="first"><b class="function">first</b> <code>__::first(array, [n])</code> <span class="alias">Alias: <b>head</b></span></p>
 <p>Get the first element of an array. Passing n returns the first n elements.</p>
-<pre>_::first(array(5, 4, 3, 2, 1)); // 5
-_::first(array(5, 4, 3, 2, 1), 3); // array(5, 4, 3)</pre>
+<pre>__::first(array(5, 4, 3, 2, 1)); // 5
+__::first(array(5, 4, 3, 2, 1), 3); // array(5, 4, 3)</pre>
 
-<p class="block" id="rest"><b class="function">rest</b> <code>_::rest(array, [index])</code> <span class="alias">Alias: <b>tail</b></span></p>
+<p class="block" id="rest"><b class="function">rest</b> <code>__::rest(array, [index])</code> <span class="alias">Alias: <b>tail</b></span></p>
 <p>Get the rest of the array elements. Passing an index returns from that index onward.</p>
-<pre>_::rest(array(5, 4, 3, 2, 1)); // array(4, 3, 2, 1)</pre>
+<pre>__::rest(array(5, 4, 3, 2, 1)); // array(4, 3, 2, 1)</pre>
 
-<p class="block" id="last"><b class="function">last</b> <code>_::last(array)</code></p>
+<p class="block" id="last"><b class="function">last</b> <code>__::last(array)</code></p>
 <p>Get the last element of an array.</p>
-<pre>_::last(array(5, 4, 3, 2, 1)); // 1</pre>
+<pre>__::last(array(5, 4, 3, 2, 1)); // 1</pre>
 
-<p class="block" id="compact"><b class="function">compact</b> <code>_::compact(array)</code></p>
+<p class="block" id="compact"><b class="function">compact</b> <code>__::compact(array)</code></p>
 <p>Returns a copy of the array with falsy values removed</p>
-<pre>_::compact(array(false, true, 'a', 0, 1, '')); // array(true, 'a', 1)</pre>
+<pre>__::compact(array(false, true, 'a', 0, 1, '')); // array(true, 'a', 1)</pre>
 
-<p class="block" id="flatten"><b class="function">flatten</b> <code>_::flatten(array)</code></p>
+<p class="block" id="flatten"><b class="function">flatten</b> <code>__::flatten(array)</code></p>
 <p>Flattens a multidimensional array</p>
-<pre>_::flatten(array(1, array(2), array(3, array(array(array(4))))));
+<pre>__::flatten(array(1, array(2), array(3, array(array(array(4))))));
 // array(1, 2, 3, 4)</pre>
 
-<p class="block" id="without"><b class="function">without</b> <code>_::without(array, [*values])</code></p>
+<p class="block" id="without"><b class="function">without</b> <code>__::without(array, [*values])</code></p>
 <p>Returns a copy of the array with all instances of <b>values</b> removed. === is used for equality testing. Keys are maintained.</p>
-<pre>_::without(array(5, 4, 3, 2, 1), 3, 2); // array(5, 4, 4=>1)</pre>
+<pre>__::without(array(5, 4, 3, 2, 1), 3, 2); // array(5, 4, 4=>1)</pre>
 
-<p class="block" id="uniq"><b class="function">uniq</b> <code>_::uniq(array)</code> <span class="alias">Alias: <b>unique</b></span></p>
+<p class="block" id="uniq"><b class="function">uniq</b> <code>__::uniq(array)</code> <span class="alias">Alias: <b>unique</b></span></p>
 <p>Returns a copy of the array containing no duplicate values. Unlike Underscore.js, Underscore.php does not accept a second isSorted parameter.</p>
-<pre>_::uniq(array(2, 2, 4, 4, 4, 1, 1, 1)); // array(2, 4, 1)</pre>
+<pre>__::uniq(array(2, 2, 4, 4, 4, 1, 1, 1)); // array(2, 4, 1)</pre>
 
 
 
-<p class="block" id="intersect"><b class="function">intersect</b> <code>_::intersect(*arrays)</code></p>
+<p class="block" id="intersect"><b class="function">intersect</b> <code>__::intersect(*arrays)</code></p>
 <p>Returns an array containing the intersection of all the arrays. Each value in the resulting array exists in all arrays.</p>
 <pre>$arr1 = array(0, 1, 2, 3);
 $arr2 = array(1, 2, 3, 4);
 $arr3 = array(2, 3, 4, 5);
-_::intersect($arr1, $arr2, $arr3); // array(2, 3)</pre>
+__::intersect($arr1, $arr2, $arr3); // array(2, 3)</pre>
 
-<p class="block" id="zip"><b class="function">zip</b> <code>_::zip(*arrays)</code></p>
+<p class="block" id="zip"><b class="function">zip</b> <code>__::zip(*arrays)</code></p>
 <p>Merges arrays</p>
 <pre>$names = array('moe', 'larry', 'curly');
 $ages = array(30, 40, 50);
 $leaders = array(true, false, false);
 
-_::zip($names, $ages, $leaders);
+__::zip($names, $ages, $leaders);
 // array(
 //   array('moe', 30, true),
 //   array('larry', 40, false),
 //   array('curly', 50, false)
 // )</pre>
 
-<p class="block" id="indexOf"><b class="function">indexOf</b> <code>_::indexOf(array, value)</code></p>
+<p class="block" id="indexOf"><b class="function">indexOf</b> <code>__::indexOf(array, value)</code></p>
 <p>Returns the index of the first match. Returns -1 if no match is found. Unlike Underscore.js, Underscore.php does not take a second isSorted parameter.</p>
-<pre>_::indexOf(array(1, 2, 3, 2, 2), 2); // 1</pre>
+<pre>__::indexOf(array(1, 2, 3, 2, 2), 2); // 1</pre>
 
-<p class="block" id="lastIndexOf"><b class="function">lastIndexOf</b> <code>_::lastIndexOf(array, value)</code></p>
+<p class="block" id="lastIndexOf"><b class="function">lastIndexOf</b> <code>__::lastIndexOf(array, value)</code></p>
 <p>Returns the index of the last match. Returns -1 if no match is found.</p>
-<pre>_::lastIndexOf(array(1, 2, 3, 2, 2), 2); // 4</pre>
+<pre>__::lastIndexOf(array(1, 2, 3, 2, 2), 2); // 4</pre>
 
-<p class="block" id="range"><b class="function">range</b> <code>_::range([start], stop, [step])</code></p>
+<p class="block" id="range"><b class="function">range</b> <code>__::range([start], stop, [step])</code></p>
 <p>Returns an array of integers from <b>start</b> to <b>stop</b> (exclusive) by <b>step</b>. Defaults: <b>start</b>=0, <b>step</b>=1.</p>
-<pre>_::range(10);         // array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
-_::range(1, 5);       // array(1, 2, 3, 4)
-_::range(0, 30, 5);   // array(0, 5, 10, 15, 20, 25)
-_::range(0, -5, -1);  // array(0, -1, -2, -3, -4)
-_::range(0);          // array()</pre>
+<pre>__::range(10);         // array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+__::range(1, 5);       // array(1, 2, 3, 4)
+__::range(0, 30, 5);   // array(0, 5, 10, 15, 20, 25)
+__::range(0, -5, -1);  // array(0, -1, -2, -3, -4)
+__::range(0);          // array()</pre>
 
 <h2>Functions</h2>
-<p class="block" id="memoize"><b class="function">memoize</b> <code>_::memoize(function, [hashFunction])</code></p>
+<p class="block" id="memoize"><b class="function">memoize</b> <code>__::memoize(function, [hashFunction])</code></p>
 <p>Memoizes a function by caching the computed result. Useful for computationally expensive functions. Optionally, pass a hashFunction to calculate the key for the cached value.</p>
 <pre>$fibonacci = function($n) use (&$fibonacci) {
   return $n < 2 ? $n : $fibonacci($n - 1) + $fibonacci($n - 2);
 };
-$fastFibonacci = _::memoize($fibonacci);
+$fastFibonacci = __::memoize($fibonacci);
 </pre>
 
-<p class="block" id="throttle"><b class="function">throttle</b> <code>_::throttle(function, wait)</code></p>
+<p class="block" id="throttle"><b class="function">throttle</b> <code>__::throttle(function, wait)</code></p>
 <p>Throttles a function so that it can only be called once every <b>wait</b> milliseconds.</p>
 <pre>$func = function() { return 'x'; }
-_::throttle($func);</pre>
+__::throttle($func);</pre>
 
-<p class="block" id="once"><b class="function">once</b> <code>_::once(function)</code></p>
+<p class="block" id="once"><b class="function">once</b> <code>__::once(function)</code></p>
 <p>Creates a version of the function that can only be called once.</p>
 <pre>$num = 0;
-$increment = _::once(function() use (&$num) { return $num++; });
+$increment = __::once(function() use (&$num) { return $num++; });
 $increment();
 $increment();
 echo $num; // 1</pre>
 
-<p class="block" id="after"><b class="function">after</b> <code>_::after(count, function)</code></p>
+<p class="block" id="after"><b class="function">after</b> <code>__::after(count, function)</code></p>
 <p>Creates a version of the function that will only run after being called <b>count</b> times.</p>
-<pre>$func = _::after(3, function() { return 'x'; });
+<pre>$func = __::after(3, function() { return 'x'; });
 $func(); //
 $func(); //
 $func(); // 'x'</pre>
 
-<p class="block" id="wrap"><b class="function">wrap</b> <code>_::wrap(function, wrapper)</code></p>
+<p class="block" id="wrap"><b class="function">wrap</b> <code>__::wrap(function, wrapper)</code></p>
 <p>Wraps the <b>function</b> inside the <b>wrapper</b> function, passing it as the first argument. Lets the <b>wrapper</b> execute code before and/or after the <b>function</b> runs.</p>
 <pre>$hello = function($name) { return 'hello: ' . $name; };
-$hi = _::wrap($hello, function($func) {
+$hi = __::wrap($hello, function($func) {
   return 'before, ' . $func('moe') . ', after'; 
 });
 $hi(); // 'before, hello: moe, after'</pre>
 
-<p class="block" id="compose"><b class="function">compose</b> <code>_::compose(*functions)</code></p>
+<p class="block" id="compose"><b class="function">compose</b> <code>__::compose(*functions)</code></p>
 <p>Returns the composition of the <b>functions</b>, where the return value is passed to the following function.</p>
 <pre>$greet = function($name) { return 'hi: ' . $name; };
 $exclaim = function($statement) { return $statement . '!'; };
-$welcome = _::compose($exclaim, $greet);
+$welcome = __::compose($exclaim, $greet);
 $welcome(); // 'hi: moe!'</pre>
 
 
 <h2>Objects</h2>
-<p class="block" id="keys"><b class="function">keys</b> <code>_::keys(object)</code></p>
+<p class="block" id="keys"><b class="function">keys</b> <code>__::keys(object)</code></p>
 <p>Get the keys</p>
-<pre>_::keys((object) array('name'=>'moe', 'age'=>40)); // array('name', 'age')</pre>
+<pre>__::keys((object) array('name'=>'moe', 'age'=>40)); // array('name', 'age')</pre>
 
-<p class="block" id="values"><b class="function">values</b> <code>_::values(object)</code></p>
+<p class="block" id="values"><b class="function">values</b> <code>__::values(object)</code></p>
 <p>Get the values</p>
-<pre>_::values((object) array('name'=>'moe', 'age'=>40)); // array('moe', 40)</pre>
+<pre>__::values((object) array('name'=>'moe', 'age'=>40)); // array('moe', 40)</pre>
 
-<p class="block" id="functions"><b class="function">functions</b> <code>_::functions(object)</code> <span class="alias">Alias: <b>methods</b></span></p>
+<p class="block" id="functions"><b class="function">functions</b> <code>__::functions(object)</code> <span class="alias">Alias: <b>methods</b></span></p>
 <p>Get the names of functions available to the object</p>
 <pre>
 class Stooge {
@@ -419,158 +422,158 @@ class Stooge {
   public function getAge() { return 40'; }
 }
 $stooge = new Stooge;
-_::functions($stooge); // array('getName', 'getAge')</pre>
+__::functions($stooge); // array('getName', 'getAge')</pre>
 
-<p class="block" id="extend"><b class="function">extend</b> <code>_::extend(destination, *sources)</code></p>
+<p class="block" id="extend"><b class="function">extend</b> <code>__::extend(destination, *sources)</code></p>
 <p>Copy all properties from the <b>source</b> objects into the <b>destination</b> object. Copying happens in order, so rightmost sources have override power.</p>
-<pre>_::extend((object) array('name'=>'moe'), (object) array('age'=>50));
+<pre>__::extend((object) array('name'=>'moe'), (object) array('age'=>50));
 // (object) array('name'=>'moe', 'age'=>50)</pre>
 
-<p class="block" id="defaults"><b class="function">defaults</b> <code>_::defaults(object, *defaults)</code></p>
+<p class="block" id="defaults"><b class="function">defaults</b> <code>__::defaults(object, *defaults)</code></p>
 <p>Returns the object with any missing values filled in using the defaults. Once a default is applied for a given property, it will not be overridden by following defaults.</p>
 <pre>$food = (object) array('dairy'=>'cheese');
 $defaults = (object) array('meat'=>'bacon');
-_::defaults($food, $defaults); // (object) array('dairy'=>'cheese', 'meat'=>'bacon');</pre>
+__::defaults($food, $defaults); // (object) array('dairy'=>'cheese', 'meat'=>'bacon');</pre>
 
-<p class="block" id="clon"><b class="function">clon</b> <code>_::clon(object)</code></p>
+<p class="block" id="clon"><b class="function">clon</b> <code>__::clon(object)</code></p>
 <p>Returns a shallow copy of the object. This function is called 'clone' in Underscore.js, but was renamed to 'clon' in Underscore.php because 'clone' is a reserved keyword in PHP.</p>
 <pre>$stooge = (object) array('name'=>'moe');
-_::clon($stooge); // (object) array('name'=>'moe');</pre>
+__::clon($stooge); // (object) array('name'=>'moe');</pre>
 
-<p class="block" id="tap"><b class="function">tap</b> <code>_::tap(object, interceptor)</code></p>
+<p class="block" id="tap"><b class="function">tap</b> <code>__::tap(object, interceptor)</code></p>
 <p>Invokes the <b>interceptor</b> on the <b>object</b>, then returns the object. Useful for performing intermediary operations on the object.</p>
 <pre>$interceptor = function($obj) { return $obj * 2; };
-_(array(1, 2, 3))->chain()
+__(array(1, 2, 3))->chain()
   ->max()
   ->tap($interceptor)
   ->value(); // 3</pre>
 
-<p class="block" id="isEqual"><b class="function">isEqual</b> <code>_::isEqual(object, other)</code></p>
+<p class="block" id="isEqual"><b class="function">isEqual</b> <code>__::isEqual(object, other)</code></p>
 <p>Are these items equal? Uses === equality testing. Objects tested using values.</p>
 <pre>$stooge = (object) array('name'=>'moe');
-$clon = _::clon($stooge);
+$clon = __::clon($stooge);
 $stooge === $clon; // false
-_::isEqual($stooge, $clon); // true</pre>
+__::isEqual($stooge, $clon); // true</pre>
 
-<p class="block" id="isEmpty"><b class="function">isEmpty</b> <code>_::isEmpty(object)</code></p>
+<p class="block" id="isEmpty"><b class="function">isEmpty</b> <code>__::isEmpty(object)</code></p>
 <p>Returns true if the <b>object</b> contains no values.</p>
 <pre>$stooge = (object) array('name'=>'moe');
-_::isEmpty($stooge); // false
-_::isEmpty(new StdClass); // true
-_::isEmpty((object) array()); // true</pre>
+__::isEmpty($stooge); // false
+__::isEmpty(new StdClass); // true
+__::isEmpty((object) array()); // true</pre>
 
-<p class="block" id="isArray"><b class="function">isArray</b> <code>_::isArray(object)</code></p>
+<p class="block" id="isArray"><b class="function">isArray</b> <code>__::isArray(object)</code></p>
 <p>Returns true if passed an array.</p>
-<pre>_::isArray(array(1, 2)); // true
-_::isArray((object) array(1, 2)); // false</pre>
+<pre>__::isArray(array(1, 2)); // true
+__::isArray((object) array(1, 2)); // false</pre>
 
-<p class="block" id="isFunction"><b class="function">isFunction</b> <code>_::isFunction(object)</code></p>
+<p class="block" id="isFunction"><b class="function">isFunction</b> <code>__::isFunction(object)</code></p>
 <p>Returns true if passed a function.</p>
-<pre>_::isFunction(function() {}); // true
-_::isFunction('trim'); // false</pre>
+<pre>__::isFunction(function() {}); // true
+__::isFunction('trim'); // false</pre>
 
-<p class="block" id="isString"><b class="function">isString</b> <code>_::isString(object)</code></p>
+<p class="block" id="isString"><b class="function">isString</b> <code>__::isString(object)</code></p>
 <p>Returns true if passed a string.</p>
-<pre>_::isString('moe'); // true
-_::isString(''); // true</pre>
+<pre>__::isString('moe'); // true
+__::isString(''); // true</pre>
 
-<p class="block" id="isNumber"><b class="function">isNumber</b> <code>_::isNumber(object)</code></p>
+<p class="block" id="isNumber"><b class="function">isNumber</b> <code>__::isNumber(object)</code></p>
 <p>Returns true if passed a number.</p>
-<pre>_::isNumber(1); // true
-_::isNumber(2.5); // true
-_::isNumber('5'); // false</pre>
+<pre>__::isNumber(1); // true
+__::isNumber(2.5); // true
+__::isNumber('5'); // false</pre>
 
-<p class="block" id="isBoolean"><b class="function">isBoolean</b> <code>_::isBoolean(object)</code></p>
+<p class="block" id="isBoolean"><b class="function">isBoolean</b> <code>__::isBoolean(object)</code></p>
 <p>Returns true if passed a boolean.</p>
-<pre>_::isBoolean(null); // false
-_::isBoolean(true); // true
-_::isBoolean(0); // false</pre>
+<pre>__::isBoolean(null); // false
+__::isBoolean(true); // true
+__::isBoolean(0); // false</pre>
 
-<p class="block" id="isDate"><b class="function">isDate</b> <code>_::isDate(object)</code></p>
+<p class="block" id="isDate"><b class="function">isDate</b> <code>__::isDate(object)</code></p>
 <p>Returns true if passed a DateTime object</p>
-<pre>_::isDate(null); // false
-_::isDate('2011-06-09 01:02:03'); // false
-_::isDate(new DateTime); // true</pre>
+<pre>__::isDate(null); // false
+__::isDate('2011-06-09 01:02:03'); // false
+__::isDate(new DateTime); // true</pre>
 
-<p class="block" id="isNaN"><b class="function">isNaN</b> <code>_::isNaN(object)</code></p>
+<p class="block" id="isNaN"><b class="function">isNaN</b> <code>__::isNaN(object)</code></p>
 <p>Returns true if value is NaN</p>
-<pre>_::isNaN(null); // false
-_::isNaN(acos(8)); // true</pre>
+<pre>__::isNaN(null); // false
+__::isNaN(acos(8)); // true</pre>
 
-<p class="block" id="isNull"><b class="function">isNull</b> <code>_::isNull(object)</code></p>
+<p class="block" id="isNull"><b class="function">isNull</b> <code>__::isNull(object)</code></p>
 <p>Returns true if value is null</p>
-<pre>_::isNull(null); // true
-_::isNull(false); // false</pre>
+<pre>__::isNull(null); // true
+__::isNull(false); // false</pre>
 
 
 <h2>Utility</h2>
-<p class="block" id="identity"><b class="function">identity</b> <code>_::identity(value)</code></p>
+<p class="block" id="identity"><b class="function">identity</b> <code>__::identity(value)</code></p>
 <p>Returns the same value passed as the argument</p>
 <pre>$moe = array('name'=>'moe');
-$moe === _::identity($moe); // true</pre>
+$moe === __::identity($moe); // true</pre>
 
-<p class="block" id="times"><b class="function">times</b> <code>_::times(n, iterator)</code></p>
+<p class="block" id="times"><b class="function">times</b> <code>__::times(n, iterator)</code></p>
 <p>Invokes the <b>iterator</b> function <b>n</b> times.</p>
-<pre>_::times(3, function() { echo 'a'; }); // 'aaa'</pre>
+<pre>__::times(3, function() { echo 'a'; }); // 'aaa'</pre>
 
-<p class="block" id="mixin"><b class="function">mixin</b> <code>_::mixin(array)</code></p>
+<p class="block" id="mixin"><b class="function">mixin</b> <code>__::mixin(array)</code></p>
 <p>Extend Underscore.php with your own functions.</p>
-<pre>_::mixin(array(
+<pre>__::mixin(array(
   'capitalize'=> function($string) { return ucwords($string); },
   'yell'      => function($string) { return strtoupper($string); }
 ));
-_::capitalize('moe'); // 'Moe'
-_::yell('moe');       // 'MOE'</pre>
+__::capitalize('moe'); // 'Moe'
+__::yell('moe');       // 'MOE'</pre>
 
-<p class="block" id="uniqueId"><b class="function">uniqueId</b> <code>_::uniqueId([prefix])</code></p>
+<p class="block" id="uniqueId"><b class="function">uniqueId</b> <code>__::uniqueId([prefix])</code></p>
 <p>Generate a globally unique id.</p>
-<pre>_::uniqueId(); // 0
-_::uniqueId('stooge_'); // 'stooge_1'
-_::uniqueId(); // 2</pre>
+<pre>__::uniqueId(); // 0
+__::uniqueId('stooge_'); // 'stooge_1'
+__::uniqueId(); // 2</pre>
 
-<p class="block" id="template"><b class="function">template</b> <code>_::template(templateString, [context])</code></p>
+<p class="block" id="template"><b class="function">template</b> <code>__::template(templateString, [context])</code></p>
 <p>Compile templates into functions that can be evaluated for rendering. Templates can interpolate variables and execute arbitrary PHP code.</p>
-<pre>$compiled = _::template('hello: <%= $name %>');
+<pre>$compiled = __::template('hello: <%= $name %>');
 $compiled(array('name'=>'moe')); // 'hello: moe'
 
-$list = '<% _::each($people, function($name) { %> &lt;li&gt;<%= $name %>&lt;/li&gt; <% }); %>';
-_::template($list, array('people'=>array('moe', 'curly', 'larry')));
+$list = '<% __::each($people, function($name) { %> &lt;li&gt;<%= $name %>&lt;/li&gt; <% }); %>';
+__::template($list, array('people'=>array('moe', 'curly', 'larry')));
 // '&lt;li&gt;moe&lt;/li&gt;&lt;li&gt;curly&lt;/li&gt;&lt;li&gt;larry&lt;/li&gt;'</pre>
 
 <h3>Single vs. double quotes</h3>
 <p>Note: if your template strings include variables, wrap your template strings in single quotes, not double quotes. Wrapping in double quotes will cause your variables to be interpolated prior to entering the template function.</p>
 <pre>// Correct
-$compiled = _::template('hello: <%= $name %>');
+$compiled = __::template('hello: <%= $name %>');
 
 // Incorrect
-$compiled = _::template("hello: <%= $name %>");</pre>
+$compiled = __::template("hello: <%= $name %>");</pre>
 
 <h3>Custom delimiters</h3>
-<p>You can set custom delimiters (for instance, Mustache style) by calling <code>_::templateSettings()</code> and passing interpolate and/or evaluate values:</p>
+<p>You can set custom delimiters (for instance, Mustache style) by calling <code>__::templateSettings()</code> and passing interpolate and/or evaluate values:</p>
 <pre>
 // Mustache style 
-_::templateSettings(array(
+__::templateSettings(array(
   'interpolate' => '/\{\{(.+?)\}\}/'
 ));
 
-$mustache = _::template('Hello {{$planet}}!');
+$mustache = __::template('Hello {{$planet}}!');
 $mustache(array('planet'=>'World')); // "Hello World!"</pre>
 
 
 <h2>Chaining</h2>
-<p class="block" id="chain"><b class="function">chain</b> <code>_(obj)->chain()</code></p>
+<p class="block" id="chain"><b class="function">chain</b> <code>__(obj)->chain()</code></p>
 <p>Returns a wrapped object. Methods will return the object until you call <code>value()</code></p>
 <pre>// filter and reverse the numbers
 $numbers = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-$result = _($numbers)->chain()
+$result = __($numbers)->chain()
   ->select(function($n) { return $n < 5; })
   ->reject(function($n) { return $n === 3; })
   ->sortBy(function($n) { return -$n; })
   ->value(); // array(4, 2, 1)</pre>
 
-<p class="block" id="value"><b class="function">value</b> <code>_(obj)->value()</code></p>
+<p class="block" id="value"><b class="function">value</b> <code>__(obj)->value()</code></p>
 <p>Extracts the value of a wrapped object.</p>
-<pre>_(array(1, 2, 3))->value(); // array(1, 2, 3)</pre>
+<pre>__(array(1, 2, 3))->value(); // array(1, 2, 3)</pre>
 
 
 <h2>Author</h2>
