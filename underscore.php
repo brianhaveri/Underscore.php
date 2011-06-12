@@ -8,7 +8,7 @@
  * For docs, license, tests, and downloads, see: http://brianhaveri.github.com/Underscore.php
  */
 
-// Returns an instance of _ for OO-style calls
+// Returns an instance of __ for OO-style calls
 function __($item=null) {
   $__ = new __;
   if(func_num_args() > 0) $__->_wrapped = $item;
