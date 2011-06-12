@@ -8,88 +8,88 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
     // from js
     $moe = array('name'=>'moe');
     $moe_obj = (object) $moe;
-    $this->assertEquals($moe, _::identity($moe));
-    $this->assertEquals($moe_obj, _::identity($moe_obj));
+    $this->assertEquals($moe, __::identity($moe));
+    $this->assertEquals($moe_obj, __::identity($moe_obj));
 
     // extra
-    $this->assertEquals($moe, _($moe)->identity());
-    $this->assertEquals($moe_obj, _($moe_obj)->identity());
+    $this->assertEquals($moe, __($moe)->identity());
+    $this->assertEquals($moe_obj, __($moe_obj)->identity());
     
     // docs
     $moe = array('name'=>'moe');
-    $this->assertTrue($moe === _::identity($moe));
+    $this->assertTrue($moe === __::identity($moe));
   }
 
   public function testUniqueId() {
     // docs
-    $this->assertEquals(0, _::uniqueId());
-    $this->assertEquals('stooge_1', _::uniqueId('stooge_'));
-    $this->assertEquals(2, _::uniqueId());
+    $this->assertEquals(0, __::uniqueId());
+    $this->assertEquals('stooge_1', __::uniqueId('stooge_'));
+    $this->assertEquals(2, __::uniqueId());
     
     // from js
     $ids = array();
-    while($i++ < 100) array_push($ids, _::uniqueId());
-    $this->assertEquals(count($ids), count(_::uniq($ids)));
+    while($i++ < 100) array_push($ids, __::uniqueId());
+    $this->assertEquals(count($ids), count(__::uniq($ids)));
 
     // extra
-    $this->assertEquals('stooges', join('', (_::first(_::uniqueId('stooges'), 7))), 'prefix assignment works');
-    $this->assertEquals('stooges', join('', _(_('stooges')->uniqueId())->first(7)), 'prefix assignment works in OO-style call');
+    $this->assertEquals('stooges', join('', (__::first(__::uniqueId('stooges'), 7))), 'prefix assignment works');
+    $this->assertEquals('stooges', join('', __(__('stooges')->uniqueId())->first(7)), 'prefix assignment works in OO-style call');
 
-    while($i++ < 100) array_push($ids, _()->uniqueId());
-    $this->assertEquals(count($ids), count(_()->uniq($ids)));
+    while($i++ < 100) array_push($ids, __()->uniqueId());
+    $this->assertEquals(count($ids), count(__()->uniq($ids)));
   }
 
   public function testTimes() {
     // from js
     $vals = array();
-    _::times(3, function($i) use (&$vals) { $vals[] = $i; });
+    __::times(3, function($i) use (&$vals) { $vals[] = $i; });
     $this->assertEquals(array(0,1,2), $vals, 'is 0 indexed');
 
     $vals = array();
-    _(3)->times(function($i) use (&$vals) { $vals[] = $i; });
+    __(3)->times(function($i) use (&$vals) { $vals[] = $i; });
     $this->assertEquals(array(0,1,2), $vals, 'works as a wrapper in OO-style call');
   
     // docs
     $result = '';
-    _::times(3, function() use (&$result) { $result .= 'a'; });
+    __::times(3, function() use (&$result) { $result .= 'a'; });
     $this->assertEquals('aaa', $result);
   }
 
   public function testMixin() {
     // from js
-    _::mixin(array(
+    __::mixin(array(
       'myReverse' => function($string) {
         $chars = str_split($string);
         krsort($chars);
         return join('', $chars);
       }
     ));
-    $this->assertEquals('aecanap', _::myReverse('panacea'), 'mixed in a function to _');
-    $this->assertEquals('pmahc', _('champ')->myReverse(), 'mixed in a function to _ with OO-style call');
+    $this->assertEquals('aecanap', __::myReverse('panacea'), 'mixed in a function to _');
+    $this->assertEquals('pmahc', __('champ')->myReverse(), 'mixed in a function to _ with OO-style call');
     
     // docs
-    _::mixin(array(
+    __::mixin(array(
       'capitalize'=> function($string) { return ucwords($string); },
       'yell'      => function($string) { return strtoupper($string); }
     ));
-    $this->assertEquals('Moe', _::capitalize('moe'));
-    $this->assertEquals('MOE', _::yell('moe'));
+    $this->assertEquals('Moe', __::capitalize('moe'));
+    $this->assertEquals('MOE', __::yell('moe'));
   }
 
   public function testTemplate() {
     // from js
-    $basicTemplate = _::template('<%= $thing %> is gettin on my noives!');
+    $basicTemplate = __::template('<%= $thing %> is gettin on my noives!');
     $this->assertEquals("This is gettin on my noives!", $basicTemplate(array('thing'=>'This')), 'can do basic attribute interpolation');
     $this->assertEquals("This is gettin on my noives!", $basicTemplate((object) array('thing'=>'This')), 'can do basic attribute interpolation');
 
-    $backslashTemplate = _::template('<%= $thing %> is \\ridanculous');
+    $backslashTemplate = __::template('<%= $thing %> is \\ridanculous');
     $this->assertEquals('This is \\ridanculous', $backslashTemplate(array('thing'=>'This')));
 
-    $fancyTemplate = _::template('<ul><% foreach($people as $key=>$name) { %><li><%= $name %></li><% } %></ul>');
+    $fancyTemplate = __::template('<ul><% foreach($people as $key=>$name) { %><li><%= $name %></li><% } %></ul>');
     $result = $fancyTemplate(array('people'=>array('moe'=>'Moe', 'larry'=>'Larry', 'curly'=>'Curly')));
     $this->assertEquals('<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>', $result, 'can run arbitrary php in templates');
 
-    $namespaceCollisionTemplate = _::template('<%= $pageCount %> <%= $thumbnails[$pageCount] %> <% _::each($thumbnails, function($p) { %><div class=\"thumbnail\" rel=\"<%= $p %>\"></div><% }); %>');
+    $namespaceCollisionTemplate = __::template('<%= $pageCount %> <%= $thumbnails[$pageCount] %> <% __::each($thumbnails, function($p) { %><div class=\"thumbnail\" rel=\"<%= $p %>\"></div><% }); %>');
     $result = $namespaceCollisionTemplate((object) array(
       'pageCount' => 3,
       'thumbnails'=> array(
@@ -101,88 +101,88 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
     $expected = '3 p3-thumbnail.gif <div class=\"thumbnail\" rel=\"p1-thumbnail.gif\"></div><div class=\"thumbnail\" rel=\"p2-thumbnail.gif\"></div><div class=\"thumbnail\" rel=\"p3-thumbnail.gif\"></div>';
     $this->assertEquals($expected, $result);
 
-    $noInterpolateTemplate = _::template("<div><p>Just some text. Hey, I know this is silly but it aids consistency.</p></div>");
+    $noInterpolateTemplate = __::template("<div><p>Just some text. Hey, I know this is silly but it aids consistency.</p></div>");
     $result = $noInterpolateTemplate();
     $expected = "<div><p>Just some text. Hey, I know this is silly but it aids consistency.</p></div>";
     $this->assertEquals($expected, $result);
 
-    $quoteTemplate = _::template("It's its, not it's");
+    $quoteTemplate = __::template("It's its, not it's");
     $this->assertEquals("It's its, not it's", $quoteTemplate(new StdClass));
 
-    $quoteInStatementAndBody = _::template('<%
+    $quoteInStatementAndBody = __::template('<%
       if($foo == "bar"){
     %>Statement quotes and \'quotes\'.<% } %>');
     $this->assertEquals("Statement quotes and 'quotes'.", $quoteInStatementAndBody((object) array('foo'=>'bar')));
 
-    $withNewlinesAndTabs = _::template('This\n\t\tis: <%= $x %>.\n\tok.\nend.');
+    $withNewlinesAndTabs = __::template('This\n\t\tis: <%= $x %>.\n\tok.\nend.');
     $this->assertEquals('This\n\t\tis: that.\n\tok.\nend.', $withNewlinesAndTabs((object) array('x'=>'that')));
 
-    _::templateSettings(array(
+    __::templateSettings(array(
       'evaluate'    => '/\{\{([\s\S]+?)\}\}/',
       'interpolate' => '/\{\{=([\s\S]+?)\}\}/'
     ));
 
-    $custom = _::template('<ul>{{ foreach($people as $key=>$name) { }}<li>{{= $people[$key] }}</li>{{ } }}</ul>');
+    $custom = __::template('<ul>{{ foreach($people as $key=>$name) { }}<li>{{= $people[$key] }}</li>{{ } }}</ul>');
     $result = $custom(array('people'=>array('moe'=>'Moe', 'larry'=>'Larry', 'curly'=>'Curly')));
     $this->assertEquals("<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>", $result, 'can run arbitrary php in templates using custom tags');
 
-    $customQuote = _::template("It's its, not it's");
+    $customQuote = __::template("It's its, not it's");
     $this->assertEquals("It's its, not it's", $customQuote(new StdClass));
 
-    $quoteInStatementAndBody = _::template('{{ if($foo == "bar"){ }}Statement quotes and \'quotes\'.{{ } }}');
+    $quoteInStatementAndBody = __::template('{{ if($foo == "bar"){ }}Statement quotes and \'quotes\'.{{ } }}');
     $this->assertEquals("Statement quotes and 'quotes'.", $quoteInStatementAndBody(array('foo'=>'bar')));
 
-    _::templateSettings(array(
+    __::templateSettings(array(
       'evaluate'    => '/<\?([\s\S]+?)\?>/',
       'interpolate' => '/<\?=([\s\S]+?)\?>/'
     ));
 
-    $customWithSpecialChars = _::template('<ul><? foreach($people as $key=>$name) { ?><li><?= $people[$key] ?></li><? } ?></ul>');
+    $customWithSpecialChars = __::template('<ul><? foreach($people as $key=>$name) { ?><li><?= $people[$key] ?></li><? } ?></ul>');
     $result = $customWithSpecialChars(array('people'=>array('moe'=>'Moe', 'larry'=>'Larry', 'curly'=>'Curly')));
     $this->assertEquals("<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>", $result, 'can run arbitrary php in templates');
 
-    $customWithSpecialCharsQuote = _::template("It's its, not it's");
+    $customWithSpecialCharsQuote = __::template("It's its, not it's");
     $this->assertEquals("It's its, not it's", $customWithSpecialCharsQuote(new StdClass));
 
-    $quoteInStatementAndBody = _::template('<? if($foo == "bar"){ ?>Statement quotes and \'quotes\'.<? } ?>');
+    $quoteInStatementAndBody = __::template('<? if($foo == "bar"){ ?>Statement quotes and \'quotes\'.<? } ?>');
     $this->assertEquals("Statement quotes and 'quotes'.", $quoteInStatementAndBody(array('foo'=>'bar')));
 
-    _::templateSettings(array(
+    __::templateSettings(array(
       'interpolate' => '/\{\{(.+?)\}\}/'
     ));
 
-    $mustache = _::template('Hello {{$planet}}!');
+    $mustache = __::template('Hello {{$planet}}!');
     $this->assertEquals("Hello World!", $mustache(array('planet'=>'World')), 'can mimic mustache.js');
 
     // extra
-    _::templateSettings(); // reset to default
-    $basicTemplate = _::template('<%= $thing %> is gettin\' on my <%= $nerves %>!');
+    __::templateSettings(); // reset to default
+    $basicTemplate = __::template('<%= $thing %> is gettin\' on my <%= $nerves %>!');
     $this->assertEquals("This is gettin' on my noives!", $basicTemplate(array('thing'=>'This', 'nerves'=>'noives')), 'can do basic attribute interpolation for multiple variables');
 
-    $result = _('hello: <%= $name %>')->template(array('name'=>'moe'));
+    $result = __('hello: <%= $name %>')->template(array('name'=>'moe'));
     $this->assertEquals('hello: moe', $result, 'works with OO-style call');
 
-    $result = _('<%= $thing %> is gettin\' on my <%= $nerves %>!')->template(array('thing'=>'This', 'nerves'=>'noives'));
+    $result = __('<%= $thing %> is gettin\' on my <%= $nerves %>!')->template(array('thing'=>'This', 'nerves'=>'noives'));
     $this->assertEquals("This is gettin' on my noives!", $result, 'can do basic attribute interpolation for multiple variables with OO-style call');
   
-    $result = _('<%
+    $result = __('<%
       if($foo == "bar"){
     %>Statement quotes and \'quotes\'.<% } %>')->template((object) array('foo'=>'bar'));
     $this->assertEquals("Statement quotes and 'quotes'.", $result);
     
     // docs
-    $compiled = _::template('hello: <%= $name %>');
+    $compiled = __::template('hello: <%= $name %>');
     $result = $compiled(array('name'=>'moe'));
     $this->assertEquals('hello: moe', $result);
     
-    $list = '<% _::each($people, function($name) { %><li><%= $name %></li><% }); %>';
-    $result = _::template($list, array('people'=>array('moe', 'curly', 'larry')));
+    $list = '<% __::each($people, function($name) { %><li><%= $name %></li><% }); %>';
+    $result = __::template($list, array('people'=>array('moe', 'curly', 'larry')));
     $this->assertEquals('<li>moe</li><li>curly</li><li>larry</li>', $result);
     
-    _::templateSettings(array(
+    __::templateSettings(array(
       'interpolate' => '/\{\{(.+?)\}\}/'
     ));
-    $mustache = _::template('Hello {{$planet}}!');
+    $mustache = __::template('Hello {{$planet}}!');
     $result = $mustache(array('planet'=>'World'));
     $this->assertEquals('Hello World!', $result);
   }

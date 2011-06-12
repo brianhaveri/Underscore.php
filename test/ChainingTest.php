@@ -12,7 +12,7 @@ class UnderscoreChainingTest extends PHPUnit_Framework_TestCase {
       "He's a lumberjack and he's okay",
       "He sleeps all night and he works all day"
     );
-    $counts = _($lyrics)->chain()
+    $counts = __($lyrics)->chain()
       ->map(function($line) { return str_split($line); })
       ->flatten()
       ->reduce(function($hash, $l) {
@@ -27,7 +27,7 @@ class UnderscoreChainingTest extends PHPUnit_Framework_TestCase {
   
   public function testSelectRejectSortBy() {
     $numbers = array(1,2,3,4,5,6,7,8,9,10);
-    $numbers = _($numbers)->chain()->select(function($n) {
+    $numbers = __($numbers)->chain()->select(function($n) {
       return $n % 2 === 0;
     })->reject(function($n) {
       return $n % 4 === 0;
@@ -40,7 +40,7 @@ class UnderscoreChainingTest extends PHPUnit_Framework_TestCase {
   public function testChain() {
     // docs
     $numbers = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-    $result = _($numbers)->chain()
+    $result = __($numbers)->chain()
       ->select(function($n) { return $n < 5; })
       ->reject(function($n) { return $n === 3; })
       ->sortBy(function($n) { return -$n; })
@@ -50,6 +50,6 @@ class UnderscoreChainingTest extends PHPUnit_Framework_TestCase {
   
   public function testValue() {
     // docs
-    $this->assertEquals(array(1, 2, 3), _(array(1, 2, 3))->value());
+    $this->assertEquals(array(1, 2, 3), __(array(1, 2, 3))->value());
   }
 }

@@ -9,14 +9,14 @@
  */
 
 // Returns an instance of _ for OO-style calls
-function _($item=null) {
-  $_ = new _;
-  if(func_num_args() > 0) $_->_wrapped = $item;
-  return $_;
+function __($item=null) {
+  $__ = new __;
+  if(func_num_args() > 0) $__->_wrapped = $item;
+  return $__;
 }
 
 // Underscore.php
-class _ {
+class __ {
   
   // Start the chain
   private $_chained = false; // Are we in a chain?
@@ -94,8 +94,8 @@ class _ {
     
     krsort($collection);
     
-    $_ = new self;
-    return self::_wrap($_->reduce($collection, $iterator, $memo));
+    $__ = new self;
+    return self::_wrap($__->reduce($collection, $iterator, $memo));
   }
   
   
@@ -131,9 +131,9 @@ class _ {
   // Invoke the named function over each item in the collection, optionally passing arguments to the function
   public function invoke($collection=null, $function_name=null, $arguments=null) {
     $args = self::_wrapArgs(func_get_args());
-    $_ = new self;
-    list($collection, $function_name) = $_->first($args, 2);
-    $arguments = $_->rest($args, 2);
+    $__ = new self;
+    list($collection, $function_name) = $__->first($args, 2);
+    $arguments = $__->rest($args, 2);
     
     // If passed an array or string, return an array
     // If passed an object, return an object
@@ -153,8 +153,8 @@ class _ {
     
     $collection = self::_collection($collection);
     
-    $_ = new self;
-    if(!is_null($iterator)) $collection = $_->map($collection, $iterator);
+    $__ = new self;
+    if(!is_null($iterator)) $collection = $__->map($collection, $iterator);
     if(count($collection) === 0) return self::_wrap(false);
     
     return self::_wrap(is_int(array_search(true, $collection, false)));
@@ -169,8 +169,8 @@ class _ {
     
     $collection = self::_collection($collection);
     
-    $_ = new self;
-    if(!is_null($iterator)) $collection = $_->map($collection, $iterator);
+    $__ = new self;
+    if(!is_null($iterator)) $collection = $__->map($collection, $iterator);
     $collection = (array) $collection;
     if(count($collection) === 0) return true;
     
@@ -273,8 +273,8 @@ class _ {
     
     $collection = self::_collection($collection);
     
-    $_ = new self;
-    return self::_wrap($_->select($collection, function($val) {
+    $__ = new self;
+    return self::_wrap($__->select($collection, function($val) {
       return (bool) $val;
     }));
   }
@@ -290,8 +290,8 @@ class _ {
     if(count($collection) > 0) {
       foreach($collection as $item) {
         if(is_array($item)) {
-          $_ = new self;
-          $return = array_merge($return, $_->flatten($item));
+          $__ = new self;
+          $return = array_merge($return, $__->flatten($item));
         }
         else $return[] = $item;
       }
@@ -310,8 +310,8 @@ class _ {
     if($num_args === 1) return self::_wrap($collection);
     if(count($collection) === 0) return self::_wrap($collection);
     
-    $_ = new self;
-    $removes = $_->rest($args);
+    $__ = new self;
+    $removes = $__->rest($args);
     foreach($removes as $remove) {
       $remove_keys = array_keys($collection, $remove, true);
       if(count($remove_keys) > 0) {
@@ -348,10 +348,10 @@ class _ {
     
     if(count($arrays) === 1) return self::_wrap($array);
     
-    $_ = new self;
-    $return = $_->first($arrays);
-    foreach($_->rest($arrays) as $next) {
-      if(!$_->isArray($next)) $next = str_split((string) $next);
+    $__ = new self;
+    $return = $__->first($arrays);
+    foreach($__->rest($arrays) as $next) {
+      if(!$__->isArray($next)) $next = str_split((string) $next);
       
       $return = array_intersect($return, $next);
     }
@@ -378,8 +378,8 @@ class _ {
     $collection = self::_collection($collection);
     
     krsort($collection);
-    $_ = new self;
-    return self::_wrap($_->indexOf($collection, $item));
+    $__ = new self;
+    return self::_wrap($__->indexOf($collection, $item));
   }
   
   
@@ -387,8 +387,8 @@ class _ {
   public function range($stop=null) {
     $args = self::_wrapArgs(func_get_args());
     
-    $_ = new self;
-    $args = $_->reject($args, function($val) {
+    $__ = new self;
+    $args = $__->reject($args, function($val) {
       return is_null($val);
     });
     
@@ -408,8 +408,8 @@ class _ {
     $results = range($start, $stop, $step);
     
     // Switch inclusive to exclusive
-    if($step > 0 && $_->last($results) >= $stop) array_pop($results);
-    elseif($step < 0 && $_->last($results) <= $stop) array_pop($results);
+    if($step > 0 && $__->last($results) >= $stop) array_pop($results);
+    elseif($step < 0 && $__->last($results) <= $stop) array_pop($results);
     
     return self::_wrap($results);
   }
@@ -421,11 +421,11 @@ class _ {
     $num_arrays = count($arrays);
     if($num_arrays === 1) return self::_wrap($array);
     
-    $_ = new self;
-    $num_return_arrays = $_->max($_->map($arrays, function($array) {
+    $__ = new self;
+    $num_return_arrays = $__->max($__->map($arrays, function($array) {
       return count($array);
     }));
-    $return_arrays = $_->range($num_return_arrays);
+    $return_arrays = $__->range($num_return_arrays);
     foreach($return_arrays as $k=>$v) {
       if(!is_array($return_arrays[$k])) $return_arrays[$k] = array();
       
@@ -449,8 +449,8 @@ class _ {
       $results[$k] = $iterator($item);
     }
     arsort($results);
-    $_ = new self;
-    $first_key = $_->first(array_keys($results));
+    $__ = new self;
+    $first_key = $__->first(array_keys($results));
     return $collection[$first_key];
   }
   
@@ -466,8 +466,8 @@ class _ {
       $results[$k] = $iterator($item);
     }
     asort($results);
-    $_ = new self;
-    $first_key = $_->first(array_keys($results));
+    $__ = new self;
+    $first_key = $__->first(array_keys($results));
     return self::_wrap($collection[$first_key]);
   }
   
@@ -508,7 +508,7 @@ class _ {
     list($collection, $value, $iterator) = self::_wrapArgs(func_get_args());
     
     $collection = (array) $collection;
-    $_ = new self;
+    $__ = new self;
     
     $calculated_value = (!is_null($iterator)) ? $iterator($value) : $value;
     
@@ -559,8 +559,8 @@ class _ {
     
     $is_object = is_object($object);
     $array = (array) $object;
-    $_ = new self;
-    $extensions = $_->rest(func_get_args());
+    $__ = new self;
+    $extensions = $__->rest(func_get_args());
     foreach($extensions as $extension) {
       $extension = (array) $extension;
       $array = array_merge($array, $extension);
@@ -579,8 +579,8 @@ class _ {
     
     $is_object = is_object($object);
     $array = (array) $object;
-    $_ = new self;
-    $extensions = $_->rest($args);
+    $__ = new self;
+    $extensions = $__->rest($args);
     foreach($extensions as $extension) {
       $extension = (array) $extension;
       $array = array_merge($extension, $array);
@@ -646,9 +646,9 @@ class _ {
     
     // Objects and arrays compared by values
     if(is_object($a) || is_array($a)) {
-      $_ = new self;
-      $keys_equal = $_->isEqual($_->keys($a), $_->keys($b));
-      $values_equal = $_->isEqual($_->values($a), $_->values($b));
+      $__ = new self;
+      $keys_equal = $__->isEqual($__->keys($a), $__->keys($b));
+      $values_equal = $__->isEqual($__->values($a), $__->values($b));
       return self::_wrap($keys_equal && $values_equal);
     }
     
