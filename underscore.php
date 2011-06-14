@@ -66,7 +66,7 @@ class __ {
   
   
   // Reduce a collection to a single value
-  // reduce aliases: foldr, inject
+  // reduce aliases: foldl, inject
   public function foldl($collection=null, $iterator=null, $memo=null) { return self::reduce($collection, $iterator, $memo); }
   public function inject($collection=null, $iterator=null, $memo=null) { return self::reduce($collection, $iterator, $memo); }
   public function reduce($collection=null, $iterator=null, $memo=null) {
