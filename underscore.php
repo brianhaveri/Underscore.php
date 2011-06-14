@@ -103,9 +103,8 @@ class __ {
   public function pluck($collection=null, $key=null) {
     list($collection, $key) = self::_wrapArgs(func_get_args());
     
-    // Suport strings
-    if(!is_array($collection) && !is_object($collection)) $collection = str_split((string) $collection);
-    
+    $collection = (array) self::_collection($collection);
+        
     $return = array();
     foreach($collection as $item) {
       foreach($item as $k=>$v) {
