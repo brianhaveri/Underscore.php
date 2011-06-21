@@ -238,6 +238,19 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue(__::isEmpty((object) array()));
   }
   
+  public function testIsObject() {
+    // from js
+    $this->assertTrue(__::isObject((object) array(1, 2, 3)));
+    $this->assertTrue(__::isObject(function() {}), 'and functions');
+    $this->assertFalse(__::isObject(null), 'but not null');
+    $this->assertFalse(__::isObject('string'), 'and not string');
+    $this->assertFalse(__::isObject(12), 'and not number');
+    $this->assertFalse(__::isObject(true), 'and not boolean');
+    if(class_exists('DateTimeZone')) {
+      $this->assertTrue(__::isObject(new DateTimeZone('America/Denver')), 'objects are');
+    }
+  }
+  
   public function testIsArray() {
     // from js
     $this->assertTrue(__::isArray(array(1,2,3)), 'arrays are');

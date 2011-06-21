@@ -673,6 +673,13 @@ class __ {
   }
   
   
+  // Is this item an object?
+  public function isObject($item=null) {
+    list($item) = self::_wrapArgs(func_get_args());
+    return self::_wrap(is_object($item));
+  }
+  
+  
   // Is this item an array?
   public function isArray($item=null) {
     list($item) = self::_wrapArgs(func_get_args());
