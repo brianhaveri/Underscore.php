@@ -640,11 +640,21 @@ class __ {
     
     if($a === $b) return self::_wrap(true);
     if(gettype($a) !== gettype($b)) return self::_wrap(false);
+    if(is_callable($a) !== is_callable($b)) return self::_wrap(false);
     
     if($a == $b) return self::_wrap(true);
     
     // Objects and arrays compared by values
     if(is_object($a) || is_array($a)) {
+      
+      // Do either implement isEqual()?
+      if(is_object($a) && isset($a->isEqual)) return self::_wrap($a->isEqual($b));
+      if(is_object($b) && isset($b->isEqual)) return self::_wrap($b->isEqual($a));
+      if(is_array($a) && array_key_exists('isEqual', $a)) return self::_wrap($a['isEqual']($b));
+      if(is_array($b) && array_key_exists('isEqual', $b)) return self::_wrap($b['isEqual']($a));
+      
+      if(count($a) !== count($b)) return self::_wrap(false);
+      
       $__ = new self;
       $keys_equal = $__->isEqual($__->keys($a), $__->keys($b));
       $values_equal = $__->isEqual($__->values($a), $__->values($b));

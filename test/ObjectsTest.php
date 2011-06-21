@@ -197,6 +197,9 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     
     $this->assertFalse(__::isEqual(null, array(1)), 'a falsy is never equal to a truthy');
     $this->assertEquals(true, __(array('x'=>1, 'y'=>2))->chain()->isEqual(__(array('x'=>1, 'y'=>2))->chain())->value(), 'wrapped objects are equal');
+    $getTrue = function() { return true; };
+    $this->assertTrue(__::isEqual(array('isEqual'=>$getTrue), array()));
+    $this->assertTrue(__::isEqual(array(), array('isEqual'=>$getTrue)));
     
     // docs
     $stooge = (object) array('name'=>'moe');
