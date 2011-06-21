@@ -249,6 +249,9 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     if(class_exists('DateTimeZone')) {
       $this->assertTrue(__::isObject(new DateTimeZone('America/Denver')), 'objects are');
     }
+    
+    // extra
+    $this->assertTrue(__::isObject(new StdClass), 'empty objects work');
   }
   
   public function testIsArray() {
