@@ -133,6 +133,7 @@
         <a href="#isEqual">isEqual</a>,
         <a href="#isEmpty">isEmpty</a>,
         <span class="fade">isElement</span>,
+        <a href="#isObject">isObject</a>,
         <a href="#isArray">isArray</a>,
         <span class="fade">isArguments</span>,
         <a href="#isFunction">isFunction</a>,
@@ -461,6 +462,11 @@ __::isEqual($stooge, $clon); // true</pre>
 __::isEmpty($stooge); // false
 __::isEmpty(new StdClass); // true
 __::isEmpty((object) array()); // true</pre>
+
+<p class="block" id="isObject"><b class="function">isObject</b> <code>__::isObject(object)</code></p>
+<p>Returns true if passed an object.</p>
+<pre>__::isObject((object) array(1, 2)); // true
+__::isObject(new StdClass); // true</pre>
 
 <p class="block" id="isArray"><b class="function">isArray</b> <code>__::isArray(object)</code></p>
 <p>Returns true if passed an array.</p>
