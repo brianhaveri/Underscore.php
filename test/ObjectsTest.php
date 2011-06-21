@@ -252,6 +252,8 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     
     // extra
     $this->assertTrue(__::isObject(new StdClass), 'empty objects work');
+    $this->assertTrue(__(new StdClass)->isObject(), 'works with OO-style call');
+    $this->assertFalse(__(2)->isObject());
   }
   
   public function testIsArray() {
