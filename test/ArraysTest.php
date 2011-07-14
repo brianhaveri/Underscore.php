@@ -140,15 +140,15 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array(2, 4, 1), __::uniq(array(2, 2, 4, 4, 4, 1, 1, 1)));
   }
   
-  public function testIntersect() {
+  public function testIntersection() {
     // from js
     $stooges = array('moe', 'curly', 'larry');
     $leaders = array('moe', 'groucho');
-    $this->assertEquals(array('moe'), __::intersect($stooges, $leaders), 'can take the set intersection of two arrays');
+    $this->assertEquals(array('moe'), __::intersection($stooges, $leaders), 'can take the set intersection of two arrays');
     
-    $this->assertEquals(array('moe'), __($stooges)->intersect($leaders), 'can perform an OO-style intersection');
+    $this->assertEquals(array('moe'), __($stooges)->intersection($leaders), 'can perform an OO-style intersection');
     
-    $func = function() use ($leaders) { $args = func_get_args(); return __::intersect($args[0], $leaders); };
+    $func = function() use ($leaders) { $args = func_get_args(); return __::intersection($args[0], $leaders); };
     $result = $func($stooges);
     $this->assertEquals(array('moe'), $result, 'works on an arguments object');
   
@@ -156,7 +156,13 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $arr1 = array(0, 1, 2, 3);
     $arr2 = array(1, 2, 3, 4);
     $arr3 = array(2, 3, 4, 5);
-    $this->assertEquals(array(2, 3), __::intersect($arr1, $arr2, $arr3));
+    $this->assertEquals(array(2, 3), __::intersection($arr1, $arr2, $arr3));
+  }
+  
+  public function testUnion() {
+    // from us
+    $result = __::union(array(1, 2, 3), array(2, 30, 1), array(1, 40));
+    $this->assertEquals(array(1, 2, 3, 30, 40), $result, 'takes the union of a list of arrays');
   }
   
   public function testZip() {

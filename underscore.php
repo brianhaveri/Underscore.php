@@ -342,7 +342,7 @@ class __ {
   
   
   // Returns an array containing the intersection of all the arrays
-  public function intersect($array=null) {
+  public function intersection($array=null) {
     $arrays = self::_wrapArgs(func_get_args());
     
     if(count($arrays) === 1) return self::_wrap($array);
@@ -356,6 +356,15 @@ class __ {
     }
     
     return self::_wrap(array_values($return));
+  }
+  
+  
+  public function union($array=null) {
+    $arrays = self::_wrapArgs(func_get_args());
+    
+    if(count($arrays) === 1) return self::_wrap($array);
+    
+    return self::_wrap(array_values(array_unique(call_user_func_array('array_merge', $arrays))));
   }
   
   
