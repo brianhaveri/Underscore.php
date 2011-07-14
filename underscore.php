@@ -359,6 +359,7 @@ class __ {
   }
   
   
+  // Merge together multiple arrays
   public function union($array=null) {
     $arrays = self::_wrapArgs(func_get_args());
     
