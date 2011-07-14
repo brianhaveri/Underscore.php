@@ -165,6 +165,11 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array(1, 2, 3, 30, 40), $result, 'takes the union of a list of arrays');
   }
   
+  public function testDifference() {
+    $result = __::difference(array(1, 2, 3), array(2, 30, 40));
+    $this->assertEquals(array(1, 3), $result, 'takes the difference of two arrays');
+  }
+  
   public function testZip() {
     // from js
     $names  = array('moe', 'larry', 'curly');

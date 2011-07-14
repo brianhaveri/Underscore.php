@@ -369,6 +369,14 @@ class __ {
   }
   
   
+  // Get the difference between two arrays
+  public function difference($array_one, $array_two) {
+    list($array_one, $array_two) = self::_wrapArgs(func_get_args());
+    
+    return self::_wrap(array_values(array_diff($array_one, $array_two)));
+  }
+  
+  
   // Get the index of the first match
   public function indexOf($collection=null, $item=null) {
     list($collection, $item) = self::_wrapArgs(func_get_args());
