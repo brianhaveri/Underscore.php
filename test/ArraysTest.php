@@ -167,6 +167,12 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     // extra
     $result = __(array(1, 2, 3))->union(array(2, 30, 1), array(1, 40));
     $this->assertEquals(array(1, 2, 3, 30, 40), $result, 'works with OO-style call');
+  
+    // docs
+    $arr1 = array(1, 2, 3);
+    $arr2 = array(101, 2, 1, 10);
+    $arr3 = array(2, 1);
+    $this->assertEquals(array(1, 2, 3, 101, 10), __::union($arr1, $arr2, $arr3));
   }
   
   public function testDifference() {
@@ -177,6 +183,9 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     // extra
     $result = __(array(1, 2, 3))->difference(array(2, 30, 40));
     $this->assertEquals(array(1, 3), $result, 'works with OO-style call');
+  
+    // docs
+    $this->assertEquals(array(1, 3, 4), __::difference(array(1, 2, 3, 4, 5), array(5, 2, 10)));
   }
   
   public function testZip() {
