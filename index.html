@@ -99,7 +99,9 @@
         <a href="#flatten">flatten</a>,
         <a href="#without">without</a>,
         <a href="#uniq">uniq</a>,
-        <a href="#intersect">intersect</a>,
+        <a href="#union">union</a>,
+        <a href="#intersection">intersection</a>,
+        <a href="#difference">difference</a>,
         <a href="#zip">zip</a>,
         <a href="#indexOf">indexOf</a>,
         <a href="#lastIndexOf">lastIndexOf</a>,
@@ -323,14 +325,23 @@ __::first(array(5, 4, 3, 2, 1), 3); // array(5, 4, 3)</pre>
 <p>Returns a copy of the array containing no duplicate values. Unlike Underscore.js, Underscore.php does not accept a second isSorted parameter.</p>
 <pre>__::uniq(array(2, 2, 4, 4, 4, 1, 1, 1)); // array(2, 4, 1)</pre>
 
+<p class="block" id="union"><b class="function">union</b> <code>__::union(*arrays)</code></p>
+<p>Returns an array containing the unique items in one or more of the arrays.</p>
+<pre>$arr1 = array(1, 2, 3);
+$arr2 = array(101, 2, 1, 10);
+$arr3 = array(2, 1);
+__::union($arr1, $arr2, $arr3); // array(1, 2, 3, 101, 10)</pre>
 
-
-<p class="block" id="intersect"><b class="function">intersect</b> <code>__::intersect(*arrays)</code></p>
+<p class="block" id="intersection"><b class="function">intersection</b> <code>__::intersection(*arrays)</code></p>
 <p>Returns an array containing the intersection of all the arrays. Each value in the resulting array exists in all arrays.</p>
 <pre>$arr1 = array(0, 1, 2, 3);
 $arr2 = array(1, 2, 3, 4);
 $arr3 = array(2, 3, 4, 5);
-__::intersect($arr1, $arr2, $arr3); // array(2, 3)</pre>
+__::intersection($arr1, $arr2, $arr3); // array(2, 3)</pre>
+
+<p class="block" id="difference"><b class="function">difference</b> <code>__::difference(array, other)</code></p>
+<p>Returns an array containing the items existing in one array, but not the other.</p>
+<pre>__::difference(array(1, 2, 3, 4, 5), array(5, 2, 10)); // array(1, 3, 4)</pre>
 
 <p class="block" id="zip"><b class="function">zip</b> <code>__::zip(*arrays)</code></p>
 <p>Merges arrays</p>
