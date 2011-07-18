@@ -34,7 +34,7 @@ class __ {
   
   // Invoke the iterator on each item in the collection
   public function each($collection=null, $iterator=null) {
-    list($collection, $iterator) = self::_wrapArgs(func_get_args());
+    list($collection, $iterator) = self::_wrapArgs(func_get_args(), 2);
     
     if(is_null($collection)) return self::_wrap(null);
     
@@ -50,7 +50,7 @@ class __ {
   
   // Return an array of values by mapping each item through the iterator
   public function map($collection=null, $iterator=null) {
-    list($collection, $iterator) = self::_wrapArgs(func_get_args());
+    list($collection, $iterator) = self::_wrapArgs(func_get_args(), 2);
     
     if(is_null($collection)) return self::_wrap(array());
     
@@ -70,7 +70,7 @@ class __ {
   public function foldl($collection=null, $iterator=null, $memo=null) { return self::reduce($collection, $iterator, $memo); }
   public function inject($collection=null, $iterator=null, $memo=null) { return self::reduce($collection, $iterator, $memo); }
   public function reduce($collection=null, $iterator=null, $memo=null) {
-    list($collection, $iterator, $memo) = self::_wrapArgs(func_get_args());
+    list($collection, $iterator, $memo) = self::_wrapArgs(func_get_args(), 3);
     
     if(!is_object($collection) && !is_array($collection)) {
       if(is_null($memo)) throw new Exception('Invalid object');
@@ -85,7 +85,7 @@ class __ {
   // reduceRight alias: foldr
   public function foldr($collection=null, $iterator=null, $memo=null) { return self::reduceRight($collection, $iterator, $memo); }
   public function reduceRight($collection=null, $iterator=null, $memo=null) {
-    list($collection, $iterator, $memo) = self::_wrapArgs(func_get_args());
+    list($collection, $iterator, $memo) = self::_wrapArgs(func_get_args(), 3);
     
     if(!is_object($collection) && !is_array($collection)) {
       if(is_null($memo)) throw new Exception('Invalid object');
@@ -101,7 +101,7 @@ class __ {
   
   // Extract an array of values for a given property
   public function pluck($collection=null, $key=null) {
-    list($collection, $key) = self::_wrapArgs(func_get_args());
+    list($collection, $key) = self::_wrapArgs(func_get_args(), 2);
     
     $collection = (array) self::_collection($collection);
         
@@ -119,7 +119,7 @@ class __ {
   // includ alias: contains
   public function contains($collection=null, $val=null) { return self::includ($collection, $val); }
   public function includ($collection=null, $val=null) {
-    list($collection, $val) = self::_wrapArgs(func_get_args());
+    list($collection, $val) = self::_wrapArgs(func_get_args(), 2);
     
     $collection = (array) self::_collection($collection);
     
@@ -129,10 +129,10 @@ class __ {
   
   // Invoke the named function over each item in the collection, optionally passing arguments to the function
   public function invoke($collection=null, $function_name=null, $arguments=null) {
-    $args = self::_wrapArgs(func_get_args());
+    $args = self::_wrapArgs(func_get_args(), 2);
     $__ = new self;
     list($collection, $function_name) = $__->first($args, 2);
-    $arguments = $__->rest($args, 2);
+    $arguments = $__->rest(func_get_args(), 2);
     
     // If passed an array or string, return an array
     // If passed an object, return an object
@@ -148,7 +148,7 @@ class __ {
   // any alias: some
   public function some($collection=null, $iterator=null) { return self::any($collection, $iterator); }
   public function any($collection=null, $iterator=null) {
-    list($collection, $iterator) = self::_wrapArgs(func_get_args());
+    list($collection, $iterator) = self::_wrapArgs(func_get_args(), 2);
     
     $collection = self::_collection($collection);
     
@@ -164,7 +164,7 @@ class __ {
   // all alias: every
   public function every($collection=null, $iterator=null) { return self::all($collection, $iterator); }
   public function all($collection=null, $iterator=null) {
-    list($collection, $iterator) = self::_wrapArgs(func_get_args());
+    list($collection, $iterator) = self::_wrapArgs(func_get_args(), 2);
     
     $collection = self::_collection($collection);
     
@@ -181,7 +181,7 @@ class __ {
   // select alias: filter
   public function filter($collection=null, $iterator=null) { return self::select($collection, $iterator); }
   public function select($collection=null, $iterator=null) {
-    list($collection, $iterator) = self::_wrapArgs(func_get_args());
+    list($collection, $iterator) = self::_wrapArgs(func_get_args(), 2);
     
     $collection = self::_collection($collection);
     
@@ -195,7 +195,7 @@ class __ {
   
   // Return an array of values that fail the truth iterator test
   public function reject($collection=null, $iterator=null) {
-    list($collection, $iterator) = self::_wrapArgs(func_get_args());
+    list($collection, $iterator) = self::_wrapArgs(func_get_args(), 2);
     
     $collection = self::_collection($collection);
     
@@ -209,7 +209,7 @@ class __ {
   
   // Return the value of the first item passing the truth iterator test
   public function detect($collection=null, $iterator=null) {
-    list($collection, $iterator) = self::_wrapArgs(func_get_args());
+    list($collection, $iterator) = self::_wrapArgs(func_get_args(), 2);
     
     $collection = self::_collection($collection);
     
@@ -222,7 +222,7 @@ class __ {
   
   // How many items are in this collection?
   public function size($collection=null) {
-    list($collection) = self::_wrapArgs(func_get_args());
+    list($collection) = self::_wrapArgs(func_get_args(), 1);
     
     $collection = self::_collection($collection);
     
@@ -234,7 +234,7 @@ class __ {
   // first alias: head
   public function head($collection=null, $n=null) { return self::first($collection, $n); }
   public function first($collection=null, $n=null) {
-    list($collection, $n) = self::_wrapArgs(func_get_args());
+    list($collection, $n) = self::_wrapArgs(func_get_args(), 2);
     
     $collection = self::_collection($collection);
     
@@ -247,7 +247,7 @@ class __ {
   // Get the rest of the array elements. Passing n returns from that index onward.
   public function tail($collection=null, $index=null) { return self::rest($collection, $index); }
   public function rest($collection=null, $index=null) {
-    list($collection, $index) = self::_wrapArgs(func_get_args());
+    list($collection, $index) = self::_wrapArgs(func_get_args(), 2);
     if(is_null($index)) $index = 1;
     
     $collection = self::_collection($collection);
@@ -258,7 +258,7 @@ class __ {
   
   // Get the last element from an array
   public function last($collection=null) {
-    list($collection) = self::_wrapArgs(func_get_args());
+    list($collection) = self::_wrapArgs(func_get_args(), 1);
     
     $collection = self::_collection($collection);
     
@@ -268,7 +268,7 @@ class __ {
   
   // Return a copy of the array with falsy values removed
   public function compact($collection=null) {
-    list($collection) = self::_wrapArgs(func_get_args());
+    list($collection) = self::_wrapArgs(func_get_args(), 1);
     
     $collection = self::_collection($collection);
     
@@ -281,7 +281,7 @@ class __ {
   
   // Flattens a multidimensional array
   public function flatten($collection=null) {
-    list($collection) = self::_wrapArgs(func_get_args());
+    list($collection) = self::_wrapArgs(func_get_args(), 1);
     
     $collection = self::_collection($collection);
     
@@ -301,7 +301,7 @@ class __ {
   
   // Returns a copy of the array with all instances of val removed
   public function without($collection=null, $val=null) {
-    $args = self::_wrapArgs(func_get_args());
+    $args = self::_wrapArgs(func_get_args(), 1);
     $collection = $args[0];
     $collection = self::_collection($collection);
     
@@ -327,7 +327,7 @@ class __ {
   // uniq alias: unique
   public function unique($collection=null) { return self::uniq($collection); }
   public function uniq($collection=null) {
-    list($collection) = self::_wrapArgs(func_get_args());
+    list($collection) = self::_wrapArgs(func_get_args(), 1);
     
     $collection = self::_collection($collection);
     
@@ -343,7 +343,7 @@ class __ {
   
   // Returns an array containing the intersection of all the arrays
   public function intersection($array=null) {
-    $arrays = self::_wrapArgs(func_get_args());
+    $arrays = self::_wrapArgs(func_get_args(), 1);
     
     if(count($arrays) === 1) return self::_wrap($array);
     
@@ -361,7 +361,7 @@ class __ {
   
   // Merge together multiple arrays
   public function union($array=null) {
-    $arrays = self::_wrapArgs(func_get_args());
+    $arrays = self::_wrapArgs(func_get_args(), 1);
     
     if(count($arrays) === 1) return self::_wrap($array);
     
@@ -371,7 +371,7 @@ class __ {
   
   // Get the difference between two arrays
   public function difference($array_one=null, $array_two=null) {
-    list($array_one, $array_two) = self::_wrapArgs(func_get_args());
+    list($array_one, $array_two) = self::_wrapArgs(func_get_args(), 2);
     
     return self::_wrap(array_values(array_diff($array_one, $array_two)));
   }
@@ -379,7 +379,7 @@ class __ {
   
   // Get the index of the first match
   public function indexOf($collection=null, $item=null) {
-    list($collection, $item) = self::_wrapArgs(func_get_args());
+    list($collection, $item) = self::_wrapArgs(func_get_args(), 2);
     
     $collection = self::_collection($collection);
     
@@ -390,7 +390,7 @@ class __ {
   
   // Get the index of the last match
   public function lastIndexOf($collection=null, $item=null) {
-    list($collection, $item) = self::_wrapArgs(func_get_args());
+    list($collection, $item) = self::_wrapArgs(func_get_args(), 2);
     
     $collection = self::_collection($collection);
     
@@ -402,7 +402,7 @@ class __ {
   
   // Returns an array of integers from start to stop (exclusive) by step
   public function range($stop=null) {
-    $args = self::_wrapArgs(func_get_args());
+    $args = self::_wrapArgs(func_get_args(), 1);
     
     $__ = new self;
     $args = $__->reject($args, function($val) {
@@ -447,17 +447,17 @@ class __ {
       if(!is_array($return_arrays[$k])) $return_arrays[$k] = array();
       
       foreach($arrays as $a=>$array) {
-        $return[$k][$a] = $arrays[$a][$k];
+        $return_arrays[$k][$a] = array_key_exists($k, $array) ? $array[$k] : null;
       }
     }
     
-    return self::_wrap($return);
+    return self::_wrap($return_arrays);
   }
   
   
   // Get the max value in the collection
   public function max($collection=null, $iterator=null) {
-    list($collection, $iterator) = self::_wrapArgs(func_get_args());
+    list($collection, $iterator) = self::_wrapArgs(func_get_args(), 2);
     
     if(is_null($iterator)) return self::_wrap(max($collection));
     
@@ -474,7 +474,7 @@ class __ {
   
   // Get the min value in the collection
   public function min($collection=null, $iterator=null) {
-    list($collection, $iterator) = self::_wrapArgs(func_get_args());
+    list($collection, $iterator) = self::_wrapArgs(func_get_args(), 2);
     
     if(is_null($iterator)) return self::_wrap(min($collection));
     
@@ -491,7 +491,7 @@ class __ {
   
   // Sort the collection by return values from the iterator
   public function sortBy($collection=null, $iterator=null) {
-    list($collection, $iterator) = self::_wrapArgs(func_get_args());
+    list($collection, $iterator) = self::_wrapArgs(func_get_args(), 2);
     
     $results = array();
     foreach($collection as $k=>$item) {
@@ -507,7 +507,7 @@ class __ {
   
   // Group the collection by return values from the iterator
   public function groupBy($collection=null, $iterator=null) {
-    list($collection, $iterator) = self::_wrapArgs(func_get_args());
+    list($collection, $iterator) = self::_wrapArgs(func_get_args(), 2);
     
     $result = array();
     $collection = (array) $collection;
@@ -522,7 +522,7 @@ class __ {
   
   // Returns the index at which the value should be inserted into the sorted collection
   public function sortedIndex($collection=null, $value=null, $iterator=null) {
-    list($collection, $value, $iterator) = self::_wrapArgs(func_get_args());
+    list($collection, $value, $iterator) = self::_wrapArgs(func_get_args(), 3);
     
     $collection = (array) $collection;
     $__ = new self;
@@ -551,7 +551,7 @@ class __ {
   
   // Get the collection's keys
   public function keys($collection=null) {
-    list($collection) = self::_wrapArgs(func_get_args());
+    list($collection) = self::_wrapArgs(func_get_args(), 1);
     
     if(!is_object($collection) && !is_array($collection)) throw new Exception('Invalid object');
     
@@ -561,7 +561,7 @@ class __ {
   
   // Get the collection's values
   public function values($collection=null) {
-    list($collection) = self::_wrapArgs(func_get_args());
+    list($collection) = self::_wrapArgs(func_get_args(), 1);
     
     return self::_wrap(array_values((array) $collection));
   }
@@ -569,7 +569,7 @@ class __ {
   
   // Copy all properties from the source objects into the destination object 
   public function extend($object=null) {
-    $args = self::_wrapArgs(func_get_args());
+    $args = self::_wrapArgs(func_get_args(), 1);
     
     $num_args = func_num_args();
     if($num_args === 1) return $object;
@@ -588,7 +588,7 @@ class __ {
   
   // Returns the object with any missing values filled in using the defaults.
   public function defaults($object=null) {
-    $args = self::_wrapArgs(func_get_args());
+    $args = self::_wrapArgs(func_get_args(), 1);
     list($object) = $args;
     
     $num_args = count($args);
@@ -610,7 +610,7 @@ class __ {
   // functions alias: methods
   public function methods($object=null) { return self::functions($object); }
   public function functions($object=null) {
-    list($object) = self::_wrapArgs(func_get_args());
+    list($object) = self::_wrapArgs(func_get_args(), 1);
     
     return self::_wrap(get_class_methods(get_class($object)));
   }
@@ -618,7 +618,7 @@ class __ {
   
   // Returns a shallow copy of the object
   public function clon(&$object=null) {
-    list($object) = self::_wrapArgs(func_get_args());
+    list($object) = self::_wrapArgs(func_get_args(), 1);
     
     $clone = null;
     if(is_array($object)) $clone = (array) clone (object) $object;
@@ -643,7 +643,7 @@ class __ {
   
   // Invokes the interceptor on the object, then returns the object
   public function tap($object=null, $interceptor=null) {
-    list($object, $interceptor) = self::_wrapArgs(func_get_args());
+    list($object, $interceptor) = self::_wrapArgs(func_get_args(), 2);
     
     $interceptor($object);
     return self::_wrap($object);
@@ -652,9 +652,9 @@ class __ {
   
   // Are these items equal?
   public function isEqual($a=null, $b=null) {
-    list($a, $b) = self::_wrapArgs(func_get_args());
+    list($a, $b) = self::_wrapArgs(func_get_args(), 2);
     
-    if($this->_chained) $a =& $this;
+    if(isset($this) && isset($this->_chained) && $this->_chained) $a =& $this;
     
     if($a === $b) return self::_wrap(true);
     if(gettype($a) !== gettype($b)) return self::_wrap(false);
@@ -685,7 +685,7 @@ class __ {
   
   // Is this item empty?
   public function isEmpty($item=null) {
-    list($item) = self::_wrapArgs(func_get_args());
+    list($item) = self::_wrapArgs(func_get_args(), 1);
     
     return self::_wrap(is_array($item) || is_object($item)) ? !((bool) count((array) $item)) : (!(bool) $item);
   }
@@ -693,63 +693,63 @@ class __ {
   
   // Is this item an object?
   public function isObject($item=null) {
-    list($item) = self::_wrapArgs(func_get_args());
+    list($item) = self::_wrapArgs(func_get_args(), 1);
     return self::_wrap(is_object($item));
   }
   
   
   // Is this item an array?
   public function isArray($item=null) {
-    list($item) = self::_wrapArgs(func_get_args());
+    list($item) = self::_wrapArgs(func_get_args(), 1);
     return self::_wrap(is_array($item));
   }
   
   
   // Is this item a string?
   public function isString($item=null) {
-    list($item) = self::_wrapArgs(func_get_args());
+    list($item) = self::_wrapArgs(func_get_args(), 1);
     return self::_wrap(is_string($item));
   }
   
   
   // Is this item a number?
   public function isNumber($item=null) {
-    list($item) = self::_wrapArgs(func_get_args());
+    list($item) = self::_wrapArgs(func_get_args(), 1);
     return self::_wrap((is_int($item) || is_float($item)) && !is_nan($item) && !is_infinite($item));
   }
   
   
   // Is this item a bool?
   public function isBoolean($item=null) {
-    list($item) = self::_wrapArgs(func_get_args());
+    list($item) = self::_wrapArgs(func_get_args(), 1);
     return self::_wrap(is_bool($item));
   }
   
   
   // Is this item a function (by type, not by name)?
   public function isFunction($item=null) {
-    list($item) = self::_wrapArgs(func_get_args());
+    list($item) = self::_wrapArgs(func_get_args(), 1);
     return self::_wrap(is_object($item) && is_callable($item));
   }
   
   
   // Is this item an instance of DateTime?
   public function isDate($item=null) {
-    list($item) = self::_wrapArgs(func_get_args());
+    list($item) = self::_wrapArgs(func_get_args(), 1);
     return self::_wrap(is_object($item) && get_class($item) === 'DateTime');
   }
   
   
   // Is this item a NaN value?
   public function isNaN($item=null) {
-    list($item) = self::_wrapArgs(func_get_args());
+    list($item) = self::_wrapArgs(func_get_args(), 1);
     return self::_wrap(is_nan($item));
   }
   
   
   // Returns the same value passed as the argument
   public function identity() {
-    $args = self::_wrapArgs(func_get_args());
+    $args = self::_wrapArgs(func_get_args(), 1);
     
     if(is_array($args)) return self::_wrap($args[0]);
     
@@ -762,7 +762,7 @@ class __ {
   // Generate a globally unique id, optionally prefixed
   public $_uniqueId = -1;
   public function uniqueId($prefix=null) {
-    list($prefix) = self::_wrapArgs(func_get_args());
+    list($prefix) = self::_wrapArgs(func_get_args(), 1);
     
     $_instance = self::getInstance();
     $_instance->_uniqueId++;
@@ -773,7 +773,7 @@ class __ {
   
   // Invokes the iterator n times
   public function times($n=null, $iterator=null) {
-    list($n, $iterator) = self::_wrapArgs(func_get_args());
+    list($n, $iterator) = self::_wrapArgs(func_get_args(), 2);
     if(is_null($n)) $n = 0;
     
     for($i=0; $i<$n; $i++) $iterator($i);
@@ -784,7 +784,7 @@ class __ {
   // Extend the class with your own functions
   private $_mixins = array();
   public function mixin($functions=null) {
-    list($functions) = self::_wrapArgs(func_get_args());
+    list($functions) = self::_wrapArgs(func_get_args(), 1);
     
     $mixins =& self::getInstance()->_mixins;
     foreach($functions as $name=>$function) {
@@ -844,7 +844,7 @@ class __ {
   
   // Compile templates into functions that can be evaluated for rendering
   public function template($code=null, $context=null) {
-    list($code, $context) = self::_wrapArgs(func_get_args());
+    list($code, $context) = self::_wrapArgs(func_get_args(), 2);
 
     $class_name = __CLASS__;
     
@@ -878,14 +878,14 @@ class __ {
     });
     
     // Return function or call function depending on context
-    return self::_wrap(((isset($this) && $this->_wrapped) || !is_null($context)) ? $return($context) : $return);
+    return self::_wrap(((isset($this) && isset($this->_wrapped) && $this->_wrapped) || !is_null($context)) ? $return($context) : $return);
   }
   
   
   // Memoizes a function by caching the computed result.
   public $_memoized = array();
   public function memoize($function=null, $hashFunction=null) {
-    list($function, $hashFunction) = self::_wrapArgs(func_get_args());
+    list($function, $hashFunction) = self::_wrapArgs(func_get_args(), 2);
     
     $_instance = (isset($this) && isset($this->_wrapped)) ? $this : self::getInstance();
     
@@ -914,7 +914,7 @@ class __ {
   // Throttles a function so that it can only be called once every wait milliseconds
   public $_throttled = array();
   public function throttle($function=null, $wait=null) {
-    list($function, $wait) = self::_wrapArgs(func_get_args());
+    list($function, $wait) = self::_wrapArgs(func_get_args(), 2);
     
     $_instance = (isset($this) && isset($this->_wrapped)) ? $this : self::getInstance();
     
@@ -940,7 +940,7 @@ class __ {
   // Creates a version of the function that can only be called once
   public $_onced = array();
   public function once($function=null) {
-    list($function) = self::_wrapArgs(func_get_args());
+    list($function) = self::_wrapArgs(func_get_args(), 1);
     
     $_instance = (isset($this) && isset($this->_wrapped)) ? $this : self::getInstance();
     
@@ -959,7 +959,7 @@ class __ {
   
   // Wraps the function inside the wrapper function, passing it as the first argument
   public function wrap($function=null, $wrapper=null) {
-    list($function, $wrapper) = self::_wrapArgs(func_get_args());
+    list($function, $wrapper) = self::_wrapArgs(func_get_args(), 2);
     
     return self::_wrap(function() use ($wrapper, $function) {
       $args = array_merge(array($function), func_get_args());
@@ -970,7 +970,7 @@ class __ {
   
   // Returns the composition of the functions
   public function compose() {
-    $functions = self::_wrapArgs(func_get_args());
+    $functions = self::_wrapArgs(func_get_args(), 1);
     
     return self::_wrap(function() use ($functions) {
       $args = func_get_args();
@@ -985,7 +985,7 @@ class __ {
   // Creates a version of the function that will only run after being called count times
   public $_aftered = array();
   public function after($count=null, $function=null) {
-    list($count, $function) = self::_wrapArgs(func_get_args());
+    list($count, $function) = self::_wrapArgs(func_get_args(), 2);
     
     $_instance = (isset($this) && isset($this->_wrapped)) ? $this : self::getInstance();
     $key = md5(mt_rand());
@@ -1014,7 +1014,7 @@ class __ {
   // because this function understands both OO-style and functional calls
   public $_wrapped; // Value passed from one chained method to the next
   private function _wrap($val) {
-    if(isset($this) && $this->_chained) {
+    if(isset($this) && isset($this->_chained) && $this->_chained) {
       $this->_wrapped = $val;
       return $this;
     }
@@ -1024,7 +1024,9 @@ class __ {
   
   // All methods should get their arguments from _wrapArgs
   // because this function understands both OO-style and functional calls
-  private function _wrapArgs($caller_args) {
+  private function _wrapArgs($caller_args, $num_args=null) {
+    $num_args = (is_null($num_args)) ? count($caller_args) - 1 : $num_args;
+    
     $filled_args = array();
     if(isset($this) && isset($this->_wrapped)) {
       $filled_args[] =& $this->_wrapped;
@@ -1035,7 +1037,7 @@ class __ {
       }
     }
     
-    return array_pad($filled_args, count($caller_args) - 1, null);
+    return array_pad($filled_args, $num_args, null);
   }
   
   

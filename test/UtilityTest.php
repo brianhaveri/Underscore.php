@@ -28,6 +28,7 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
     
     // from js
     $ids = array();
+    $i = 0;
     while($i++ < 100) array_push($ids, __::uniqueId());
     $this->assertEquals(count($ids), count(__::uniq($ids)));
 
