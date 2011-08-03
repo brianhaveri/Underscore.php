@@ -132,6 +132,19 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $result = $func(1,2,1,3,1,4);
     $this->assertEquals(array(1,2,3,4), $result, 'works on an arguments object');
     
+    $list = array(
+      (object) array('name'=>'moe'),
+      (object) array('name'=>'curly'),
+      (object) array('name'=>'larry'),
+      (object) array('name'=>'curly')
+    );
+    $iterator = function($value) { return $value->name; };
+    $this->assertEquals(array('moe', 'curly', 'larry'), __::map(__::uniq($list, false, $iterator), $iterator), 'can find the unique values of an array using a custom iterator');
+    
+    $iterator = function($value) { return $value + 1; };
+    $list = array(1, 2, 2, 3, 4, 4);
+    $this->assertEquals(array(1, 2, 3, 4), __::uniq($list, true, $iterator), 'iterator works with sorted array');
+    
     // extra
     $this->assertEquals(array(4,5,6), __(array(4,5,4,4,5,5,6))->uniq(), 'works with OO call');
     $this->assertEquals(array(4,5,6), __(array(4,5,4,4,5,5,6))->unique(), 'aliased as "unique"');

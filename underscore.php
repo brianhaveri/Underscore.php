@@ -325,18 +325,24 @@ class __ {
   
   // Return an array of the unique values
   // uniq alias: unique
-  public function unique($collection=null) { return self::uniq($collection); }
-  public function uniq($collection=null) {
-    list($collection) = self::_wrapArgs(func_get_args(), 1);
+  public function unique($collection=null, $is_sorted=null, $iterator=null) { return self::uniq($collection, $is_sorted, $iterator); }
+  public function uniq($collection=null, $is_sorted=null, $iterator=null) {
+    list($collection, $is_sorted, $iterator) = self::_wrapArgs(func_get_args(), 3);
     
     $collection = self::_collection($collection);
     
     $return = array();
     if(count($collection) === 0) return self::_wrap($return);
     
+    $calculated = array();
     foreach($collection as $item) {
-      if(is_bool(array_search($item, $return, true))) $return[] = $item;
+      $val = (!is_null($iterator)) ? $iterator($item) : $item;
+      if(is_bool(array_search($val, $calculated, true))) {
+        $calculated[] = $val;
+        $return[] = $item;
+      }
     }
+    
     return self::_wrap($return);
   }
   
