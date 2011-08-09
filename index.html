@@ -414,7 +414,7 @@ $hi(); // 'before, hello: moe, after'</pre>
 <pre>$greet = function($name) { return 'hi: ' . $name; };
 $exclaim = function($statement) { return $statement . '!'; };
 $welcome = __::compose($exclaim, $greet);
-$welcome(); // 'hi: moe!'</pre>
+$welcome('moe'); // 'hi: moe!'</pre>
 
 
 <h2>Objects</h2>
