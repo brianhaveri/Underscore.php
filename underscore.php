@@ -193,7 +193,7 @@ class __ {
   }
   
   
-  // Return an array of values that fail the truth iterator test
+  // Return an array where the items failing the truth test are removed
   public function reject($collection=null, $iterator=null) {
     list($collection, $iterator) = self::_wrapArgs(func_get_args(), 2);
     
