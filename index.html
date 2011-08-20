@@ -208,24 +208,24 @@ $flat = __::reduceRight($list, function($a, $b) { return array_merge($a, $b); },
 // array(4, 5, 2, 3, 0, 1)</pre>
 
 <p class="block" id="detect"><b class="function">detect</b> <code>__::detect(collection, iterator)</code></p>
-<p>Return the value of the first item in the collection that passes the truth iterator test.</p>
+<p>Return the value of the first item in the collection that passes the truth test (<b>iterator</b>).</p>
 <pre>__::detect(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // 2</pre>
 
 <p class="block" id="select"><b class="function">select</b> <code>__::select(collection, iterator)</code></p>
-<p>Return the values in the collection that pass the truth iterator test.</p>
+<p>Return the values in the collection that pass the truth test (<b>iterator</b>).</p>
 <pre>__::select(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // array(2, 4)</pre>
 
 <p class="block" id="reject"><b class="function">reject</b> <code>__::reject(collection, iterator)</code></p>
-<p>Return the values in the collection that fail the truth iterator test.</p>
+<p>Return an array where the items failing the truth test (<b>iterator</b>) are removed.</p>
 <pre>__::reject(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // array(1, 3)</pre>
 
 <p class="block" id="all"><b class="function">all</b> <code>__::all(collection, iterator)</code></p>
-<p>Returns true if all values in the collection pass the truth iterator test.</p>
+<p>Returns true if all values in the collection pass the truth test (<b>iterator</b>).</p>
 <pre>__::all(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // false
 __::all(array(1, 2, 3, 4), function($num) { return $num < 5; }); // true</pre>
 
 <p class="block" id="any"><b class="function">any</b> <code>__::any(collection, iterator)</code></p>
-<p>Returns true if any values in the collection pass the truth iterator test.</p>
+<p>Returns true if any values in the collection pass the truth test (<b>iterator</b>).</p>
 <pre>__::any(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // true
 __::any(array(1, 2, 3, 4), function($num) { return $num === 5; }); // false</pre>
 
