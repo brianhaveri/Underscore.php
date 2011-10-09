@@ -9,30 +9,10 @@
  */
 
 // Returns an instance of __ for OO-style calls
-function __(&$item=null) {
-  $__ = new __proxy;
-  if(func_num_args() > 0){
-	$__->_wrapped = $item;
-	$__->_referenced =& $item;
-  }
+function __($item=null) {
+  $__ = new __;
+  if(func_num_args() > 0) $__->_wrapped = $item;
   return $__;
-}
-
-// Proxying the reference functions
-class __proxy extends __ {	
-  // Copy all properties from the source objects into the destination object 
-  public function extend($object=null) {
-	$arguments = func_get_args();
-	array_unshift($arguments, &$this->_referenced);
-	return call_user_func_array(array('parent', 'extend'), $arguments);
-  }
-
-  // Copy all properties from the source objects into the destination object 
-  public function defaults($object=null) {
-	$arguments = func_get_args();
-	array_unshift($arguments, &$this->_referenced);
-	return call_user_func_array(array('parent', 'defaults'), $arguments);
-  }	
 }
 
 // Underscore.php
@@ -594,7 +574,7 @@ class __ {
   
   
   // Copy all properties from the source objects into the destination object 
-  public function extend(&$object=null) {
+  public function extend($object=null) {
     $args = self::_wrapArgs(func_get_args(), 1);
     
     $num_args = func_num_args();
@@ -608,13 +588,12 @@ class __ {
       $extension = (array) $extension;
       $array = array_merge($array, $extension);
     }
- 	$object = ($is_object) ? (object) $array : $array;
-    return self::_wrap($object, true);
+    return self::_wrap(($is_object) ? (object) $array : $array);
   }
   
   
   // Returns the object with any missing values filled in using the defaults.
-  public function defaults(&$object=null) {
+  public function defaults($object=null) {
     $args = self::_wrapArgs(func_get_args(), 1);
     list($object) = $args;
     
@@ -629,8 +608,7 @@ class __ {
       $extension = (array) $extension;
       $array = array_merge($extension, $array);
     }
- 	$object = ($is_object) ? (object) $array : $array;
-    return self::_wrap($object,true);
+    return self::_wrap(($is_object) ? (object) $array : $array);
   }
   
   
@@ -1041,14 +1019,10 @@ class __ {
   // All methods should wrap their returns within _wrap
   // because this function understands both OO-style and functional calls
   public $_wrapped; // Value passed from one chained method to the next
-  public $_referenced; // Reference to value being changed
-  private function _wrap($val, $reference=null) {
-    if(isset($this)){
-	  if(!is_null($reference)) $this->_referenced = $val;
-	  if(isset($this->_chained) && $this->_chained) {
-        $this->_wrapped = $val;
-        return $this;
-      }
+  private function _wrap($val) {
+    if(isset($this) && isset($this->_chained) && $this->_chained) {
+      $this->_wrapped = $val;
+      return $this;
     }
     return $val;
   }
