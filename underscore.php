@@ -588,8 +588,7 @@ class __ {
       $extension = (array) $extension;
       $array = array_merge($array, $extension);
     }
-	$object = self::_wrap(($is_object) ? (object) $array : $array);
-    return $object;
+    return self::_wrap(($is_object) ? (object) $array : $array);
   }
   
   
@@ -609,8 +608,7 @@ class __ {
       $extension = (array) $extension;
       $array = array_merge($extension, $array);
     }
-	$object = self::_wrap(($is_object) ? (object) $array : $array);
-    return $object;
+    return self::_wrap(($is_object) ? (object) $array : $array);
   }
   
   
