@@ -178,9 +178,9 @@ class __ {
   
   
   // Return an array of values that pass the truth iterator test
-  // select alias: filter
-  public function filter($collection=null, $iterator=null) { return self::select($collection, $iterator); }
-  public function select($collection=null, $iterator=null) {
+  // filter alias: select
+  public function select($collection=null, $iterator=null) { return self::filter($collection, $iterator); }
+  public function filter($collection=null, $iterator=null) {
     list($collection, $iterator) = self::_wrapArgs(func_get_args(), 2);
     
     $collection = self::_collection($collection);
@@ -208,7 +208,9 @@ class __ {
   
   
   // Return the value of the first item passing the truth iterator test
-  public function detect($collection=null, $iterator=null) {
+  // find alias: detect
+  public function detect($collection=null, $iterator=null) { return self::find($collection, $iterator); }
+  public function find($collection=null, $iterator=null) {
     list($collection, $iterator) = self::_wrapArgs(func_get_args(), 2);
     
     $collection = self::_collection($collection);

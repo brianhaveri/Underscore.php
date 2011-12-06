@@ -81,34 +81,38 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array(3,6,9), __::map(array('one'=>1, 'two'=>2, 'three'=>3), function($num, $key) { return $num * 3; }));
   }
   
-  public function testDetect() {
+  public function testFind() {
     // from js
-    $this->assertEquals(2, __::detect(array(1,2,3), function($num) { return $num * 2 === 4; }), 'found the first "2" and broke the loop');
+    $this->assertEquals(2, __::find(array(1,2,3), function($num) { return $num * 2 === 4; }), 'found the first "2" and broke the loop');
     
     // extra
     $iterator = function($n) { return $n % 2 === 0; };
-    $this->assertEquals(2, __::detect(array(1, 2, 3, 4, 5, 6), $iterator));
-    $this->assertEquals(false, __::detect(array(1, 3, 5), $iterator));
-    $this->assertEquals(false, __(array(1,3,5))->detect($iterator), 'works with OO-style calls');
+    $this->assertEquals(2, __::find(array(1, 2, 3, 4, 5, 6), $iterator));
+    $this->assertEquals(false, __::find(array(1, 3, 5), $iterator));
+    $this->assertEquals(false, __(array(1,3,5))->find($iterator), 'works with OO-style calls');
+    $this->assertEquals(__::find(array(1,3,5), $iterator), __::detect(array(1,3,5), $iterator), 'alias works');
     
     // docs
-    $this->assertEquals(2, __::detect(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }));
+    $this->assertEquals(2, __::find(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }));
   }
   
-  public function testSelect() {
+  public function testFilter() {
     // from js
-    $evens = __::select(array(1,2,3,4,5,6), function($num) { return $num % 2 === 0; });
+    $evens = __::filter(array(1,2,3,4,5,6), function($num) { return $num % 2 === 0; });
     $this->assertEquals(array(2, 4, 6), $evens, 'selected each even number');
     
     // extra
-    $odds = __(array(1,2,3,4,5,6))->select(function($num) { return $num % 2 !== 0; });
+    $odds = __(array(1,2,3,4,5,6))->filter(function($num) { return $num % 2 !== 0; });
     $this->assertEquals(array(1,3,5), $odds, 'works with OO-style calls');
     
     $evens = __::filter(array(1,2,3,4,5,6), function($num) { return $num % 2 === 0; });
     $this->assertEquals(array(2,4,6), $evens, 'aliased as filter');
     
+    $iterator = function($num) { return $num % 2 !== 0; };
+    $this->assertEquals(__::filter(array(1,3,5), $iterator), __::select(array(1,3,5), $iterator), 'alias works');
+    
     // docs
-    $this->assertEquals(array(2,4), __::select(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }));
+    $this->assertEquals(array(2,4), __::filter(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }));
   }
   
   public function testReject() {
