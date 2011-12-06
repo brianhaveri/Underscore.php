@@ -656,7 +656,8 @@ class __ {
     
     $clone = null;
     if(is_array($object)) $clone = (array) clone (object) $object;
-    if(!$clone) $clone = clone $object;
+    elseif(!is_object($object)) $clone = $object;
+    elseif(!$clone) $clone = clone $object;
     
     // shallow copy object
     if(is_object($clone) && count($clone) > 0) {
