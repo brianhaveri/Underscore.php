@@ -315,9 +315,10 @@ __::initial(array(5, 4, 3, 2, 1), 3); // array(5, 4)</pre>
 <p>Get the rest of the array elements. Passing an index returns from that index onward.</p>
 <pre>__::rest(array(5, 4, 3, 2, 1)); // array(4, 3, 2, 1)</pre>
 
-<p class="block" id="last"><b class="function">last</b> <code>__::last(array)</code></p>
-<p>Get the last element of an array.</p>
-<pre>__::last(array(5, 4, 3, 2, 1)); // 1</pre>
+<p class="block" id="last"><b class="function">last</b> <code>__::last(array, [n])</code></p>
+<p>Get the last element of an array. Passing n returns the last n elements.</p>
+<pre>__::last(array(5, 4, 3, 2, 1)); // 1
+_::last(array(5, 4, 3, 2, 1), 2); // array(2, 1)</pre>
 
 <p class="block" id="compact"><b class="function">compact</b> <code>__::compact(array)</code></p>
 <p>Returns a copy of the array with falsy values removed</p>
