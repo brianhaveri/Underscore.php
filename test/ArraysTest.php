@@ -54,6 +54,31 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array(4, 3, 2, 1), __::rest(array(5, 4, 3, 2, 1)));
   }
   
+  public function testInitial() {
+    // from js
+    $this->assertEquals('1, 2, 3, 4', join(', ', __::initial(array(1,2,3,4,5))), 'working initial()');
+    $this->assertEquals('1, 2', join(', ', __::initial(array(1,2,3,4), 2)), 'initial can take an index');
+    
+    $func = function() {
+      return __(func_get_args())->initial();
+    };
+    $result = $func(1,2,3,4);
+    $this->assertEquals('1, 2, 3', join(', ', $result), 'initial works on arguments');
+    
+    $result = __::map(array(array(1,2,3), array(1,2,3)), function($item) { return __::initial($item); });
+    $this->assertEquals('1,2,1,2', join(',', __::flatten($result)), 'initial works with map');
+    
+    // extra
+    $this->assertEquals(array('a','b'), __(array('a','b','c'))->initial(), 'works with OO-style calls');
+    $this->assertEquals(array(1,2), __::initial(array(1,2,3)), 'works with no n');
+    $this->assertEquals(array(1,2), __::initial(array(1,2,3), 1), 'works with 1 n');
+    $this->assertEquals(array(1), __::initial(array(1,2,3), 2), 'works with 2 n');
+    $this->assertEquals(array(), __::initial(array(1,2,3), 3), 'works with 3 n');
+    $this->assertEquals(array(1), __::initial(array(1,2,3), 5), 'works with surplus n');
+    $this->assertEquals(array(1,2, 3), __::initial(array(1,2,3), 0), 'works with 0 n');
+    $this->assertEquals(array(1,2,3), __::initial(array(1,2,3), -1), 'works with negative n');
+  }
+  
   public function testLast() {
     // from js
     $this->assertEquals(3, __::last(array(1,2,3)), 'can pull out the last element of an array');

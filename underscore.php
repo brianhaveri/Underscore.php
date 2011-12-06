@@ -256,6 +256,17 @@ class __ {
   }
   
   
+  // Return everything but the last array element. Passing n excludes the last n elements.
+  public function initial($collection=null, $n=null) {
+    list($collection, $index) = self::_wrapArgs(func_get_args(), 2);
+    
+    if(is_null($index)) $index = 1;
+    $first_index = count($collection) - $index;
+    $__ = new self;
+    return self::_wrap($__->first($collection, $first_index));
+  }
+  
+  
   // Get the last element from an array
   public function last($collection=null) {
     list($collection) = self::_wrapArgs(func_get_args(), 1);
