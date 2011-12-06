@@ -258,22 +258,28 @@ class __ {
   
   // Return everything but the last array element. Passing n excludes the last n elements.
   public function initial($collection=null, $n=null) {
-    list($collection, $index) = self::_wrapArgs(func_get_args(), 2);
+    list($collection, $n) = self::_wrapArgs(func_get_args(), 2);
     
-    if(is_null($index)) $index = 1;
-    $first_index = count($collection) - $index;
+    if(is_null($n)) $n = 1;
+    $first_index = count($collection) - $n;
     $__ = new self;
     return self::_wrap($__->first($collection, $first_index));
   }
   
   
-  // Get the last element from an array
-  public function last($collection=null) {
-    list($collection) = self::_wrapArgs(func_get_args(), 1);
-    
+  // Get the last element from an array. Passing n returns the last n elements.
+  public function last($collection=null, $n=null) {
+    list($collection, $n) = self::_wrapArgs(func_get_args(), 2);
     $collection = self::_collection($collection);
     
-    return self::_wrap(array_pop($collection));
+    if($n === 0) $result = array();
+    elseif($n === 1 || is_null($n)) $result = array_pop($collection);
+    else {
+      $__ = new self;
+      $result = $__->rest($collection, -$n);
+    }
+    
+    return self::_wrap($result);
   }
   
   

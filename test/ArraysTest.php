@@ -87,6 +87,13 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $result = $func(1,2,3,4);
     $this->assertEquals(4, $result, 'works on arguments');
     
+    $this->assertEquals('', join(', ', __::last(array(1,2,3), 0)), 'can pass n to last');
+    $this->assertEquals('2, 3', join(', ', __::last(array(1,2,3), 2)), 'can pass n to last');
+    $this->assertEquals('1, 2, 3', join(', ', __::last(array(1,2,3), 5)), 'can pass n to last');
+    
+    $result = __::map(array(array(1,2,3), array(1,2,3)), function($item) { return __::last($item); });
+    $this->assertEquals('3,3', join(',', $result), 'works well with map');
+    
     // docs
     $this->assertEquals(1, __::last(array(5, 4, 3, 2, 1)));
   }
