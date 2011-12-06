@@ -73,8 +73,8 @@
         <a href="#map">map</a>,
         <a href="#reduce">reduce</a>,
         <a href="#reduceRight">reduceRight</a>,
-        <a href="#detect">detect</a>,
-        <a href="#select">select</a>,
+        <a href="#find">find</a>,
+        <a href="#filter">filter</a>,
         <a href="#reject">reject</a>,
         <a href="#all">all</a>,
         <a href="#any">any</a>,
@@ -209,13 +209,13 @@ __::map(array('one'=>1, 'two'=>2, 'three'=>3), function($num, $key) {
 $flat = __::reduceRight($list, function($a, $b) { return array_merge($a, $b); }, array());
 // array(4, 5, 2, 3, 0, 1)</pre>
 
-<p class="block" id="detect"><b class="function">detect</b> <code>__::detect(collection, iterator)</code></p>
+<p class="block" id="find"><b class="function">find</b> <code>__::find(collection, iterator)</code> <span class="alias">Alias: <b>detect</b></span></p>
 <p>Return the value of the first item in the collection that passes the truth test (<b>iterator</b>).</p>
-<pre>__::detect(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // 2</pre>
+<pre>__::find(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // 2</pre>
 
-<p class="block" id="select"><b class="function">select</b> <code>__::select(collection, iterator)</code></p>
+<p class="block" id="filter"><b class="function">filter</b> <code>__::filter(collection, iterator)</code> <span class="alias">Alias: <b>select</b></span></p>
 <p>Return the values in the collection that pass the truth test (<b>iterator</b>).</p>
-<pre>__::select(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // array(2, 4)</pre>
+<pre>__::filter(array(1, 2, 3, 4), function($num) { return $num % 2 === 0; }); // array(2, 4)</pre>
 
 <p class="block" id="reject"><b class="function">reject</b> <code>__::reject(collection, iterator)</code></p>
 <p>Return an array where the items failing the truth test (<b>iterator</b>) are removed.</p>
