@@ -419,6 +419,15 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(3, __::sortedIndex(array(10, 20, 30, 40), 35));
   }
   
+  public function testShuffle() {
+    // from js
+    $numbers = __::range(10);
+    $shuffled = __::shuffle($numbers);
+    sort($shuffled);
+    
+    $this->assertEquals(join(',', $numbers), join(',', $shuffled), 'contains the same members before and after shuffle');
+  }
+  
   public function testToArray() {
     // from js
     $numbers = __::toArray((object) array('one'=>1, 'two'=>2, 'three'=>3));

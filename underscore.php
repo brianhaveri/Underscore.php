@@ -565,6 +565,15 @@ class __ {
     return self::_wrap(current($keys) + 1);
   }
   
+  // Shuffle the array
+  public function shuffle($collection=null) {
+    list($collection) = self::_wrapArgs(func_get_args(), 1);
+     
+    shuffle($collection);
+     
+    return self::_wrap($collection);
+  }
+  
   
   // Return the collection as an array
   public function toArray($collection=null) {
