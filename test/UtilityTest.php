@@ -117,6 +117,10 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
 
     $withNewlinesAndTabs = __::template('This\n\t\tis: <%= $x %>.\n\tok.\nend.');
     $this->assertEquals('This\n\t\tis: that.\n\tok.\nend.', $withNewlinesAndTabs((object) array('x'=>'that')));
+    
+    $template = __::template('<i><%- $value %></i>');
+    $result = $template((object) array('value'=>'<script>'));
+    $this->assertEquals('<i>&lt;script&gt;</i>', $result);
 
     __::templateSettings(array(
       'evaluate'    => '/\{\{([\s\S]+?)\}\}/',

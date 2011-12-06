@@ -848,9 +848,11 @@ class __ {
   
   const TEMPLATE_DEFAULT_EVALUATE   = '/<%([\s\S]+?)%>/';
   const TEMPLATE_DEFAULT_INTERPOLATE= '/<%=([\s\S]+?)%>/';
+  const TEMPLATE_DEFAULT_ESCAPE     = '/<%-([\s\S]+?)%>/';
   public $_template_settings = array(
     'evaluate'    => self::TEMPLATE_DEFAULT_EVALUATE,
-    'interpolate' => self::TEMPLATE_DEFAULT_INTERPOLATE
+    'interpolate' => self::TEMPLATE_DEFAULT_INTERPOLATE,
+    'escape'      => self::TEMPLATE_DEFAULT_ESCAPE
   );
   
   // Set template settings
@@ -860,7 +862,8 @@ class __ {
     if(is_null($settings)) {
       $_template_settings = array(
         'evaluate'    => self::TEMPLATE_DEFAULT_EVALUATE,
-        'interpolate' => self::TEMPLATE_DEFAULT_INTERPOLATE
+        'interpolate' => self::TEMPLATE_DEFAULT_INTERPOLATE,
+        'escape'      => self::TEMPLATE_DEFAULT_ESCAPE
       );
       return true;
     }
@@ -883,8 +886,15 @@ class __ {
     $return = self::_wrap(function($context=null) use ($code, $class_name) {
       $ts = $class_name::getInstance()->_template_settings;
       
-      // Wrap interpolated and evaluated blocks inside PHP tags
+      // Wrap escaped, interpolated, and evaluated blocks inside PHP tags
       extract((array) $context);
+      preg_match_all($ts['escape'], $code, $vars, PREG_SET_ORDER);
+      if(count($vars) > 0) {
+        foreach($vars as $var) {
+          $echo = $class_name::TEMPLATE_OPEN_TAG . ' echo htmlentities(' . trim($var[1]) . '); ' . $class_name::TEMPLATE_CLOSE_TAG;
+          $code = str_replace($var[0], $echo, $code);
+        }
+      }
       preg_match_all($ts['interpolate'], $code, $vars, PREG_SET_ORDER);
       if(count($vars) > 0) {
         foreach($vars as $var) {
