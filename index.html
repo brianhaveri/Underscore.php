@@ -86,6 +86,7 @@
         <a href="#groupBy">groupBy</a>,
         <a href="#sortBy">sortBy</a>,
         <a href="#sortedIndex">sortedIndex</a>,
+        <a href="#shuffle">shuffle</a>,
         <a href="#toArray">toArray</a>,
         <a href="#size">size</a>
       </p>
@@ -278,6 +279,10 @@ __::min($stooges, function($stooge) { return $stooge['age']; });
 <p class="block" id="sortedIndex"><b class="function">sortedIndex</b> <code>__::sortedIndex(collection, value, [iterator])</code></p>
 <p>Returns the index at which the value should be inserted into the sorted collection.</p>
 <pre>__::sortedIndex(array(10, 20, 30, 40), 35); // 3</pre>
+
+<p class="block" id="shuffle"><b class="function">shuffle</b> <code>__::shuffle(collection)</code></p>
+<p>Returns a shuffled copy of the collection.</p>
+<pre>__::shuffle(array(10, 20, 30, 40)); // 30, 20, 40, 10</pre>
 
 <p class="block" id="toArray"><b class="function">toArray</b> <code>__::toArray(collection)</code></p>
 <p>Converts the collection into an array.</p>
