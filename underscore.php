@@ -397,9 +397,9 @@ class __ {
   
   // Get the difference between two arrays
   public function difference($array_one=null, $array_two=null) {
-    list($array_one, $array_two) = self::_wrapArgs(func_get_args(), 2);
+    $arrays = self::_wrapArgs(func_get_args(), 1);
     
-    return self::_wrap(array_values(array_diff($array_one, $array_two)));
+    return self::_wrap(array_values(call_user_func_array('array_diff', $arrays)));
   }
   
   

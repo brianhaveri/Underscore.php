@@ -229,6 +229,9 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $result = __::difference(array(1, 2, 3), array(2, 30, 40));
     $this->assertEquals(array(1, 3), $result, 'takes the difference of two arrays');
     
+    $result = __::difference(array(1, 2, 3, 4), array(2, 30, 40), array(1, 11, 111));
+    $this->assertEquals('3 4', join(' ', $result), 'takes the difference of three arrays');
+    
     // extra
     $result = __(array(1, 2, 3))->difference(array(2, 30, 40));
     $this->assertEquals(array(1, 3), $result, 'works with OO-style call');
