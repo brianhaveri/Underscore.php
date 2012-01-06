@@ -399,10 +399,20 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     // from js
     $parity = __::groupBy(array(1,2,3,4,5,6), function($num) { return $num % 2; });
     $this->assertEquals(array(array(2,4,6), array(1,3,5)), $parity, 'created a group for each value');
-  
+      
     // extra
     $parity = __(array(1,2,3,4,5,6))->groupBy(function($num) { return $num % 2; });
     $this->assertEquals(array(array(2,4,6), array(1,3,5)), $parity, 'created a group for each value using OO-style call');
+    
+    $vals = array(
+      array('name'=>'rejected', 'yesno'=>'no'),
+      array('name'=>'accepted', 'yesno'=>'yes'),
+      array('name'=>'allowed', 'yesno'=>'yes'),
+      array('name'=>'denied', 'yesno'=>'no')
+    );
+    $grouped = __::groupBy($vals, 'yesno');
+    $this->assertEquals('rejected denied', join(' ', __::pluck($grouped['no'], 'name')), 'pulls no entries');
+    $this->assertEquals('accepted allowed', join(' ', __::pluck($grouped['yes'], 'name')), 'pulls yes entries');
     
     // docs
     $result = __::groupBy(array(1, 2, 3, 4, 5), function($n) { return $n % 2; });
