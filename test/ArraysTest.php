@@ -120,6 +120,7 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     
     // from js
     $this->assertEquals(array(1,2,3,4), __::flatten($list), 'can flatten nested arrays');
+    $this->assertEquals(__::flatten($list, true), array(1, 2, 3, array(array(array(4)))), 'can shallowly flatten nested arrays');
     
     $func = function() { return __::flatten(func_get_args()); };
     $result = $func(1, array(2), array(3, array(array(array(4)))));
@@ -144,7 +145,10 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $func = function() { return __::without(func_get_args(), 0, 1); };
     $result = $func(1, 2, 1, 0, 3, 1, 4);
     $this->assertEquals(array(1=>2,4=>3,6=>4), $result, 'works on an arguments object');
-  
+    
+    $result = __::union(array(1, 2, 3), array(2, 30, 1), array(1, 40, array(1)));
+    $this->assertEquals('1 2 3 30 40 1', join(' ', $result), 'takes the union of a list of nested arrays');
+      
     // extra
     $this->assertEquals(array(4,5,6), __(array(4,5,6,7,8))->without(7,8), 'works in OO-style calls');
     

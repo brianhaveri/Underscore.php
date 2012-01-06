@@ -299,8 +299,8 @@ class __ {
   
   
   // Flattens a multidimensional array
-  public function flatten($collection=null) {
-    list($collection) = self::_wrapArgs(func_get_args(), 1);
+  public function flatten($collection=null, $shallow=null) {
+    list($collection, $shallow) = self::_wrapArgs(func_get_args(), 2);
     
     $collection = self::_collection($collection);
     
@@ -309,7 +309,7 @@ class __ {
       foreach($collection as $item) {
         if(is_array($item)) {
           $__ = new self;
-          $return = array_merge($return, $__->flatten($item));
+          $return = array_merge($return, ($shallow) ? $item : $__->flatten($item));
         }
         else $return[] = $item;
       }
@@ -390,7 +390,8 @@ class __ {
     
     if(count($arrays) === 1) return self::_wrap($array);
     
-    return self::_wrap(array_values(array_unique(call_user_func_array('array_merge', $arrays))));
+    $__ = new self;
+    return self::_wrap($__->flatten(array_values(array_unique(call_user_func_array('array_merge', $arrays)))));
   }
   
   
