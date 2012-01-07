@@ -11,6 +11,14 @@ class FunctionsTestClass {
   private function _methodC() {}
 }
 
+class First {
+  public $value = 1;
+}
+
+class Second {
+  public $value = 1;
+}
+
 class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
   
   public function testKeys() {
@@ -206,6 +214,11 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $getTrue = function() { return true; };
     $this->assertTrue(__::isEqual(array('isEqual'=>$getTrue), array()));
     $this->assertTrue(__::isEqual(array(), array('isEqual'=>$getTrue)));
+    
+    $this->assertEquals(new First, new First, 'Object instances are equal');
+    $this->assertNotEquals(new First, new Second, 'Objects with different constors and identical own properties are not equal');
+    $this->assertNotEquals((object) array('value'=>1), new First, 'Object instances and objects sharing equivalent properties are not equal');
+    $this->assertNotEquals((object) array('value'=>2), new Second);    
     
     // docs
     $stooge = (object) array('name'=>'moe');
