@@ -20,9 +20,12 @@ class __ {
   
   // Start the chain
   private $_chained = false; // Are we in a chain?
-  public function chain() {
-    $this->_chained = true;
-    return $this;
+  public function chain($item=null) {
+    list($item) = self::_wrapArgs(func_get_args(), 1);
+    
+    $__ = (isset($this) && isset($this->_chained) && $this->_chained) ? $this : __($item);
+    $__->_chained = true;
+    return $__;
   }
   
   
