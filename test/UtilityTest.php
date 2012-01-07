@@ -190,6 +190,10 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
     $mustache = __::template('Hello {{$planet}}!');
     $result = $mustache(array('planet'=>'World'));
     $this->assertEquals('Hello World!', $result);
+    
+    $template = __::template('<i><%- $value %></i>');
+    $result = $template(array('value'=>'<script>'));
+    $this->assertEquals('<i>&lt;script&gt;</i>', $result);
   }
   
   public function testEscape() {
