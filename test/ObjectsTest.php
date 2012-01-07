@@ -442,6 +442,12 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
       ->tap($interceptor)
       ->value();
     $this->assertTrue($returned === 6 && $intercepted === 6, 'can use tapped objects in a chain');
+    
+    $returned = __::chain(array(1,2,3))->map(function($n) { return $n * 2; })
+                                       ->max()
+                                       ->tap($interceptor)
+                                       ->value();
+    $this->assertTrue($returned === 6 && $intercepted === 6, 'can use tapped objects in a chain with static call');
   
     // docs
     $interceptor = function($obj) { return $obj * 2; };
