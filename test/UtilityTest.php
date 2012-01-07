@@ -194,6 +194,9 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
     $template = __::template('<i><%- $value %></i>');
     $result = $template(array('value'=>'<script>'));
     $this->assertEquals('<i>&lt;script&gt;</i>', $result);
+    
+    $sans = __::template('A <% $this %> B');
+    $this->assertEquals('A  B', $sans());
   }
   
   public function testEscape() {
