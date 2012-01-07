@@ -191,4 +191,14 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
     $result = $mustache(array('planet'=>'World'));
     $this->assertEquals('Hello World!', $result);
   }
+  
+  public function testEscape() {
+    // from js
+    $this->assertEquals('Curly &amp; Moe', __::escape('Curly & Moe'));
+    $this->assertEquals('Curly &amp;amp; Moe', __::escape('Curly &amp; Moe'));
+    
+    // extra
+    $this->assertEquals('Curly &amp; Moe', __('Curly & Moe')->escape());
+    $this->assertEquals('Curly &amp;amp; Moe', __('Curly &amp; Moe')->escape());
+  }
 }

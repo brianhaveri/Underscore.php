@@ -930,6 +930,13 @@ class __ {
     return self::_wrap(((isset($this) && isset($this->_wrapped) && $this->_wrapped) || !is_null($context)) ? $return($context) : $return);
   }
   
+  // Escape
+  public function escape($item=null) {
+    list($item) = self::_wrapArgs(func_get_args(), 1);
+    
+    return self::_wrap(htmlentities($item));
+  }
+  
   
   // Memoizes a function by caching the computed result.
   public $_memoized = array();
