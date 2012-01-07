@@ -1046,12 +1046,13 @@ class __ {
     $_instance = (isset($this) && isset($this->_wrapped)) ? $this : self::getInstance();
     $key = md5(mt_rand());
     
-    return self::_wrap(function() use ($function, &$_instance, $count, $key) {
+    $func = function() use ($function, &$_instance, $count, $key) {
       if(!array_key_exists($key, $_instance->_aftered)) $_instance->_aftered[$key] = 0;
       $_instance->_aftered[$key] += 1;
       
       if($_instance->_aftered[$key] >= $count) return call_user_func_array($function, func_get_args());
-    });
+    };
+    return self::_wrap(($count) ? $func : $func());
   }
   
   
