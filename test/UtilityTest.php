@@ -1,7 +1,5 @@
 <?php
 
-include_once(__DIR__ . '/../underscore.php');
-
 class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
 
   public function testIdentity() {

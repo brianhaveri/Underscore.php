@@ -1,7 +1,5 @@
 <?php
 
-include_once(__DIR__ . '/../underscore.php');
-
 class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
   
   public function testEach() {

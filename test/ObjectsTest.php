@@ -1,7 +1,5 @@
 <?php
 
-include_once(__DIR__ . '/../underscore.php');
-
 // @see testFunctions()
 class FunctionsTestClass {
   const FOO = 'BAR';
