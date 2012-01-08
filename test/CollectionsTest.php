@@ -417,6 +417,22 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     // docs
     $result = __::groupBy(array(1, 2, 3, 4, 5), function($n) { return $n % 2; });
     $this->assertEquals(array(0=>array(2, 4), 1=>array(1, 3, 5)), $result);
+    
+    $values = array(
+      array('name'=>'Apple',   'grp'=>'a'),
+      array('name'=>'Bacon',   'grp'=>'b'),
+      array('name'=>'Avocado', 'grp'=>'a')
+    );
+    $expected = array(
+      'a'=>array(
+        array('name'=>'Apple',   'grp'=>'a'),
+        array('name'=>'Avocado', 'grp'=>'a')
+      ),
+      'b'=>array(
+        array('name'=>'Bacon',   'grp'=>'b')
+      )
+    );
+    $this->assertEquals($expected, __::groupBy($values, 'grp'));
   }
   
   public function testSortedIndex() {
