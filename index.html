@@ -18,7 +18,7 @@
     }
     #container {
       margin: 0 0 0 50px;
-      width: 680px;
+      width: 800px;
     }
     h1 { font-size: 32px; padding: 20px 0 5px 0; margin-left: -5px; }
     h1 .small { font-size: 0.4em; }
@@ -34,7 +34,7 @@
     .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
     pre { color: #666; background: #ddd; padding: 15px; margin: 5px 0; border-left: 5px solid #5A68A5; font-family: Monaco, "Lucida Grande", monospace; }
     code { font-family: Monaco, "Lucida Grande", monospace; color: #666; margin-left: 15px; }
-    p code { margin: 0; }
+    p code, li code { margin: 0; }
     hr { border: 0; width: 100%; border-bottom: 3px solid #ddd; margin: 20px 0; }
     .footer { text-align:center; padding-top:30px; font-style: italic; }
     .fade { color: #aaa; }
@@ -158,6 +158,7 @@
         <a href="#times">times</a>,
         <a href="#mixin">mixin</a>,
         <a href="#uniqueId">uniqueId</a>,
+        <a href="#escape">escape</a>,
         <a href="#template">template</a>
       </p>
       
@@ -269,9 +270,25 @@ __::min($stooges, function($stooge) { return $stooge['age']; });
 // array('name'=>'moe', 'age'=>40)</pre>
 
 <p class="block" id="groupBy"><b class="function">groupBy</b> <code>__::groupBy(collection, iterator)</code></p>
-<p>Group values by their return value when passed through the iterator.</p>
+<p>Group values by their return value when passed through the iterator. If iterator is a string, the result will be grouped by that property.</p>
 <pre>__::groupBy(array(1, 2, 3, 4, 5), function($n) { return $n % 2; });
-// array(0=>array(2, 4), 1=>array(1, 3, 5))</pre>
+// array(0=>array(2, 4), 1=>array(1, 3, 5))
+
+$values = array(
+  array('name'=>'Apple',   'grp'=>'a'),
+  array('name'=>'Bacon',   'grp'=>'b'),
+  array('name'=>'Avocado', 'grp'=>'a')
+);
+__::groupBy($values, 'grp');
+//array(
+//  'a'=>array(
+//    array('name'=>'Apple',   'grp'=>'a'),
+//    array('name'=>'Avocado', 'grp'=>'a')
+//  ),
+//  'b'=>array(
+//    array('name'=>'Bacon',   'grp'=>'b')
+//  )
+//);</pre>
 
 <p class="block" id="sortBy"><b class="function">sortBy</b> <code>__::sortBy(collection, iterator)</code></p>
 <p>Returns a sorted array based on the iterator. If passed an iterator, min will return min value returned by the iterator. Unlike Underscore.js, context is passed using PHP's <code>use</code> statement.</p>
@@ -325,7 +342,7 @@ _::last(array(5, 4, 3, 2, 1), 2); // array(2, 1)</pre>
 <pre>__::compact(array(false, true, 'a', 0, 1, '')); // array(true, 'a', 1)</pre>
 
 <p class="block" id="flatten"><b class="function">flatten</b> <code>__::flatten(array)</code></p>
-<p>Flattens a multidimensional array</p>
+<p>Flattens a multidimensional array.</p>
 <pre>__::flatten(array(1, array(2), array(3, array(array(array(4))))));
 // array(1, 2, 3, 4)</pre>
 
@@ -351,7 +368,7 @@ $arr2 = array(1, 2, 3, 4);
 $arr3 = array(2, 3, 4, 5);
 __::intersection($arr1, $arr2, $arr3); // array(2, 3)</pre>
 
-<p class="block" id="difference"><b class="function">difference</b> <code>__::difference(array, other)</code></p>
+<p class="block" id="difference"><b class="function">difference</b> <code>__::difference(array, *others)</code></p>
 <p>Returns an array containing the items existing in one array, but not the other.</p>
 <pre>__::difference(array(1, 2, 3, 4, 5), array(5, 2, 10)); // array(1, 3, 4)</pre>
 
@@ -467,10 +484,9 @@ __::clon($stooge); // (object) array('name'=>'moe');</pre>
 <p class="block" id="tap"><b class="function">tap</b> <code>__::tap(object, interceptor)</code></p>
 <p>Invokes the <b>interceptor</b> on the <b>object</b>, then returns the object. Useful for performing intermediary operations on the object.</p>
 <pre>$interceptor = function($obj) { return $obj * 2; };
-__(array(1, 2, 3))->chain()
-  ->max()
-  ->tap($interceptor)
-  ->value(); // 6</pre>
+__::chain(array(1, 2, 3))->max()
+                         ->tap($interceptor)
+                         ->value(); // 6</pre>
 
 <p class="block" id="isEqual"><b class="function">isEqual</b> <code>__::isEqual(object, other)</code></p>
 <p>Are these items equal? Uses === equality testing. Objects tested using values.</p>
@@ -560,6 +576,10 @@ __::yell('moe');       // 'MOE'</pre>
 __::uniqueId('stooge_'); // 'stooge_1'
 __::uniqueId(); // 2</pre>
 
+<p class="block" id="escape"><b class="function">escape</b> <code>__::escape(html)</code></p>
+<p>Escapes the string.</p>
+<pre>__::escape('Curly, Larry & Moe'); // 'Curly, Larry &amp;amp; Moe'</pre>
+
 <p class="block" id="template"><b class="function">template</b> <code>__::template(templateString, [context])</code></p>
 <p>Compile templates into functions that can be evaluated for rendering. Templates can interpolate variables and execute arbitrary PHP code.</p>
 <pre>$compiled = __::template('hello: <%= $name %>');
@@ -590,25 +610,44 @@ $mustache(array('planet'=>'World')); // "Hello World!"</pre>
 
 
 <h2>Chaining</h2>
-<p class="block" id="chain"><b class="function">chain</b> <code>__(obj)->chain()</code></p>
+<p class="block" id="chain"><b class="function">chain</b> <code>__::chain(item)</code></p>
 <p>Returns a wrapped object. Methods will return the object until you call <code>value()</code></p>
 <pre>// filter and reverse the numbers
 $numbers = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-$result = __($numbers)->chain()
-  ->select(function($n) { return $n < 5; })
-  ->reject(function($n) { return $n === 3; })
-  ->sortBy(function($n) { return -$n; })
-  ->value(); // array(4, 2, 1)</pre>
+$result = __::chain($numbers)->select(function($n) { return $n < 5; })
+                             ->reject(function($n) { return $n === 3; })
+                             ->sortBy(function($n) { return -$n; })
+                             ->value(); // array(4, 2, 1)</pre>
 
 <p class="block" id="value"><b class="function">value</b> <code>__(obj)->value()</code></p>
 <p>Extracts the value of a wrapped object.</p>
 <pre>__(array(1, 2, 3))->value(); // array(1, 2, 3)</pre>
 
+<h2 id="changelog">Change Log</h2>
+<h3>1.2.4 &mdash; Jan. 8, 2012</h3>
+<p>Jumping from 1.0 to 1.2.4 to match Underscore.js.</p>
+<ul>
+  <li>Added <code>escape()</code></li>
+  <li>Added <code>initial()</code></li>
+  <li>Added <code>shuffle()</code></li>
+  <li><code>difference()</code> now accepts more than two parameters</li>
+  <li><code>clon()</code> now handles non-objects</li>
+  <li><code>last()</code> accepts n as a second parameter</li>
+  <li><code>template()</code> now has an escape syntax</li>
+  <li>Added <code>shallow</code> parameter to <code>flatten()</code></li>
+  <li>The preferred names for <code>detect()</code> and <code>select()</code> are now <code>find()</code> and <code>filter()</code></li>
+  <li><code>after(0, callback)</code> now triggers the callback immediately</li>
+  <li><code>groupBy</code> accepts both iterators and property keys: <code>groupBy(collection, 'property')</code></li>
+  <li>You can now call <code>chain()</code> statically: <code>__::chain($item)</code>. If you previously renamed the <code>__</code> function, you should do the same within <code>__::chain</code></li>
+</ul>
 
-<h2>Author</h2>
+<h3>1.0 &mdash; Aug. 6, 2011</h3>
+<p>Initial release</p>
+
+<h2 id="author">Author</h2>
 <p>Brian Haveri <a href="https://github.com/brianhaveri/">GitHub</a>, <a href="http://twitter.com/brianhaveri">@brianhaveri</a></p>
 
-<h3>Credit</h3>
+<h3 id="credit">Credit</h3>
 <p>Thanks to Jeremy Ashkenas and all contributors to Underscore.js.</p>
 </div>
 
