@@ -265,6 +265,8 @@ class __ {
   public function initial($collection=null, $n=null) {
     list($collection, $n) = self::_wrapArgs(func_get_args(), 2);
     
+    $collection = (array) self::_collection($collection);
+    
     if(is_null($n)) $n = 1;
     $first_index = count($collection) - $n;
     $__ = new self;
@@ -553,7 +555,7 @@ class __ {
   public function sortedIndex($collection=null, $value=null, $iterator=null) {
     list($collection, $value, $iterator) = self::_wrapArgs(func_get_args(), 3);
     
-    $collection = (array) $collection;
+    $collection = (array) self::_collection($collection);
     $__ = new self;
     
     $calculated_value = (!is_null($iterator)) ? $iterator($value) : $value;
@@ -574,7 +576,8 @@ class __ {
   // Shuffle the array
   public function shuffle($collection=null) {
     list($collection) = self::_wrapArgs(func_get_args(), 1);
-     
+    
+    $collection = (array) self::_collection($collection);
     shuffle($collection);
      
     return self::_wrap($collection);
