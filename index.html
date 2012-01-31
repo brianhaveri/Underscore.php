@@ -292,7 +292,7 @@ __::groupBy($values, 'grp');
 //);</pre>
 
 <p class="block" id="sortBy"><b class="function">sortBy</b> <code>__::sortBy(collection, iterator)</code></p>
-<p>Returns a sorted array based on the iterator. If passed an iterator, min will return min value returned by the iterator. Unlike Underscore.js, context is passed using PHP's <code>use</code> statement.</p>
+<p>Returns an array sorted in ascending order based on the iterator results. If passed an iterator, min will return min value returned by the iterator. Unlike Underscore.js, context is passed using PHP's <code>use</code> statement.</p>
 <pre>__::sortBy(array(1, 2, 3), function($n) { return -$n; }); // array(3, 2, 1)</pre>
 
 <p class="block" id="sortedIndex"><b class="function">sortedIndex</b> <code>__::sortedIndex(collection, value, [iterator])</code></p>
