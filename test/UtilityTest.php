@@ -83,6 +83,9 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
 
     $backslashTemplate = __::template('<%= $thing %> is \\ridanculous');
     $this->assertEquals('This is \\ridanculous', $backslashTemplate(array('thing'=>'This')));
+    
+    $escapeTemplate = __::template('<%= $a ? "checked=\\"checked\\"" : "" %>');
+    $this->assertEquals('checked="checked"', $escapeTemplate(array('a'=>true)), 'can handle slash escapes in interpolations');
 
     $fancyTemplate = __::template('<ul><% foreach($people as $key=>$name) { %><li><%= $name %></li><% } %></ul>');
     $result = $fancyTemplate(array('people'=>array('moe'=>'Moe', 'larry'=>'Larry', 'curly'=>'Curly')));
