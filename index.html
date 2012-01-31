@@ -134,6 +134,7 @@
         <a href="#defaults">defaults</a>,
         <a href="#clon">clon</a>,
         <a href="#tap">tap</a>,
+        <a href="#has">has</a>,
         <a href="#isEqual">isEqual</a>,
         <a href="#isEmpty">isEmpty</a>,
         <span class="fade">isElement</span>,
@@ -190,7 +191,7 @@ __::each(array(1, 2, 3), function($num, $index) use ($multiplier) {
 });
 // 0=2,1=4,2=6,</pre>
 
-<p class="block" id="map"><b class="function">map</b> <code>__::map(collection, iterator)</code></p>
+<p class="block" id="map"><b class="function">map</b> <code>__::map(collection, iterator)</code> <span class="alias">Alias: <b>collect</b></span></p>
 <p>Returns an array of values by mapping each in collection through the iterator. Arguments passed to iterator are (value, key, collection). Unlike Underscore.js, context is passed using PHP's <code>use</code> statement.</p>
 <pre>__::map(array(1, 2, 3), function($num) { return $num * 3; }); // array(3, 6, 9)
 
@@ -487,6 +488,10 @@ __::clon($stooge); // (object) array('name'=>'moe');</pre>
 __::chain(array(1, 2, 3))->max()
                          ->tap($interceptor)
                          ->value(); // 6</pre>
+
+<p class="block" id="has"><b class="function">has</b> <code>__::has(object, key)</code></p>
+<p>Does the object have this key?</p>
+<pre>__::has((object) array('a'=>1, 'b'=>2, 'c'=>3), 'b'); // true</pre>
 
 <p class="block" id="isEqual"><b class="function">isEqual</b> <code>__::isEqual(object, other)</code></p>
 <p>Are these items equal? Uses === equality testing. Objects tested using values.</p>
