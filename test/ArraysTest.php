@@ -125,7 +125,9 @@ class UnderscoreArraysTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array(1,2,3,4), $result, 'works with arguments');
     
     // docs
-    $this->assertEquals(array(1, 2, 3, 4), __::flatten(array(1, array(2), array(3, array(array(array(4)))))));
+    $list = array(1, array(2), array(3, array(array(4))));
+    $this->assertEquals(array(1, 2, 3, 4), __::flatten($list));
+    $this->assertEquals(array(1, 2, 3, array(array(4))), __::flatten($list, true));
   }
   
   public function testWithout() {
