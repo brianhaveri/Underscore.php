@@ -52,6 +52,8 @@ class __ {
   
   
   // Return an array of values by mapping each item through the iterator
+  // map alias: collect
+  public function collect($collection=null, $iterator=null) { return self::map($collection, $iterator); }
   public function map($collection=null, $iterator=null) {
     list($collection, $iterator) = self::_wrapArgs(func_get_args(), 2);
     

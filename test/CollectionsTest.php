@@ -74,6 +74,9 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array(2, 4, 6), __::map(array(1, 2, 3), function($n) { return $n * 2; }));
     $this->assertEquals(array(2, 4, 6), __(array(1, 2, 3))->map(function($n) { return $n * 2; }));
     
+    $doubled = __::collect(array(1, 2, 3), function($num) { return $num * 2; });
+    $this->assertEquals(array(2, 4, 6), $doubled, 'aliased as "collect"');
+    
     // docs
     $this->assertEquals(array(3,6,9), __::map(array(1, 2, 3), function($num) { return $num * 3; }));
     $this->assertEquals(array(3,6,9), __::map(array('one'=>1, 'two'=>2, 'three'=>3), function($num, $key) { return $num * 3; }));
