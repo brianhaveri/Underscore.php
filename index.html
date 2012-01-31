@@ -344,8 +344,15 @@ __::last(array(5, 4, 3, 2, 1), 2); // array(2, 1)</pre>
 
 <p class="block" id="flatten"><b class="function">flatten</b> <code>__::flatten(array)</code></p>
 <p>Flattens a multidimensional array.</p>
+<p class="block" id="flatten"><b class="function">flatten</b> <code>__::flatten(array, [shallow])</code></p>
+<p>Flattens a multidimensional array. If you pass shallow, the array will only be flattened a single level.</p>
 <pre>__::flatten(array(1, array(2), array(3, array(array(array(4))))));
 // array(1, 2, 3, 4)</pre>
+// array(1, 2, 3, 4)
+
+__::flatten(array(1, array(2), array(3, array(array(array(4))))), true);
+// array(1, 2, 3, array(array(4)))
+</pre>
 
 <p class="block" id="without"><b class="function">without</b> <code>__::without(array, [*values])</code></p>
 <p>Returns a copy of the array with all instances of <b>values</b> removed. === is used for equality testing. Keys are maintained.</p>
