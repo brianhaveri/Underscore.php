@@ -184,6 +184,20 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals((object) array('name'=>'moe'), __::clon($stooge));
   }
   
+  public function testHas() {
+    // extra
+    $input = array('a'=>1, 'b'=>2, 'c'=>3);
+    $this->assertTrue(__::has($input, 'a'));
+    $this->assertFalse(__::has($input, 'A'));
+    $this->assertFalse(__::has($input, 'ab'));
+    $this->assertTrue(__::has((object) $input, 'a'));
+    $this->assertFalse(__::has((object) $input, 'A'));
+    $this->assertFalse(__::has((object) $input, 'ab'));
+    
+    // docs
+    $this->assertTrue(__::has($input, 'b'));
+  }
+  
   public function testIsEqual() {
     // from js
     $moe = (object) array(

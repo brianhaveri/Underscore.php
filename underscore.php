@@ -694,6 +694,16 @@ class __ {
   }
   
   
+  // Does the given key exist?
+  public function has($collection=null, $key=null) {
+    list($collection, $key) = self::_wrapArgs(func_get_args(), 2);
+    
+    $collection = (array) self::_collection($collection);
+    
+    return self::_wrap(array_key_exists($key, $collection));
+  }
+  
+  
   // Are these items equal?
   public function isEqual($a=null, $b=null) {
     list($a, $b) = self::_wrapArgs(func_get_args(), 2);
