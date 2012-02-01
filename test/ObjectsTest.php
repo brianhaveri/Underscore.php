@@ -193,6 +193,7 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue(__::has((object) $input, 'a'));
     $this->assertFalse(__::has((object) $input, 'A'));
     $this->assertFalse(__::has((object) $input, 'ab'));
+    $this->assertTrue(__((object) $input)->has('a'), 'works in OO-style call');
     
     // docs
     $this->assertTrue(__::has($input, 'b'));
