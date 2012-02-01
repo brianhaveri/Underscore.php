@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Underscore.php v1.2.4
+ * Underscore.php v1.3.1
  * Copyright (c) 2011 Brian Haveri
  * Underscore.php is licensed under the MIT license
  * Underscore.php was inspired by and borrowed from Underscore.js
