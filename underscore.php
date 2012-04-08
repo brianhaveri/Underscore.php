@@ -34,6 +34,26 @@ class __ {
     return (isset($this)) ? $this->_wrapped : null;
   }
   
+  // Returns the first not null argument
+  public function oneof()
+  {
+      $arguments = func_get_args();
+      foreach ($arguments as $arg) {
+          if ($arg instanceof Exception) {
+              throw $arg;
+          }
+          if (is_callable($arg)) {
+              $result = call_user_func($arg);
+              if (!is_null($result)) {
+                  return $result;
+              } 
+              continue;
+          }
+          if (!is_null($arg)) {
+              return $arg;
+          }
+      }
+  }
   
   // Invoke the iterator on each item in the collection
   public function each($collection=null, $iterator=null) {
