@@ -35,8 +35,7 @@ class __ {
   }
   
   // Returns the first not null argument
-  public function oneOf()
-  {
+  public function oneOf() {
       $arguments = func_get_args();
       foreach ($arguments as $arg) {
           if ($arg instanceof Exception) {

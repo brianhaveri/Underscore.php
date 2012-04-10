@@ -210,26 +210,22 @@ class UnderscoreUtilityTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals('Curly &amp;amp; Moe', __('Curly &amp; Moe')->escape());
   }
 
-    public function testOneofShouldReturnNullIfNoArgumentIsNotNull()
-    {
+    public function testOneofShouldReturnNullIfNoArgumentIsNotNull() {
         $returnValue = __::oneOf(null, null, null, function() {return null;});
         $this->assertTrue(is_null($returnValue));
     }
 
-    public function testOneofShouldReturnTheFirstNotNullArgument()
-    {
+    public function testOneofShouldReturnTheFirstNotNullArgument() {
         $returnValue = __::oneOf(null, function() {return null;}, 42, 43, new Exception("Testing"));
         $this->assertEquals(42, $returnValue);
     }
 
-    public function testOneofShouldThrowAnExceptionIfFirstNotNullArgument()
-    {
+    public function testOneofShouldThrowAnExceptionIfFirstNotNullArgument() {
         $this->setExpectedException('InvalidArgumentException');
         __::oneOf(null, new InvalidArgumentException("I expect this Exception..."), 42);
     }
 
-    public function testOneofShouldReturnCallbackComputedValueIfItIsTheFirstNotNull()
-    {
+    public function testOneofShouldReturnCallbackComputedValueIfItIsTheFirstNotNull() {
         $returnValue = __::oneOf(
             null, 
             function() {return null;},
