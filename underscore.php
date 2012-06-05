@@ -966,9 +966,20 @@ class __ {
       $args = func_get_args();
       if(is_null($hashFunction)) $hashFunction = function($function, $args) {
         
+        // array callback
+        if(is_array($function) && is_object($function[0])) {
+          $hash = spl_object_hash($function[0]).'::'.$function[1];
+        }
+        else if(is_object($function)) {
+          $hash = spl_object_hash($function);
+        }
+        else {
+          $hash = var_export($function, true);
+        }
+        
         // Try using var_export to identify the function
         return md5(join('_', array(
-          var_export($function, true),
+          $hash,
           var_export($args, true)
         )));
       };

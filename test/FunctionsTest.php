@@ -50,6 +50,11 @@ class UnderscoreFunctionsTest extends PHPUnit_Framework_TestCase {
     };
     $fastFibonacci = __::memoize($fibonacci);
     $this->assertEquals($fibonacci(2), $fastFibonacci(2));
+    
+    $fastFoo = __::memoize($foo);
+    $fastBar = __::memoize($bar);
+    
+    $this->assertNotEquals($fastFoo(), $fastBar(), 'can handle different closures');
   }
   
   public function testThrottle() {
