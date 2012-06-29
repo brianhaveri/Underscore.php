@@ -847,6 +847,12 @@ class __base {
     return self::_wrap(is_nan($item));
   }
   
+  // Is this item a null value?
+  public function isNull($item=null) {
+    list($item) = self::_wrapArgs(func_get_args(), 1);
+    return self::_wrap(is_null($item));
+  }
+  
   
   // Returns the same value passed as the argument
   public function identity() {
