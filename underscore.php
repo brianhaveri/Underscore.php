@@ -11,36 +11,57 @@
 // Returns an instance of __ for OO-style calls
 function __($item=null) {
   $__ = new __;
+  $__ = $__->getInstance();
   if(func_num_args() > 0) $__->_wrapped = $item;
   return $__;
 }
 
 // Underscore.php
+/**
+ * New magic wrapper. All static methods use the static instance $__parent
+ * All non-static instances have a $base_id which is the index in $__parents (array).
+ * Use magic methods to help call the needed methods and chaim them together.
+ */
 class __ {
   
   // Init variables
-  protected $base;
+  public $base_id;
+  protected $_chained = false; // Are we in a chain?
+  protected static $counter = 0;
+  protected static $__parents = array();
 
   public function __construct() {
-    $this->base = new __base();
+    $this->base_id = self::$counter++;
+    self::$__parents[$this->base_id] = new __base();
   }
 
   public function __call($method, $args) {
-    // echo 'DEBUG: Calling non-static using: ' . $id . '<br />';
-    return call_user_func_array(array($this->base, $method), $args);
+    if($method == 'chain') {
+      list($item) = self::$__parents[$this->base_id]->_wrapArgs(func_get_args(), 1);
+      $__ = (isset($this) && isset($this->_chained) && $this->_chained) ? $this : __($item);
+      $__->_chained = true;
+      return $__;
+    } else {
+      return call_user_func_array(array(self::$__parents[$this->base_id], $method), $args);
+    }
   }
 
   public function __set($key, $value) {
     if($key == "_wrapped") {
-      $this->base->_wrapped = $value;
+      $this->$key = $value;
+      self::$__parents[$this->base_id]->$key = $value;
       return $value;
     }
   }
 
   public function __get($key) {
     if($key == "_wrapped") {
-      return $this->base->_wrapped;
+      return self::$__parents[$this->base_id]->$key;
     }
+  }
+
+  public function getInstance() {
+    return self::$__parents[$this->base_id];
   }
 
 
@@ -60,21 +81,19 @@ class __ {
     // echo 'DEBUG: Calling static using: ' . $id . '<br />';
     return call_user_func_array(array(self::$__parent, $method), $args);
   }
-  // Start the chain
-  private $_chained = false; // Are we in a chain?
-  public static function chain($item=null) {
-    self::init();
-    list($item) = self::$__parent->_wrapArgs(func_get_args(), 1);
-    
-    $__ = (isset($this) && isset($this->_chained) && $this->_chained) ? $this : self::$__parent;
-    $__->_chained = true;
-    $__->_wrapped = $item;
-    return $__;
-  }
 }
 
 class __base {
   
+  // Start the chain
+  private $_chained = false; // Are we in a chain?
+  public function chain($item=null) {
+    list($item) = self::_wrapArgs(func_get_args(), 1);
+    
+    $__ = (isset($this) && isset($this->_chained) && $this->_chained) ? $this : __($item);
+    $__->_chained = true;
+    return $__;
+  }
   
   // End the chain
   public function value() {
