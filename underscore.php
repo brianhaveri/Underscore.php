@@ -18,6 +18,52 @@ function __($item=null) {
 // Underscore.php
 class __ {
   
+  // Init variables
+  protected $base;
+
+  public function __construct() {
+    $this->base = new __base();
+  }
+
+  public function __call($method, $args) {
+    // echo 'DEBUG: Calling non-static using: ' . $id . '<br />';
+    return call_user_func_array(array($this->base, $method), $args);
+  }
+
+  public function __set($key, $value) {
+    if($key == "_wrapped") {
+      $this->base->_wrapped = $value;
+      return $value;
+    }
+  }
+
+  public function __get($key) {
+    if($key == "_wrapped") {
+      return $this->base->_wrapped;
+    }
+  }
+
+
+  // Static variables
+  protected static $__parent; // for static calls
+
+  // Static methods
+  public static function init($id = 0) {
+    if(!isset(self::$__parent)) {
+      self::$__parent = __base::getInstance();
+    }
+    return;
+  }
+
+  public static function __callStatic($method, $args) {
+    self::init();
+    // echo 'DEBUG: Calling static using: ' . $id . '<br />';
+    return call_user_func_array(array(self::$__parent, $method), $args);
+  }
+}
+
+class __base {
+  
   // Start the chain
   private $_chained = false; // Are we in a chain?
   public function chain($item=null) {
@@ -1073,7 +1119,7 @@ class __ {
   
   // Singleton
   private static $_instance;
-  public function getInstance() {
+  public static function getInstance() {
     if(!isset(self::$_instance)) {
       $c = __CLASS__;
       self::$_instance = new $c;
