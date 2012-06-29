@@ -444,7 +444,7 @@ class __base {
     if(count($arrays) === 1) return self::_wrap($array);
     
     $__ = new self;
-    return self::_wrap($__->flatten(array_values(array_unique(call_user_func_array('array_merge', $arrays)))));
+    return self::_wrap($__->flatten(array_values(@array_unique(call_user_func_array('array_merge', $arrays)))));
   }
   
   
