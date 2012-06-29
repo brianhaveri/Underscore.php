@@ -60,19 +60,20 @@ class __ {
     // echo 'DEBUG: Calling static using: ' . $id . '<br />';
     return call_user_func_array(array(self::$__parent, $method), $args);
   }
+  // Start the chain
+  private $_chained = false; // Are we in a chain?
+  public static function chain($item=null) {
+    self::init();
+    list($item) = self::$__parent->_wrapArgs(func_get_args(), 1);
+    
+    $__ = (isset($this) && isset($this->_chained) && $this->_chained) ? $this : self::$__parent;
+    $__->_chained = true;
+    $__->_wrapped = $item;
+    return $__;
+  }
 }
 
 class __base {
-  
-  // Start the chain
-  private $_chained = false; // Are we in a chain?
-  public function chain($item=null) {
-    list($item) = self::_wrapArgs(func_get_args(), 1);
-    
-    $__ = (isset($this) && isset($this->_chained) && $this->_chained) ? $this : __($item);
-    $__->_chained = true;
-    return $__;
-  }
   
   
   // End the chain
@@ -1142,7 +1143,7 @@ class __base {
   
   // All methods should get their arguments from _wrapArgs
   // because this function understands both OO-style and functional calls
-  private function _wrapArgs($caller_args, $num_args=null) {
+  public function _wrapArgs($caller_args, $num_args=null) {
     $num_args = (is_null($num_args)) ? count($caller_args) - 1 : $num_args;
     
     $filled_args = array();
