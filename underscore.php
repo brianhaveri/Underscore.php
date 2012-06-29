@@ -706,7 +706,7 @@ class __base {
   
   
   // Returns a shallow copy of the object
-  public function clon(&$object=null) {
+  public function clon($object=null) {
     list($object) = self::_wrapArgs(func_get_args(), 1);
     
     $clone = null;
