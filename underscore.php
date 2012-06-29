@@ -26,7 +26,6 @@ class __ {
   
   // Init variables
   public $base_id;
-  protected $_chained = false; // Are we in a chain?
   protected static $counter = 0;
   protected static $__parents = array();
 
@@ -36,19 +35,21 @@ class __ {
   }
 
   public function __call($method, $args) {
+    $me = $this->getInstance();
     if($method == 'chain') {
-      list($item) = self::$__parents[$this->base_id]->_wrapArgs(func_get_args(), 1);
-      $__ = (isset($this) && isset($this->_chained) && $this->_chained) ? $this : __($item);
-      $__->_chained = true;
-      return $__;
+      list($item) = $me->_wrapArgs($args, 1);
+      if(!is_null($item)) {
+        $me->_wrapped = $item;
+      }
+      $me->_chained = true;
+      return $me;
     } else {
-      return call_user_func_array(array(self::$__parents[$this->base_id], $method), $args);
+      return call_user_func_array(array($me, $method), $args);
     }
   }
 
   public function __set($key, $value) {
     if($key == "_wrapped") {
-      $this->$key = $value;
       self::$__parents[$this->base_id]->$key = $value;
       return $value;
     }
@@ -86,7 +87,7 @@ class __ {
 class __base {
   
   // Start the chain
-  private $_chained = false; // Are we in a chain?
+  public $_chained = false; // Are we in a chain?
   public function chain($item=null) {
     list($item) = self::_wrapArgs(func_get_args(), 1);
     
