@@ -193,4 +193,16 @@ class UnderscoreFunctionsTest extends PHPUnit_Framework_TestCase {
     $func();
     $this->assertEquals('x', $str);
   }
+
+  function testPartial() {
+      // partial once
+      $f = function( $x, $y ) { return $x + $y; };
+      $f2 = __::partial( $f, 2 );
+      $this->assertEquals( 5, $f2(3) );
+
+      // partial on a partial
+      $f3 = __::partial( $f2, 4 );
+      $this->assertEquals( 6, $f3() );
+  }
+
 }
