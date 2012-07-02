@@ -1069,6 +1069,17 @@ class __ {
     };
     return self::_wrap(($count) ? $func : $func());
   }
+
+
+  // creates a partially applied version of the function
+  public function partial() {
+      $origArgs = func_get_args();
+      $f = array_shift( $origArgs );
+      return function() use ( $f, $origArgs ) {
+          $allArgs = array_merge( $origArgs, func_get_args() );
+          return call_user_func_array( $f, $allArgs );
+      };
+  }
   
   
   // Singleton
