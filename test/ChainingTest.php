@@ -56,4 +56,10 @@ class UnderscoreChainingTest extends PHPUnit_Framework_TestCase {
     // docs
     $this->assertEquals(array(1, 2, 3), __(array(1, 2, 3))->value());
   }
+  
+  public function testToArray() {
+    $list = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    
+    $this->assertEquals($list, __::chain($list)->toArray());
+  }
 }

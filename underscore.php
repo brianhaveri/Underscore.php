@@ -588,6 +588,8 @@ class __ {
   
   // Return the collection as an array
   public function toArray($collection=null) {
+    list($collection) = self::_wrapArgs(func_get_args(), 1);
+    
     return (array) $collection;
   }
   
