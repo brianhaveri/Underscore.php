@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Underscore.php v1.3.1
  * Copyright (c) 2011 Brian Haveri
@@ -11,15 +10,83 @@
 // Returns an instance of __ for OO-style calls
 function __($item=null) {
   $__ = new __;
+  $__ = $__->getInstance();
   if(func_num_args() > 0) $__->_wrapped = $item;
   return $__;
 }
 
 // Underscore.php
+/**
+ * New magic wrapper. All static methods use the static instance $__parent
+ * All non-static instances have a $base_id which is the index in $__parents (array).
+ * Use magic methods to help call the needed methods and chaim them together.
+ */
 class __ {
   
+  // Init variables
+  public $base_id;
+  protected static $counter = 0;
+  protected static $__parents = array();
+
+  public function __construct() {
+    $this->base_id = self::$counter++;
+    self::$__parents[$this->base_id] = new __base();
+  }
+
+  public function __call($method, $args) {
+    $me = $this->getInstance();
+    if($method == 'chain') {
+      list($item) = $me->_wrapArgs($args, 1);
+      if(!is_null($item)) {
+        $me->_wrapped = $item;
+      }
+      $me->_chained = true;
+      return $me;
+    } else {
+      return call_user_func_array(array($me, $method), $args);
+    }
+  }
+
+  public function __set($key, $value) {
+    if($key == "_wrapped") {
+      self::$__parents[$this->base_id]->$key = $value;
+      return $value;
+    }
+  }
+
+  public function __get($key) {
+    if($key == "_wrapped") {
+      return self::$__parents[$this->base_id]->$key;
+    }
+  }
+
+  public function getInstance() {
+    return self::$__parents[$this->base_id];
+  }
+
+
+  // Static variables
+  protected static $__parent; // for static calls
+
+  // Static methods
+  public static function init($id = 0) {
+    if(!isset(self::$__parent)) {
+      self::$__parent = __base::getInstance();
+    }
+    return;
+  }
+
+  public static function __callStatic($method, $args) {
+    self::init();
+    // echo 'DEBUG: Calling static using: ' . $id . '<br />';
+    return call_user_func_array(array(self::$__parent, $method), $args);
+  }
+}
+
+class __base {
+  
   // Start the chain
-  private $_chained = false; // Are we in a chain?
+  public $_chained = false; // Are we in a chain?
   public function chain($item=null) {
     list($item) = self::_wrapArgs(func_get_args(), 1);
     
@@ -27,7 +94,6 @@ class __ {
     $__->_chained = true;
     return $__;
   }
-  
   
   // End the chain
   public function value() {
@@ -48,6 +114,27 @@ class __ {
       call_user_func($iterator, $v, $k, $collection);
     }
     return self::_wrap(null);
+  }
+
+  // return first arg that is not null, bit different than the one from MirkoBonadel,
+  // but the idea is the same.
+  public function oneOf(Exception $e) {
+    $arguments = self::_wrapArgs(func_get_args(), 1);
+    
+    foreach($arguments as $arg) {
+      $result = null;
+      if(is_callable($arg)) {
+        $result = call_user_func($arg);
+      } elseif(!is_null($arg)) {
+        $result = $arg;
+      }
+    }
+    
+    if(is_null($result)) {
+      throw $e;
+    } else {
+      return $result;
+    }
   }
   
   
@@ -398,7 +485,7 @@ class __ {
     if(count($arrays) === 1) return self::_wrap($array);
     
     $__ = new self;
-    return self::_wrap($__->flatten(array_values(array_unique(call_user_func_array('array_merge', $arrays)))));
+    return self::_wrap($__->flatten(array_values(@array_unique(call_user_func_array('array_merge', $arrays)))));
   }
   
   
@@ -588,6 +675,7 @@ class __ {
   
   // Return the collection as an array
   public function toArray($collection=null) {
+    list($collection) = self::_wrapArgs(func_get_args(), 1);
     return (array) $collection;
   }
   
@@ -660,7 +748,7 @@ class __ {
   
   
   // Returns a shallow copy of the object
-  public function clon(&$object=null) {
+  public function clon($object=null) {
     list($object) = self::_wrapArgs(func_get_args(), 1);
     
     $clone = null;
@@ -798,6 +886,12 @@ class __ {
   public function isNaN($item=null) {
     list($item) = self::_wrapArgs(func_get_args(), 1);
     return self::_wrap(is_nan($item));
+  }
+  
+  // Is this item a null value?
+  public function isNull($item=null) {
+    list($item) = self::_wrapArgs(func_get_args(), 1);
+    return self::_wrap(is_null($item));
   }
   
   
@@ -953,7 +1047,7 @@ class __ {
   }
   
   // binds a function to an object's scope
-  public function bind(callable $function, &$object) {
+  public function bind(callable $function, $object) {
     if (!is_object($object)) (object) $object; // potentially a bad idea!?
     $slice = array_slice(self::_wrapArgs(func_get_args()), 2);
     $function = Closure::bind($function, $object);
@@ -965,7 +1059,7 @@ class __ {
   }
   
   // binds several functions to an object; requires use of list() construct
-  public function bindAll(&$object) {
+  public function bindAll($object) {
       if (!is_object($object)) (object) $object;
       $functions = array_slice(self::_wrapArgs(func_get_args()), 1);
       
@@ -988,10 +1082,18 @@ class __ {
       // Generate a key based on hashFunction
       $args = func_get_args();
       if(is_null($hashFunction)) $hashFunction = function($function, $args) {
+
+        if(is_array($function) && is_object($function[0])) {
+          $hash = spl_object_hash($function[0]) . '::' . $function[1];
+        } else if(is_object($function)) {
+            $hash = spl_object_hash($function);
+        } else {
+            $hash = var_export($function, true);
+        }
         
         // Try using var_export to identify the function
         return md5(join('_', array(
-          var_export($function, true),
+          $hash,
           var_export($args, true)
         )));
       };
@@ -1096,7 +1198,7 @@ class __ {
   
   // Singleton
   private static $_instance;
-  public function getInstance() {
+  public static function getInstance() {
     if(!isset(self::$_instance)) {
       $c = __CLASS__;
       self::$_instance = new $c;
@@ -1119,7 +1221,7 @@ class __ {
   
   // All methods should get their arguments from _wrapArgs
   // because this function understands both OO-style and functional calls
-  private function _wrapArgs($caller_args, $num_args=null) {
+  public function _wrapArgs($caller_args, $num_args=null) {
     $num_args = (is_null($num_args)) ? count($caller_args) - 1 : $num_args;
     
     $filled_args = array();
