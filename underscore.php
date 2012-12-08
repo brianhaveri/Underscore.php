@@ -952,6 +952,29 @@ class __ {
     return self::_wrap(htmlentities($item));
   }
   
+  // binds a function to an object's scope
+  public function bind(callable $function, &$object) {
+    if (!is_object($object)) (object) $object; // potentially a bad idea!?
+    $slice = array_slice(self::_wrapArgs(func_get_args()), 2);
+    $function = Closure::bind($function, $object);
+    $function = function () use ($function, $slice) {
+        $args = func_get_args() + $slice;
+        return call_user_func_array($function, $args);
+    };
+    return self::_wrap($function);
+  }
+  
+  // binds several functions to an object; requires use of list() construct
+  public function bindAll(&$object) {
+      if (!is_object($object)) (object) $object;
+      $functions = array_slice(self::_wrapArgs(func_get_args()), 1);
+      
+      foreach ($functions as $i => $function) {
+          $functions[$i] = self::bind($function, $object);
+      }
+      
+      return self::_wrap($functions);
+  }
   
   // Memoizes a function by caching the computed result.
   public $_memoized = array();
