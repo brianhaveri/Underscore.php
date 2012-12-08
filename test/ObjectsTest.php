@@ -470,4 +470,39 @@ class UnderscoreObjectsTest extends PHPUnit_Framework_TestCase {
       ->value();
     $this->assertEquals(3, $result);
   }
+  
+  public function testBind() {
+    $f = function($return = false) {
+        if (true === $this->property && true === $return) {
+            $this->issetnow = true;
+            return true;
+        } else {
+            return false;
+        }
+    };
+      
+    $object = new stdClass();
+    $object->property = true;
+     
+    $f = __::bind($f, $object, true);
+      
+    $this->assertFalse(isset($object->issetnow));
+    $this->assertTrue($f());
+    $this->assertTrue(isset($object->issetnow));
+  }
+  
+  public function testBindAll() {
+    $f = function() {
+      $this->property = 'nope';
+    };
+
+    $f2 = function($passed=null) {
+      return $this->property == 'nope' ? true : false;
+    };
+
+    list($f, $f2) = __::bindAll(json_decode('{"property":"yep"}'), $f, $f2);
+
+    $f();
+    $this->assertTrue($f2());
+  }
 }
