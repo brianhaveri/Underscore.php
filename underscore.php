@@ -1045,7 +1045,7 @@ class __ {
     
     return self::_wrap(function() use ($functions) {
       $args = func_get_args();
-      foreach($functions as $function) {
+      foreach(array_reverse($functions) as $function) {
         $args[0] = call_user_func_array($function, $args);
       }
       return $args[0];
