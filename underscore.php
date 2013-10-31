@@ -112,8 +112,14 @@ class __ {
         
     $return = array();
     foreach($collection as $item) {
-      foreach($item as $k=>$v) {
-        if($k === $key) $return[] = $v;
+      if (is_array($item)) {
+        $return[] = $item[$key];
+      } else if (is_object($item)) {
+        $return[] = $item->$key;
+      } else if (is_string($item) && is_int($key)) {
+        $return[] = $key >= 0 && $key < strlen($item) ? $item[$key] : '';
+      } else {
+        $return[] = null;
       }
     }
     return self::_wrap($return);
