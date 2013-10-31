@@ -1,3 +1,3 @@
 <?php
 
-include_once(dirname(__FILE__) . '/../lib/skillshare/underscore.php');
+include_once(__DIR__ . '/../lib/skillshare/underscore.php');
