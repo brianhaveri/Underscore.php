@@ -4,5 +4,9 @@ php:
   - 5.4
   - 5.3
   - 5.2
+notifications:
+  email:
+    - dan@skillshare.com
+    - loren@skillshare.com
 before_script: echo 'error_reporting = E_ALL & ~E_STRICT' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 script: cd test && phpunit .
