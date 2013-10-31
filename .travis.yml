@@ -3,7 +3,6 @@ php:
   - 5.5
   - 5.4
   - 5.3
-  - 5.2
 notifications:
   email:
     - dan@skillshare.com
