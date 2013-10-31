@@ -301,8 +301,8 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     );
     $this->assertEquals(array('moe', 'larry', 'curly'), __::pluck($stooges, 'name'));
     $this->assertEquals(array(40, 50, 60), __::pluck($stooges, 'age'));
-    $this->assertEquals(array('bar'), __::pluck($stooges, 'foo'));
-    $this->assertEquals(array('bar'), __($stooges)->pluck('foo'), 'works with OO-style call');
+    $this->assertEquals(array(null, 'bar', null), __::pluck($stooges, 'foo'));
+    $this->assertEquals(array(null, 'bar', null), __($stooges)->pluck('foo'), 'works with OO-style call');
     
     // extra: object
     $stooges_obj = new StdClass;
@@ -312,8 +312,8 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     }
     $this->assertEquals(array('moe', 'larry', 'curly'), __::pluck($stooges, 'name'));
     $this->assertEquals(array(40, 50, 60), __::pluck($stooges, 'age'));
-    $this->assertEquals(array('bar'), __::pluck($stooges, 'foo'));
-    $this->assertEquals(array('bar'), __($stooges)->pluck('foo'), 'works with OO-style call');
+    $this->assertEquals(array(null, 'bar', null), __::pluck($stooges, 'foo'));
+    $this->assertEquals(array(null, 'bar', null), __($stooges)->pluck('foo'), 'works with OO-style call');
   
     // docs
     $stooges = array(

@@ -113,7 +113,7 @@ class __ {
     $return = array();
     foreach($collection as $item) {
       if (is_array($item)) {
-        $return[] = $item[$key];
+        $return[] = (isset($item[$key])) ? $item[$key] : null;
       } else if (is_object($item)) {
         $return[] = $item->$key;
       } else if (is_string($item) && is_int($key)) {
