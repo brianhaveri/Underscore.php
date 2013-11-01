@@ -19,7 +19,7 @@
     ],
     "minimum-stability": "dev",
     "autoload": {
-        "classmap": "lib/skillshare/"
+        "files": ["lib/skillshare/underscore.php"]
     },
     "require": {
         "php": ">=5.3.0"
