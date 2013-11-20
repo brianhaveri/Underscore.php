@@ -1,0 +1,27 @@
+{
+    "name": "skillshare/underscore.php",
+    "description": "PHP port of the Underscore library for JS",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dan Applegate",
+            "email": "dan@skillshare.com",
+            "homepage": "http://www.danapplegate.com"
+        },
+        {
+            "name": "Loren Yu",
+            "email": "loren@skillshare.com"
+        },
+        {
+            "name": "Brian Haveri",
+            "homepage": "https://github.com/brianhaveri"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "files": ["lib/skillshare/underscore.php"]
+    },
+    "require": {
+        "php": ">=5.3.0"
+    }
+}

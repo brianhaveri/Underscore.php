@@ -112,8 +112,14 @@ class __ {
         
     $return = array();
     foreach($collection as $item) {
-      foreach($item as $k=>$v) {
-        if($k === $key) $return[] = $v;
+      if (is_array($item)) {
+        $return[] = (isset($item[$key])) ? $item[$key] : null;
+      } else if (is_object($item)) {
+        $return[] = $item->$key;
+      } else if (is_string($item) && is_int($key)) {
+        $return[] = $key >= 0 && $key < strlen($item) ? $item[$key] : '';
+      } else {
+        $return[] = null;
       }
     }
     return self::_wrap($return);
@@ -398,7 +404,7 @@ class __ {
     if(count($arrays) === 1) return self::_wrap($array);
     
     $__ = new self;
-    return self::_wrap($__->flatten(array_values(array_unique(call_user_func_array('array_merge', $arrays)))));
+    return self::_wrap($__->flatten(array_values(array_unique(call_user_func_array('array_merge', $arrays), SORT_REGULAR))));
   }
   
   
@@ -492,16 +498,22 @@ class __ {
   public function max($collection=null, $iterator=null) {
     list($collection, $iterator) = self::_wrapArgs(func_get_args(), 2);
     
-    if(is_null($iterator)) return self::_wrap(max($collection));
-    
-    $results = array();
-    foreach($collection as $k=>$item) {
-      $results[$k] = $iterator($item);
+    if(is_null($iterator)) {
+      $iterator = function($x) { // identity
+        return $x;
+      };
     }
-    arsort($results);
-    $__ = new self;
-    $first_key = $__->first(array_keys($results));
-    return $collection[$first_key];
+    
+    $maxItem = null;
+    $maxValue = null;
+    foreach($collection as $k=>$item) {
+      $value = $iterator($item);
+      if (is_null($maxItem) || $value > $maxValue) {
+        $maxItem = $item;
+        $maxValue = $value;
+      }
+    }
+    return self::_wrap($maxItem);
   }
   
   
@@ -1045,7 +1057,7 @@ class __ {
     
     return self::_wrap(function() use ($functions) {
       $args = func_get_args();
-      foreach($functions as $function) {
+      foreach(array_reverse($functions) as $function) {
         $args[0] = call_user_func_array($function, $args);
       }
       return $args[0];
