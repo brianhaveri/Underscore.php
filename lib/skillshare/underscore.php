@@ -498,16 +498,22 @@ class __ {
   public function max($collection=null, $iterator=null) {
     list($collection, $iterator) = self::_wrapArgs(func_get_args(), 2);
     
-    if(is_null($iterator)) return self::_wrap(max($collection));
-    
-    $results = array();
-    foreach($collection as $k=>$item) {
-      $results[$k] = $iterator($item);
+    if(is_null($iterator)) {
+      $iterator = function($x) { // identity
+        return $x;
+      };
     }
-    arsort($results);
-    $__ = new self;
-    $first_key = $__->first(array_keys($results));
-    return $collection[$first_key];
+    
+    $maxItem = null;
+    $maxValue = null;
+    foreach($collection as $k=>$item) {
+      $value = $iterator($item);
+      if (is_null($maxItem) || $value > $maxValue) {
+        $maxItem = $item;
+        $maxValue = $value;
+      }
+    }
+    return self::_wrap($maxItem);
   }
   
   

@@ -328,6 +328,10 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     // from js
     $this->assertEquals(3, __::max(array(1,2,3)), 'can perform a regular max');
     $this->assertEquals(1, __::max(array(1,2,3), function($num) { return -$num; }), 'can performa a computation-based max');
+
+    // empty array
+    $this->assertEquals(null, __::max(array()), 'empty array');
+    $this->assertEquals(null, __::max(array(), function($x) { return 1; }), 'empty array with iterator');
     
     // extra
     $stooges = array(
