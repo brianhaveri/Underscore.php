@@ -825,6 +825,18 @@ class __ {
   }
   
   
+  // Generate a random id (uuid), optionally prefixed
+  public function randomId($prefix=null) {
+    return sprintf( $prefix.'%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+      mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+      mt_rand(0, 0xffff),
+      mt_rand(0, 0x0fff) | 0x4000,
+      mt_rand(0, 0x3fff) | 0x8000,
+      mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+    );
+  }
+  
+  
   // Invokes the iterator n times
   public function times($n=null, $iterator=null) {
     list($n, $iterator) = self::_wrapArgs(func_get_args(), 2);
