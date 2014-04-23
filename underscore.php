@@ -205,8 +205,15 @@ class __ {
     $collection = self::_collection($collection);
     
     $return = array();
-    foreach($collection as $val) {
-      if(!call_user_func($iterator, $val)) $return[] = $val;
+    $__ = new self;
+    if($__->isAssoc($collection)){
+      foreach($collection as $k=>$v) {
+        if(!call_user_func($iterator, $k, $v)) $return[$k] = $v;
+      }
+    }else{
+      foreach($collection as $val) {
+        if(!call_user_func($iterator, $val)) $return[] = $val;
+      }
     }
     return self::_wrap($return);
   }
@@ -757,6 +764,13 @@ class __ {
     list($item) = self::_wrapArgs(func_get_args(), 1);
     return self::_wrap(is_array($item));
   }
+  
+  // Is this item an associative array?
+  public function isAssoc($item=null) {
+    list($item) = self::_wrapArgs(func_get_args(), 1);
+    return self::_wrap(array_keys($item) !== range(0, count($item) - 1));
+  }
+
   
   
   // Is this item a string?
