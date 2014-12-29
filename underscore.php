@@ -119,7 +119,7 @@ class __ {
       }
       
       // Classes implementing ArrayAccess don't fully work like normal arrays. It's not possible to get the list of set
-      // set keys and values by iterating over the an object of such class. isset works though.
+      // keys and values by iterating over an object of such class. isset works though.
       if (!$found && $item instanceof ArrayAccess && isset($item[$key])) {
         $return[] = $item[$key];
       }
