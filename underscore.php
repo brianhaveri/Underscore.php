@@ -112,8 +112,16 @@ class __ {
         
     $return = array();
     foreach($collection as $item) {
+      $found = false;
       foreach($item as $k=>$v) {
         if($k === $key) $return[] = $v;
+        $found = true;
+      }
+      
+      // Classes implementing ArrayAccess don't fully work like normal arrays. It's not possible to get the list of set
+      // keys and values by iterating over an object of such class. isset works though.
+      if (!$found && $item instanceof ArrayAccess && isset($item[$key])) {
+        $return[] = $item[$key];
       }
     }
     return self::_wrap($return);
