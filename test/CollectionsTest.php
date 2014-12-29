@@ -1,5 +1,7 @@
 <?php
 
+include_once 'CustomArray.php';
+
 class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
   
   public function testEach() {
@@ -314,6 +316,14 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array(40, 50, 60), __::pluck($stooges, 'age'));
     $this->assertEquals(array('bar'), __::pluck($stooges, 'foo'));
     $this->assertEquals(array('bar'), __($stooges)->pluck('foo'), 'works with OO-style call');
+
+    // extra: ArrayAccess
+    $persons = array(
+      self::createPerson('moe', 40),
+      self::createPerson('larry', 50),
+      self::createPerson('curly', 60)
+    );
+    $this->assertEquals(array('moe', 'larry', 'curly'), __::pluck($persons, 'name'), 'pulls names out of ArrayAccess objects');
   
     // docs
     $stooges = array(
@@ -322,6 +332,14 @@ class UnderscoreCollectionsTest extends PHPUnit_Framework_TestCase {
       array('name'=>'curly', 'age'=>60)
     );
     $this->assertEquals(array('moe', 'larry', 'curly'), __::pluck($stooges, 'name'));
+  }
+  
+  private static function createPerson($name, $age) {
+    $person = new CustomArray();
+    $person['name'] = $name;
+    $person['age'] = $age;
+    
+    return $person;
   }
   
   public function testMax() {
